@@ -47,6 +47,10 @@ subprojects {
 	apply plugin: 'io.spring.dependency-management'
 	apply plugin: 'java-library'
 
+	jar {
+		enabled = true
+	}
+
 	repositories {
 		mavenCentral()
 		maven { url 'https://repo.spring.io/milestone' }
@@ -63,6 +67,7 @@ subprojects {
 		implementation 'org.springframework.boot:spring-boot-starter-security'
 		compileOnly 'org.projectlombok:lombok'
 		annotationProcessor 'org.projectlombok:lombok'
+		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		testImplementation 'org.springframework.security:spring-security-test'
 	}
 
@@ -80,10 +85,10 @@ project(':api-module') {
 		implementation project(':core-module')
 
 		implementation 'org.springframework.boot:spring-boot-starter-web'
+		implementation 'org.springframework.boot:spring-boot-starter-validation'
 		implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 		implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.1'
 		runtimeOnly 'com.h2database:h2'
-		testImplementation 'org.springframework.boot:spring-boot-starter-test'
 		testImplementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter-test:2.3.1'
 		testImplementation 'org.junit.jupiter:junit-jupiter-api:5.8.1'
 		testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
