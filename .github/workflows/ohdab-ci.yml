@@ -31,11 +31,11 @@ jobs:
         run: chmod +x gradlew
 
       - name: Build with Gradle
-        run: ./gradlew clean build
+        run: ./gradlew clean build -x test
 
-      - name: Check Test Results
+      - name: Test with Gradle
         run: |
-          TEST_RESULT=$(./gradlew test --quiet)
+          TEST_RESULT=$(SPRING_PROFILES_ACTIVE=[test] ./gradlew test --quiet)
           if [[ $TEST_RESULT == *"FAILURE"* ]]; then
             echo "::error::Unit tests failed. Please check the code and try again."
             exit 1
