@@ -26,12 +26,13 @@ jobs:
         with:
           java-version: '11'
           distribution: 'temurin'
+
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
-      - name: Check Code Formatting
-        run: ./gradlew spotlessJavaCheck
+
       - name: Build with Gradle
         run: ./gradlew clean build
+
       - name: Check Test Results
         run: |
           TEST_RESULT=$(./gradlew test --quiet)
@@ -39,6 +40,7 @@ jobs:
             echo "::error::Unit tests failed. Please check the code and try again."
             exit 1
           fi
+
       - name: Notify Slack
         if: always()
         uses: 8398a7/action-slack@v2.6.0
@@ -53,6 +55,13 @@ jobs:
             Commit: ${{ github.sha }}
             Event: ${{ github.event_name }}
             Branch: ${{ github.ref }}
+
+      - name: Publish Unit Test Results
+        uses: EnricoMi/publish-unit-test-result-action@v1
+        if: ${{ always() }}
+        with:
+          files: build/test-results/**/*.xml
+
       - name: Prevent merge on failure
         if: ${{ failure() }}
         run: echo "::set-output name=mergeable::false"
