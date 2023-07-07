@@ -1,0 +1,4 @@
+issuer: miracle
+authorities-key: auth
+secret-key: keyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortestkeyfortest
+expiration-minutes: 3600000

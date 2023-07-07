@@ -35,7 +35,7 @@ jobs:
 
       - name: Test with Gradle
         run: |
-          TEST_RESULT=$(./gradlew test --quiet)
+          TEST_RESULT=$(./gradlew test)
           if [[ $TEST_RESULT == *"FAILURE"* ]]; then
             echo "::error::Unit tests failed. Please check the code and try again."
             exit 1
