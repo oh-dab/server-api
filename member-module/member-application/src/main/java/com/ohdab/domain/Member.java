@@ -1,5 +1,7 @@
 package com.ohdab.domain;
 
+import com.ohdab.domain.authority.Authority;
+import com.ohdab.domain.profile.Profile;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;

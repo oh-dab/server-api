@@ -2,7 +2,7 @@ package com.ohdab.port.in;
 
 import com.ohdab.dto.JoinReqDto;
 
-public interface JoinService {
+public interface JoinUsecase {
 
     void join(JoinReqDto joinReqDto);
 }

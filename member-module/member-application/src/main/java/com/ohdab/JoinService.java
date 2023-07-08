@@ -1,11 +1,11 @@
 package com.ohdab;
 
-import com.ohdab.domain.Authority;
 import com.ohdab.domain.Member;
-import com.ohdab.domain.Profile;
+import com.ohdab.domain.authority.Authority;
+import com.ohdab.domain.profile.Profile;
 import com.ohdab.dto.JoinReqDto;
 import com.ohdab.exception.DuplicatedMemberException;
-import com.ohdab.port.in.JoinService;
+import com.ohdab.port.in.JoinUsecase;
 import com.ohdab.port.out.FindMemberPort;
 import com.ohdab.port.out.SaveMemberPort;
 import java.util.List;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public class JoinServiceImpl implements JoinService {
+public class JoinService implements JoinUsecase {
 
     private final PasswordEncoder passwordEncoder;
     private final FindMemberPort findMemberPort;

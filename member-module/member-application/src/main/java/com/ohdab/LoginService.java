@@ -4,7 +4,7 @@ import com.ohdab.domain.Member;
 import com.ohdab.dto.LoginReqDto;
 import com.ohdab.dto.LoginResDto;
 import com.ohdab.helper.MemberHelperService;
-import com.ohdab.port.in.LoginService;
+import com.ohdab.port.in.LoginUsecase;
 import com.ohdab.util.jwt.JwtTokenProvider;
 import lombok.AllArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 @AllArgsConstructor
-public class LoginServiceImpl implements LoginService {
+public class LoginService implements LoginUsecase {
 
     private final MemberHelperService memberHelperService;
     private final UserDetailsService userDetailsService;

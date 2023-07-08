@@ -1,8 +1,8 @@
 package com.ohdab.mapper;
 
-import com.ohdab.domain.Authority;
 import com.ohdab.domain.Member;
-import com.ohdab.domain.Profile;
+import com.ohdab.domain.authority.Authority;
+import com.ohdab.domain.profile.Profile;
 import com.ohdab.entity.AuthorityVO;
 import com.ohdab.entity.MemberEntity;
 import com.ohdab.entity.ProfileVO;

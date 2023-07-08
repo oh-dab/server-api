@@ -1,4 +1,4 @@
-package com.ohdab.domain;
+package com.ohdab.domain.profile;
 
 import lombok.Builder;
 import lombok.Getter;
