@@ -57,6 +57,7 @@ cmake-build-*/
 */out/production/*
 */out/test/*
 out/production
+out/test
 
 # mpeltonen/sbt-idea plugin
 .idea_modules/
