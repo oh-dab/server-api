@@ -52,7 +52,7 @@ public class JoinService implements JoinUsecase {
     }
 
     private void checkDuplicatedMember(String name) {
-        Optional<Member> member = findMemberPort.findByMemberProfile_Name(name);
+        Optional<Member> member = findMemberPort.findByName(name);
         if (member.isPresent()) {
             throw new DuplicatedMemberException("이미 존재하는 회원입니다.");
         }

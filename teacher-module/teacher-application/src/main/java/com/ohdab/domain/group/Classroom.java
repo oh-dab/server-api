@@ -8,9 +8,9 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class Group {
+public class Classroom {
 
-    private GroupInfo classInfo;
+    private ClassroomInfo classroomInfo;
     private List<Workbook> workbooks;
     private List<Student> students;
 }

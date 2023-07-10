@@ -14,7 +14,7 @@ public final class MemberHelperService {
 
     public Member findExistingMember(String name) {
         return findMemberPort
-                .findByMemberProfile_Name(name)
+                .findByName(name)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다."));
     }
 }

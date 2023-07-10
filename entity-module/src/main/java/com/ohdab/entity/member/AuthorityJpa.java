@@ -1,4 +1,4 @@
-package com.ohdab.entity;
+package com.ohdab.entity.member;
 
 import javax.persistence.Embeddable;
 import lombok.*;
@@ -8,7 +8,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AuthorityVO {
+public class AuthorityJpa {
 
     private String role;
 }

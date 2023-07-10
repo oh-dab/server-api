@@ -1,6 +1,6 @@
 package com.ohdab.domain;
 
-import com.ohdab.domain.group.Group;
+import com.ohdab.domain.group.Classroom;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -10,5 +10,5 @@ import lombok.Getter;
 public class Teacher {
 
     private Long id;
-    private List<Group> classes;
+    private List<Classroom> classrooms;
 }

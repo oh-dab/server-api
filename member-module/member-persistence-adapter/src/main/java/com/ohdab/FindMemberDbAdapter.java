@@ -1,7 +1,7 @@
 package com.ohdab;
 
 import com.ohdab.domain.Member;
-import com.ohdab.entity.MemberEntity;
+import com.ohdab.entity.member.MemberJpa;
 import com.ohdab.mapper.MemberPersistenceMapper;
 import com.ohdab.port.out.FindMemberPort;
 import com.ohdab.repository.MemberRepository;
@@ -16,8 +16,8 @@ public class FindMemberDbAdapter implements FindMemberPort {
     private final MemberRepository memberRepository;
 
     @Override
-    public Optional<Member> findByMemberProfile_Name(String name) {
-        Optional<MemberEntity> memberJpaOpt = memberRepository.findByProfileVO_Name(name);
+    public Optional<Member> findByName(String name) {
+        Optional<MemberJpa> memberJpaOpt = memberRepository.findByName(name);
         if (memberJpaOpt.isEmpty()) {
             return Optional.empty();
         }

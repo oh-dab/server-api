@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GroupInfo {
+public class ClassroomInfo {
 
     private String name;
     private Grade grade;

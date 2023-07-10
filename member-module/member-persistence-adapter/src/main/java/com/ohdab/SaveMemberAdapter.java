@@ -1,7 +1,7 @@
 package com.ohdab;
 
 import com.ohdab.domain.Member;
-import com.ohdab.entity.MemberEntity;
+import com.ohdab.entity.member.MemberJpa;
 import com.ohdab.mapper.MemberPersistenceMapper;
 import com.ohdab.port.out.SaveMemberPort;
 import com.ohdab.repository.MemberRepository;
@@ -16,7 +16,7 @@ public class SaveMemberAdapter implements SaveMemberPort {
 
     @Override
     public void save(Member member) {
-        MemberEntity memberEntity = MemberPersistenceMapper.toEntity(member);
-        memberRepository.save(memberEntity);
+        MemberJpa memberJpa = MemberPersistenceMapper.toEntity(member);
+        memberRepository.save(memberJpa);
     }
 }

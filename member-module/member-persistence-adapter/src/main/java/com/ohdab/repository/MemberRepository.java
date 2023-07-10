@@ -1,10 +1,10 @@
 package com.ohdab.repository;
 
-import com.ohdab.entity.MemberEntity;
+import com.ohdab.entity.member.MemberJpa;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface MemberRepository extends JpaRepository<MemberEntity, Long> {
+public interface MemberRepository extends JpaRepository<MemberJpa, Long> {
 
-    Optional<MemberEntity> findByProfileVO_Name(String name);
+    Optional<MemberJpa> findByName(String name);
 }

@@ -28,4 +28,5 @@ include 'wronganswernote-module:wronganswernote-application'
 findProject(':wronganswernote-module:wronganswernote-application')?.name = 'wronganswernote-application'
 include 'wronganswernote-module:wronganswernote-persistence-adapter'
 findProject(':wronganswernote-module:wronganswernote-persistence-adapter')?.name = 'wronganswernote-persistence-adapter'
+include 'entity-module'
 
