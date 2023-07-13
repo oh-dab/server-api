@@ -1,4 +1,4 @@
-package com.ohdab.entity.member;
+package com.ohdab.entity;
 
 import javax.persistence.Embeddable;
 import lombok.*;

@@ -1,6 +1,5 @@
 package com.ohdab.entity;
 
-import com.ohdab.entity.member.MemberJpa;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AccessLevel;

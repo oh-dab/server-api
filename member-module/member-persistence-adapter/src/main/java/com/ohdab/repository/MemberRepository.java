@@ -1,6 +1,6 @@
 package com.ohdab.repository;
 
-import com.ohdab.entity.member.MemberJpa;
+import com.ohdab.entity.MemberJpa;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 

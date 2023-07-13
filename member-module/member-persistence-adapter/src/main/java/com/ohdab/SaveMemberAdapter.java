@@ -1,7 +1,7 @@
 package com.ohdab;
 
 import com.ohdab.domain.Member;
-import com.ohdab.entity.member.MemberJpa;
+import com.ohdab.entity.MemberJpa;
 import com.ohdab.mapper.MemberPersistenceMapper;
 import com.ohdab.port.out.SaveMemberPort;
 import com.ohdab.repository.MemberRepository;

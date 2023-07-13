@@ -3,8 +3,8 @@ package com.ohdab.mapper;
 import com.ohdab.domain.Member;
 import com.ohdab.domain.authority.Authority;
 import com.ohdab.domain.profile.Profile;
-import com.ohdab.entity.member.AuthorityJpa;
-import com.ohdab.entity.member.MemberJpa;
+import com.ohdab.entity.AuthorityJpa;
+import com.ohdab.entity.MemberJpa;
 import java.util.List;
 import java.util.stream.Collectors;
 
