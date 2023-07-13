@@ -9,24 +9,29 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @Entity
-@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Table(name = "MEMBER")
-public class MemberEntity {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public class MemberJpa extends BaseEntity {
 
     @Id
     @GeneratedValue
     @Column(name = "member_id")
     private Long id;
 
-    @Embedded private ProfileVO profileVO;
+    @Column(name = "name")
+    private String name;
+
+    @Column(name = "password")
+    private String password;
 
     @ElementCollection(fetch = FetchType.LAZY)
     @CollectionTable(name = "MEMBER_AUTHORITY_LIST", joinColumns = @JoinColumn(name = "member_id"))
-    private List<AuthorityVO> authorities;
+    private List<AuthorityJpa> authorities;
 
     @Builder
-    public MemberEntity(ProfileVO profileVO, List<AuthorityVO> authorities) {
-        this.profileVO = profileVO;
+    public MemberJpa(String name, String password, List<AuthorityJpa> authorities) {
+        this.name = name;
+        this.password = password;
         this.authorities = authorities;
     }
 }

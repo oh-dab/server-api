@@ -23,6 +23,7 @@ repositories {
 
 dependencies {
 	implementation project(':core-module')
+	implementation project(':entity-module')
 
 	implementation project(':member-module')
 	implementation project(':member-module:member-web-adapter')
@@ -98,6 +99,7 @@ tasks.named('test') {
 project(':member-module') {
 	dependencies {
 		implementation project(':core-module')
+		implementation project(':entity-module')
 		implementation project(':member-module:member-web-adapter')
 		implementation project(':member-module:member-application')
 		implementation project(':member-module:member-persistence-adapter')
@@ -107,6 +109,7 @@ project(':member-module') {
 project(':teacher-module') {
 	dependencies {
 		implementation project(':core-module')
+		implementation project(':entity-module')
 		implementation project(':teacher-module:teacher-web-adapter')
 		implementation project(':teacher-module:teacher-application')
 		implementation project(':teacher-module:teacher-persistence-adapter')
@@ -116,6 +119,7 @@ project(':teacher-module') {
 project(':wronganswernote-module') {
 	dependencies {
 		implementation project(':core-module')
+		implementation project(':entity-module')
 		implementation project(':wronganswernote-module:wronganswernote-web-adapter')
 		implementation project(':wronganswernote-module:wronganswernote-application')
 		implementation project(':wronganswernote-module:wronganswernote-persistence-adapter')
