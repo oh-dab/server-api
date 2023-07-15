@@ -3,13 +3,36 @@ plugins {
 	id 'org.springframework.boot' version '2.7.14-SNAPSHOT'
 	id 'io.spring.dependency-management' version '1.0.15.RELEASE'
 	id 'com.diffplug.spotless' version '6.11.0'
+	id "org.asciidoctor.jvm.convert" version "3.3.2"
 }
 
 java {
 	sourceCompatibility = '11'
 }
 
+bootJar {
+	dependsOn asciidoctor
+	from ("${asciidoctor.outputDir}/html5") {
+		into 'static/docs'
+	}
+}
+
+ext {
+	snippetsDir = file('build/generated-snippets')
+}
+
+test {
+	outputs.dir snippetsDir
+}
+
+asciidoctor {
+	inputs.dir snippetsDir
+	configurations 'asciidoctorExt'
+	dependsOn test
+}
+
 configurations {
+	asciidoctorExt
 	compileOnly {
 		extendsFrom annotationProcessor
 	}
@@ -41,8 +64,11 @@ dependencies {
 	implementation project(':wronganswernote-module:wronganswernote-persistence-adapter')
 
 	implementation 'org.springframework.boot:spring-boot-starter-web'
-	testImplementation 'com.h2database:h2'
+	testImplementation 'org.springframework.security:spring-security-test'
+	testImplementation 'org.springframework.restdocs:spring-restdocs-mockmvc'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'com.h2database:h2'
+	asciidoctorExt 'org.springframework.restdocs:spring-restdocs-asciidoctor'
 }
 
 spotless {
