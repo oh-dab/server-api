@@ -34,7 +34,7 @@ jobs:
         run: ./gradlew spotlessJavaCheck
 
       - name: Build with Gradle
-        run: ./gradlew clean build -x test asciidoctor
+        run: ./gradlew clean build -x test -x asciidoctor
 
       - name: Test with Gradle
         run: |
