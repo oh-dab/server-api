@@ -1,5 +1,14 @@
 package com.ohdab.webmvc.member;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.MemberController;
 import com.ohdab.dto.LoginResDto;
@@ -9,6 +18,7 @@ import com.ohdab.request.JoinReq;
 import com.ohdab.request.LoginReq;
 import com.ohdab.response.JoinRes;
 import com.ohdab.response.LoginRes;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -18,18 +28,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.ResultActions;
-
-import java.util.List;
-
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MemberController.class)
@@ -52,20 +50,17 @@ class MemberControllerTest {
         final JoinRes joinRes = JoinRes.builder().message("회원가입이 완료되었습니다.").build();
 
         // when
-        ResultActions resultActions =
-                mockMvc.perform(
+
+        // then
+        mockMvc.perform(
                         post(JOIN_URL)
                                 .with(csrf())
                                 .content(objectMapper.writeValueAsString(joinReq))
-                                .contentType(MediaType.APPLICATION_JSON));
-
-        // then
-        resultActions
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
                         jsonPath("$.message").value(joinRes.getMessage()))
-                .andExpect(status().isOk())
                 .andDo(print())
                 .andDo(createDocument("members/join"));
     }
@@ -87,16 +82,13 @@ class MemberControllerTest {
 
         // when
         when(loginUsecase.login(any())).thenReturn(loginResDto);
-        ResultActions resultActions =
-                mockMvc.perform(
-                                post(LOGIN_URL)
-                                        .with(csrf())
-                                        .contentType(MediaType.APPLICATION_JSON)
-                                        .content(objectMapper.writeValueAsString(loginReq)))
-                        .andDo(print());
 
         // then
-        resultActions
+        mockMvc.perform(
+                        post(LOGIN_URL)
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON)
+                                .content(objectMapper.writeValueAsString(loginReq)))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),

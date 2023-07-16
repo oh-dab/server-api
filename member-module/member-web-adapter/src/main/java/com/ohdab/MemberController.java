@@ -8,6 +8,7 @@ import com.ohdab.request.JoinReq;
 import com.ohdab.request.LoginReq;
 import com.ohdab.response.JoinRes;
 import com.ohdab.response.LoginRes;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -21,13 +22,13 @@ public class MemberController {
     private final LoginUsecase loginUsecase;
 
     @PostMapping("/join")
-    public ResponseEntity<JoinRes> join(@RequestBody JoinReq joinReq) {
+    public ResponseEntity<JoinRes> join(@Valid @RequestBody JoinReq joinReq) {
         joinUsecase.join(MemberWebMapper.toJoinReqDto(joinReq));
         return ResponseEntity.ok(MemberWebMapper.toJoinRes());
     }
 
     @PostMapping("/login")
-    public ResponseEntity<LoginRes> login(@RequestBody LoginReq loginReq) {
+    public ResponseEntity<LoginRes> login(@Valid @RequestBody LoginReq loginReq) {
         LoginResDto loginResDto = loginUsecase.login(MemberWebMapper.toLoginReqDto(loginReq));
         return ResponseEntity.ok(MemberWebMapper.toLoginRes(loginResDto));
     }
