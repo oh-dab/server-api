@@ -30,15 +30,15 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build with Gradle
-        run: ./gradlew clean build -x test
-
       - name: Check Code Formatting
         run: ./gradlew spotlessJavaCheck
 
+      - name: Build with Gradle
+        run: ./gradlew clean build -x test asciidoctor
+
       - name: Test with Gradle
         run: |
-          TEST_RESULT=$(./gradlew test)
+          TEST_RESULT=$(./gradlew test -x asciidoctor)
           if [[ $TEST_RESULT == *"FAILURE"* ]]; then
             echo "::error::Unit tests failed. Please check the code and try again."
             exit 1
