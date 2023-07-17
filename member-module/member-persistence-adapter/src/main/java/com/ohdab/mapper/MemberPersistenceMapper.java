@@ -7,7 +7,10 @@ import com.ohdab.entity.AuthorityJpa;
 import com.ohdab.entity.MemberJpa;
 import java.util.List;
 import java.util.stream.Collectors;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MemberPersistenceMapper {
 
     public static Member toDomain(MemberJpa memberJpa) {
