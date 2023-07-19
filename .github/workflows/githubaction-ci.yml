@@ -8,7 +8,10 @@ name: Java CI with Gradle
 
 on:
   pull_request:
-    branches: [ "main", "dev" ]
+    branches:
+      - main
+      - develop
+      - 'feature-*'
 
 permissions:
   contents: read
@@ -68,5 +71,3 @@ jobs:
       - name: Prevent merge on failure
         if: ${{ failure() }}
         run: echo "::set-output name=mergeable::false"
-
-
