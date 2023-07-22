@@ -2,6 +2,8 @@ package com.ohdab.webmvc.wronganswernote;
 
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
@@ -19,6 +21,7 @@ import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDoc
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
@@ -63,6 +66,12 @@ class WrongAnswerNoteControllerTest {
                                 .value(noteInfoByStudentDtoList.get(1).getWrongNumber()),
                         jsonPath("$[1].wrongCount")
                                 .value(noteInfoByStudentDtoList.get(1).getWrongCount()))
-                .andDo(print());
+                .andDo(print())
+                .andDo(createDocument("wrong_answer_note/getNoteInfoByStudent"));
+    }
+
+    private RestDocumentationResultHandler createDocument(String identifier) {
+        return document(
+                identifier, preprocessRequest(prettyPrint()), preprocessResponse(prettyPrint()));
     }
 }
