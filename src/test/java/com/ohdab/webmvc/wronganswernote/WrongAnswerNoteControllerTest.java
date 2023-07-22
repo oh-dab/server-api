@@ -39,7 +39,8 @@ class WrongAnswerNoteControllerTest {
     @WithMockUser
     void 학생별_오답노트_조회() throws Exception {
         // given
-        final String GET_NOTE_INFO_BY_STUDENT_URL = "/notes/workbooks/1/students/2";
+        final String GET_NOTE_INFO_BY_STUDENT_URL =
+                "/notes/workbooks/{workbook-id}/students/{student-id}";
         List<NoteInfoByStudentDto> noteInfoByStudentDtoList = new ArrayList<>();
         noteInfoByStudentDtoList.add(
                 NoteInfoByStudentDto.builder().wrongNumber(1).wrongCount(3).build());
@@ -52,7 +53,7 @@ class WrongAnswerNoteControllerTest {
 
         // then
         mockMvc.perform(
-                        get(GET_NOTE_INFO_BY_STUDENT_URL)
+                        get(GET_NOTE_INFO_BY_STUDENT_URL, 1, 2)
                                 .with(csrf())
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
