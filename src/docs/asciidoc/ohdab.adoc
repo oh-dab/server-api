@@ -26,3 +26,15 @@ include::{snippets}/members/login/http-request.adoc[]
 ==== Response
 
 include::{snippets}/members/login/http-response.adoc[]
+
+== WrongAnswerNote
+
+=== 학생별 오답노트 조회
+
+==== Request
+
+include::{snippets}/wrong_answer_note/getNoteInfoByStudent/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/wrong_answer_note/getNoteInfoByStudent/http-response.adoc[]
