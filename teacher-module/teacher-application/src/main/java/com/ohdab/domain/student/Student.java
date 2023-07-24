@@ -8,4 +8,16 @@ import lombok.Getter;
 public class Student {
 
     private String name;
+
+    public Student(String name) {
+        setName(name);
+    }
+
+    private void setName(String name) {
+        if (name.length() > 20) {
+            throw new IllegalStateException(
+                    "Name length cannot exceed 20 : current length \"" + name.length() + "\"");
+        }
+        this.name = name;
+    }
 }
