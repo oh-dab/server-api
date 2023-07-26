@@ -5,8 +5,8 @@ import com.ohdab.member.domain.Member;
 import com.ohdab.member.service.dto.LoginReqDto;
 import com.ohdab.member.service.dto.LoginResDto;
 import com.ohdab.member.service.helper.MemberHelperService;
-import com.ohdab.member.service.port.in.LoginUsecase;
-import lombok.AllArgsConstructor;
+import com.ohdab.member.service.usecase.LoginUsecase;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -17,7 +17,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class LoginService implements LoginUsecase {
 
