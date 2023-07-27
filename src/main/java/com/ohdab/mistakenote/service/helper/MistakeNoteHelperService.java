@@ -1,4 +1,4 @@
-package com.ohdab.member.service.helper;
+package com.ohdab.mistakenote.service.helper;
 
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.exception.NoMemberException;
@@ -8,13 +8,10 @@ import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
-public final class MemberHelperService {
+public class MistakeNoteHelperService {
 
-    private final MemberRepository memberRepository;
-
-    public Member findExistingMemberByName(String name) {
-        return memberRepository
-                .findByMemberInfoName(name)
+    public Member find(MemberRepository memberRepository, long studentId) {
+        return memberRepository.findById(studentId)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다."));
     }
 }
