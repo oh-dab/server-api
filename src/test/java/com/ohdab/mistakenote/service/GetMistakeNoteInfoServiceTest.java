@@ -39,6 +39,7 @@ class GetMistakeNoteInfoServiceTest {
         // given
         final long workbookId = 1;
         final long studentId = 2;
+
         final Map<Integer, Integer> mistakeRecords = new HashMap<>();
         mistakeRecords.put(1, 2);
         mistakeRecords.put(2, 4);
@@ -50,7 +51,7 @@ class GetMistakeNoteInfoServiceTest {
                 .mistakeRecords(mistakeRecords)
                 .build();
 
-        List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
+        final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         mistakeRecords.forEach(
                 (key, value) -> {
                     mistakeNoteInfo.add(MistakeNoteInfoDto.builder()
@@ -68,8 +69,10 @@ class GetMistakeNoteInfoServiceTest {
         // then
         assertThat(result.get(0).getWrongNumber()).isEqualTo(mistakeNoteInfo.get(0).getWrongNumber());
         assertThat(result.get(0).getWrongCount()).isEqualTo(mistakeNoteInfo.get(0).getWrongCount());
+
         assertThat(result.get(1).getWrongNumber()).isEqualTo(mistakeNoteInfo.get(1).getWrongNumber());
         assertThat(result.get(1).getWrongCount()).isEqualTo(mistakeNoteInfo.get(1).getWrongCount());
+
         assertThat(result.get(2).getWrongNumber()).isEqualTo(mistakeNoteInfo.get(2).getWrongNumber());
         assertThat(result.get(2).getWrongCount()).isEqualTo(mistakeNoteInfo.get(2).getWrongCount());
     }
