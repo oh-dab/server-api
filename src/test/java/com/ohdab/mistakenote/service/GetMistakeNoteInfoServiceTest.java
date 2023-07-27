@@ -1,5 +1,13 @@
 package com.ohdab.mistakenote.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+
+import com.ohdab.member.domain.Authority;
+import com.ohdab.member.domain.Member;
+import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
@@ -9,6 +17,7 @@ import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import com.ohdab.workbook.repository.WorkbookRepository;
+import java.util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -16,12 +25,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.*;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetMistakeNoteInfoService.class, MistakeNoteHelperService.class})
@@ -39,6 +42,15 @@ class GetMistakeNoteInfoServiceTest {
         // given
         final long workbookId = 1;
         final long studentId = 2;
+
+        final List<Authority> authorities = new ArrayList<>();
+        authorities.add(new Authority("TEACHER"));
+
+        final Member findMember =
+                Member.builder()
+                        .memberInfo(MemberInfo.builder().name("test").password("1234").build())
+                        .authorities(authorities)
+                        .build();
 
         final Map<Integer, Integer> mistakeRecords = new HashMap<>();
         mistakeRecords.put(1, 2);
@@ -63,11 +75,10 @@ class GetMistakeNoteInfoServiceTest {
                 });
 
         // when
-        when(mistakeNoteHelperService.isNotExistingMember(memberRepository, studentId))
-                .thenReturn(true);
+        when(memberRepository.findActiveMemberById(anyLong())).thenReturn(Optional.of(findMember));
         when(mistakeNoteRepository.findByWorkbookIdAndStudentId(
                         any(WorkbookId.class), any(StudentId.class)))
-                .thenReturn(Optional.ofNullable(mistakeNote));
+                .thenReturn(Optional.of(mistakeNote));
         List<MistakeNoteInfoDto> result =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoByStudent(workbookId, studentId);
 
