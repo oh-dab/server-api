@@ -10,7 +10,6 @@ import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
-import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,6 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
     private final MistakeNoteHelperService mistakeNoteHelperService;
     private final MistakeNoteRepository mistakeNoteRepository;
     private final MemberRepository memberRepository;
-    private final WorkbookRepository workbookRepository;
 
     @Override
     public List<MistakeNoteInfoDto> getMistakeNoteInfoByStudent(long workbookId, long studentId) {
