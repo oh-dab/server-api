@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/mistake-notes")
 public class MistakeNoteController {
 
-    private GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
+    private final GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
 
     @GetMapping("/workbooks/{workbook-id}/students/{student-id}")
     public ResponseEntity<List<GetMistakeNoteInfoRes>> getNoteInfoByStudent(
