@@ -1,7 +1,6 @@
 package com.ohdab.mistakenote.service.usecase;
 
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
-
 import java.util.List;
 
 public interface GetMistakeNoteInfoUsecase {

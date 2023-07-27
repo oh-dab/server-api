@@ -4,15 +4,14 @@ import com.ohdab.mistakenote.controller.mapper.MistakeNoteMapper;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -25,7 +24,8 @@ public class MistakeNoteController {
     public ResponseEntity<List<GetMistakeNoteInfoRes>> getNoteInfoByStudent(
             @Valid @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "student-id") long studentId) {
-        List<MistakeNoteInfoDto> mistakeNoteInfo = getMistakeNoteInfoUsecase.getMistakeNoteInfoByStudent(workbookId, studentId);
+        List<MistakeNoteInfoDto> mistakeNoteInfo =
+                getMistakeNoteInfoUsecase.getMistakeNoteInfoByStudent(workbookId, studentId);
         return ResponseEntity.ok(
                 MistakeNoteMapper.toGetMistakeNoteInfoByStudentRes(mistakeNoteInfo));
     }
