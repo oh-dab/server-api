@@ -11,7 +11,7 @@ import org.springframework.stereotype.Service;
 public class MistakeNoteHelperService {
 
     public boolean isNotExistingMember(MemberRepository memberRepository, long memberId) {
-        Optional<Member> memberOpt = memberRepository.findById(memberId);
+        Optional<Member> memberOpt = memberRepository.findActiveMemberById(memberId);
         return memberOpt.isEmpty();
     }
 }
