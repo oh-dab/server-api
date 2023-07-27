@@ -1,17 +1,14 @@
 package com.ohdab.mistakenote.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.when;
-
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
-import java.util.*;
+import com.ohdab.workbook.repository.WorkbookRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,13 +17,21 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
+
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GetMistakeNoteInfoService.class})
+@ContextConfiguration(classes = {GetMistakeNoteInfoService.class, MistakeNoteHelperService.class})
 class GetMistakeNoteInfoServiceTest {
 
     @Autowired private GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
+    @Autowired private MistakeNoteHelperService mistakeNoteHelperService;
     @MockBean private MistakeNoteRepository mistakeNoteRepository;
     @MockBean private MemberRepository memberRepository;
+    @MockBean private WorkbookRepository workbookRepository;
 
     @DisplayName("교재 Id, 학생 Id를 통해 학생별 오답노트를 조회한다.")
     @Test
@@ -58,6 +63,8 @@ class GetMistakeNoteInfoServiceTest {
                 });
 
         // when
+        when(mistakeNoteHelperService.isNotExistingMember(memberRepository, studentId))
+                .thenReturn(true);
         when(mistakeNoteRepository.findByWorkbookIdAndStudentId(
                         any(WorkbookId.class), any(StudentId.class)))
                 .thenReturn(Optional.ofNullable(mistakeNote));
