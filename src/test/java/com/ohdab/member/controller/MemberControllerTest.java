@@ -1,4 +1,4 @@
-package com.ohdab.webmvc.member.controller;
+package com.ohdab.member.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
@@ -10,7 +10,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.member.controller.MemberController;
 import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
 import com.ohdab.member.controller.response.JoinRes;
