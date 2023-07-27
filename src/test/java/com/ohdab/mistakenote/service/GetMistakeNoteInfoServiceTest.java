@@ -16,7 +16,6 @@ import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
-import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -34,7 +33,6 @@ class GetMistakeNoteInfoServiceTest {
     @Autowired private MistakeNoteHelperService mistakeNoteHelperService;
     @MockBean private MistakeNoteRepository mistakeNoteRepository;
     @MockBean private MemberRepository memberRepository;
-    @MockBean private WorkbookRepository workbookRepository;
 
     @DisplayName("교재 Id, 학생 Id를 통해 학생별 오답노트를 조회한다.")
     @Test
