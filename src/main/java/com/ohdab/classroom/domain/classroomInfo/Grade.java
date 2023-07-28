@@ -1,9 +1,8 @@
 package com.ohdab.classroom.domain.classroomInfo;
 
-import lombok.Getter;
-
 import java.util.HashMap;
 import java.util.Map;
+import lombok.Getter;
 
 @Getter
 public enum Grade {
@@ -16,14 +15,14 @@ public enum Grade {
 
     public final String label;
 
-    private Grade(String label){
+    private Grade(String label) {
         this.label = label;
     }
 
     private static final Map<String, Grade> BY_LABEL = new HashMap<>();
 
     static {
-        for (Grade e: values()) {
+        for (Grade e : values()) {
             BY_LABEL.put(e.label, e);
         }
     }
@@ -31,5 +30,4 @@ public enum Grade {
     public static Grade valueOfLabel(String label) {
         return BY_LABEL.get(label);
     }
-
 }

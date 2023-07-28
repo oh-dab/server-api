@@ -1,6 +1,5 @@
 package com.ohdab.classroom.service.dto;
 
-import com.ohdab.classroom.domain.classroomInfo.Grade;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -13,5 +12,4 @@ public class ClassroomReqDto {
     private String grade;
 
     private Long teacherId;
-
 }

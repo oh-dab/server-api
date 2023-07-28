@@ -27,18 +27,18 @@ public class AddClassroomService implements ClassroomUsecase {
         Long teacherId = classroomReqDto.getTeacherId();
         throwIfTeacherDoesNotExist(teacherId);
 
-        ClassroomInfo classroomInfo = ClassroomInfo.builder()
-                .name(classroomReqDto.getName())
-                .description(classroomReqDto.getDescription())
-                .grade(findGradeByString(classroomReqDto.getGrade()))
-                .build();
+        ClassroomInfo classroomInfo =
+                ClassroomInfo.builder()
+                        .name(classroomReqDto.getName())
+                        .description(classroomReqDto.getDescription())
+                        .grade(findGradeByString(classroomReqDto.getGrade()))
+                        .build();
 
-        Classroom classroom = Classroom.builder()
-                .teacher(TeacherId.builder()
-                        .id(teacherId)
-                        .build())
-                .classroomInfo(classroomInfo)
-                .build();
+        Classroom classroom =
+                Classroom.builder()
+                        .teacher(TeacherId.builder().id(teacherId).build())
+                        .classroomInfo(classroomInfo)
+                        .build();
 
         classroomRepository.save(classroom);
     }
