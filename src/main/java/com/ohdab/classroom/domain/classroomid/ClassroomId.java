@@ -1,6 +1,7 @@
 package com.ohdab.classroom.domain.classroomid;
 
 import javax.persistence.Embeddable;
+
 import lombok.*;
 
 @Embeddable
