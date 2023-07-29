@@ -5,6 +5,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
+import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
@@ -15,7 +16,11 @@ import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import com.ohdab.workbook.domain.Workbook;
+import com.ohdab.workbook.domain.service.NumberScopeCheckService;
+import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -26,12 +31,18 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {SaveMistakeNoteInfoService.class, MistakeNoteHelperService.class})
+@ContextConfiguration(
+        classes = {
+            SaveMistakeNoteInfoService.class,
+            MistakeNoteHelperService.class,
+            NumberScopeCheckService.class
+        })
 class SaveMistakeNoteInfoServiceTest {
 
     @Autowired private SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
     @MockBean private MemberRepository memberRepository;
     @MockBean private MistakeNoteRepository mistakeNoteRepository;
+    @MockBean private WorkbookRepository workbookRepository;
 
     @DisplayName("틀린 문제의 번호들을 입력하여 학생의 오답을 기록한다.")
     @Test
@@ -71,11 +82,25 @@ class SaveMistakeNoteInfoServiceTest {
                         .mistakeRecords(mistakeRecords)
                         .build();
 
+        final WorkbookInfo workbookInfo =
+                WorkbookInfo.builder()
+                        .name("test workbook")
+                        .description("test description")
+                        .startingNumber(1)
+                        .endingNumber(4000)
+                        .build();
+        final Workbook workbook =
+                Workbook.builder()
+                        .classroomId(new ClassroomId(3L))
+                        .workbookInfo(workbookInfo)
+                        .build();
+
         // when
         when(memberRepository.findActiveMemberById(anyLong())).thenReturn(Optional.of(findMember));
         when(mistakeNoteRepository.findByWorkbookIdAndStudentId(
                         any(WorkbookId.class), any(StudentId.class)))
                 .thenReturn(Optional.of(mistakeNote));
+        when(workbookRepository.findById(anyLong())).thenReturn(Optional.of(workbook));
         saveMistakeNoteInfoUsecase.saveMistakeNoteInfo(saveMistakeNoteInfoDto);
 
         // then

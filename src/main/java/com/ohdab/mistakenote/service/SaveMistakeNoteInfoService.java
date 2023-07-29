@@ -9,7 +9,11 @@ import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import com.ohdab.workbook.domain.Workbook;
+import com.ohdab.workbook.domain.service.NumberScopeCheckService;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import com.ohdab.workbook.exception.NoWorkbookException;
+import com.ohdab.workbook.repository.WorkbookRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,8 +24,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class SaveMistakeNoteInfoService implements SaveMistakeNoteInfoUsecase {
 
     private final MistakeNoteHelperService mistakeNoteHelperService;
+    private final NumberScopeCheckService numberScopeCheckService;
     private final MemberRepository memberRepository;
     private final MistakeNoteRepository mistakeNoteRepository;
+    private final WorkbookRepository workbookRepository;
 
     @Override
     public void saveMistakeNoteInfo(SaveMistakeNoteInfoDto saveMistakeNoteInfoDto) {
@@ -35,6 +41,11 @@ public class SaveMistakeNoteInfoService implements SaveMistakeNoteInfoUsecase {
                                 new WorkbookId(saveMistakeNoteInfoDto.getWorkbookId()),
                                 new StudentId(saveMistakeNoteInfoDto.getStudentId()))
                         .orElseThrow(() -> new NoMistakeNoteException("존재하지 않는 오답노트입니다."));
-        mistakeNote.addMistakeNumbers(saveMistakeNoteInfoDto.getMistakeNumbers());
+        Workbook workbook =
+                workbookRepository
+                        .findById(saveMistakeNoteInfoDto.getWorkbookId())
+                        .orElseThrow(() -> new NoWorkbookException("존재하지 않는 교재입니다."));
+        mistakeNote.addMistakeNumbers(
+                numberScopeCheckService, workbook, saveMistakeNoteInfoDto.getMistakeNumbers());
     }
 }

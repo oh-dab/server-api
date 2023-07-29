@@ -2,6 +2,8 @@ package com.ohdab.mistakenote.domain;
 
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.student.studentid.StudentId;
+import com.ohdab.workbook.domain.Workbook;
+import com.ohdab.workbook.domain.service.NumberScopeCheckService;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import java.util.HashMap;
 import java.util.List;
@@ -45,7 +47,11 @@ public class MistakeNote extends BaseEntity {
         this.mistakeRecords = mistakeRecords;
     }
 
-    public void addMistakeNumbers(List<Integer> numbers) {
+    public void addMistakeNumbers(
+            NumberScopeCheckService numberScopeCheckService,
+            Workbook workbook,
+            List<Integer> numbers) {
+        numberScopeCheckService.numberScopeCheck(workbook, numbers);
         checkMistakeNumbersSize(numbers);
         updateWrongCount(numbers);
     }
