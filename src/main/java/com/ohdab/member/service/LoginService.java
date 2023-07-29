@@ -29,7 +29,7 @@ public class LoginService implements LoginUsecase {
     @Override
     public LoginResDto login(LoginReqDto loginReqDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginReqDto.getName());
-        Member member = memberHelperService.findExistingMember(loginReqDto.getName());
+        Member member = memberHelperService.findExistingMemberByName(loginReqDto.getName());
         if (!member.matchPassword(
                 passwordEncoder, loginReqDto.getPassword(), userDetails.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");

@@ -20,7 +20,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Member member = memberHelperService.findExistingMember(name);
+        Member member = memberHelperService.findExistingMemberByName(name);
         return createUserDetails(member);
     }
 
