@@ -1,17 +1,23 @@
 package com.ohdab.mistakenote.controller;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -31,16 +37,15 @@ class MistakeNoteControllerTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
     @MockBean private GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
-
-    private final String GET_MISTAKE_NOTE_INFO_BY_STUDENT_URL =
-            "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
+    @MockBean private SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
 
     @Test
     @WithMockUser
     void 학생별_오답노트_조회() throws Exception {
         // given
-
-        List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
+        final String GET_MISTAKE_NOTE_INFO_BY_STUDENT_URL =
+                "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
+        final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(1).wrongCount(3).build());
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(2).wrongCount(1).build());
 
@@ -62,6 +67,35 @@ class MistakeNoteControllerTest {
                         jsonPath("$[1].wrongCount").value(mistakeNoteInfo.get(1).getWrongCount()))
                 .andDo(print())
                 .andDo(createDocument("mistake_note/getMistakeNoteInfoByStudent"));
+    }
+
+    @Test
+    @WithMockUser
+    void 오답_기록하기() throws Exception {
+        // given
+        final String SAVE_MISTAKE_NOTE_INFO_URL =
+                "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
+        final int[] mistakeNumbers = {1, 2, 3, 4, 5};
+        final SaveMistakeNoteInfoReq saveMistakeNoteInfoReq =
+                SaveMistakeNoteInfoReq.builder().mistakeNumbers(mistakeNumbers).build();
+
+        // when
+        doNothing()
+                .when(saveMistakeNoteInfoUsecase)
+                .saveMistakeNoteInfo(any(SaveMistakeNoteInfoDto.class));
+
+        // then
+        mockMvc.perform(
+                        post(SAVE_MISTAKE_NOTE_INFO_URL, 1, 2)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(saveMistakeNoteInfoReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("오답이 기록되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("mistake_note/saveMistakeNoteInfo"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {
