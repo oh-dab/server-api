@@ -1,10 +1,9 @@
 package com.ohdab.mistakenote.controller.request;
 
-import lombok.*;
-
+import java.util.List;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
-import java.util.List;
+import lombok.*;
 
 @Getter
 @Builder

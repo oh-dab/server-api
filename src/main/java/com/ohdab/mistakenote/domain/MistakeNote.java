@@ -3,15 +3,14 @@ package com.ohdab.mistakenote.domain;
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-
-import javax.persistence.*;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 @Entity
 @Table(name = "MISTAKENOTE")
@@ -65,7 +64,6 @@ public class MistakeNote extends BaseEntity {
                     } else {
                         mistakeRecords.put(number, 1);
                     }
-                }
-        );
+                });
     }
 }

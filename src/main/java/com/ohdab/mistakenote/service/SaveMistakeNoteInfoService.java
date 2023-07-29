@@ -25,13 +25,15 @@ public class SaveMistakeNoteInfoService implements SaveMistakeNoteInfoUsecase {
 
     @Override
     public void saveMistakeNoteInfo(SaveMistakeNoteInfoDto saveMistakeNoteInfoDto) {
-        if (mistakeNoteHelperService.isNotExistingMember(memberRepository, saveMistakeNoteInfoDto.getStudentId())) {
+        if (mistakeNoteHelperService.isNotExistingMember(
+                memberRepository, saveMistakeNoteInfoDto.getStudentId())) {
             throw new NoMemberException("존재하지 않는 회원입니다.");
         }
         MistakeNote mistakeNote =
                 mistakeNoteRepository
                         .findByWorkbookIdAndStudentId(
-                                new WorkbookId(saveMistakeNoteInfoDto.getWorkbookId()), new StudentId(saveMistakeNoteInfoDto.getStudentId()))
+                                new WorkbookId(saveMistakeNoteInfoDto.getWorkbookId()),
+                                new StudentId(saveMistakeNoteInfoDto.getStudentId()))
                         .orElseThrow(() -> new NoMistakeNoteException("존재하지 않는 오답노트입니다."));
         mistakeNote.addMistakeNumbers(saveMistakeNoteInfoDto.getMistakeNumbers());
     }
