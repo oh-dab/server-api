@@ -52,7 +52,11 @@ class SaveMistakeNoteInfoServiceTest {
                         .authorities(authorities)
                         .build();
 
-        final int[] mistakeNumbers = {1, 2, 4, 5};
+        final List<Integer> mistakeNumbers = new ArrayList<>();
+        mistakeNumbers.add(1);
+        mistakeNumbers.add(2);
+        mistakeNumbers.add(3);
+        mistakeNumbers.add(5);
         final SaveMistakeNoteInfoDto saveMistakeNoteInfoDto = SaveMistakeNoteInfoDto.builder()
                 .workbookId(workbookId)
                 .studentId(studentId)
@@ -63,7 +67,6 @@ class SaveMistakeNoteInfoServiceTest {
         mistakeRecords.put(1, 2);
         mistakeRecords.put(2, 4);
         mistakeRecords.put(4, 1);
-
         final MistakeNote mistakeNote = MistakeNote.builder()
                 .workbookId(new WorkbookId(workbookId))
                 .studentId(new StudentId(studentId))
