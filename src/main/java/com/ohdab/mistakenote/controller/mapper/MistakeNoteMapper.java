@@ -4,7 +4,6 @@ import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -22,7 +21,8 @@ public class MistakeNoteMapper {
                 .collect(Collectors.toList());
     }
 
-    public static SaveMistakeNoteInfoDto toSaveMistakeNoteInfoDto(long workbookId, long studentId, SaveMistakeNoteInfoReq saveMistakeNoteInfoReq) {
+    public static SaveMistakeNoteInfoDto toSaveMistakeNoteInfoDto(
+            long workbookId, long studentId, SaveMistakeNoteInfoReq saveMistakeNoteInfoReq) {
         return SaveMistakeNoteInfoDto.builder()
                 .workbookId(workbookId)
                 .studentId(studentId)

@@ -1,24 +1,5 @@
 package com.ohdab.mistakenote.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
-import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
-import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -30,6 +11,24 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
+import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MistakeNoteController.class)
@@ -44,7 +43,8 @@ class MistakeNoteControllerTest {
     @WithMockUser
     void 학생별_오답노트_조회() throws Exception {
         // given
-        final String GET_MISTAKE_NOTE_INFO_BY_STUDENT_URL = "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
+        final String GET_MISTAKE_NOTE_INFO_BY_STUDENT_URL =
+                "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
         final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(1).wrongCount(3).build());
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(2).wrongCount(1).build());
@@ -73,13 +73,16 @@ class MistakeNoteControllerTest {
     @WithMockUser
     void 오답_기록하기() throws Exception {
         // given
-        final String SAVE_MISTAKE_NOTE_INFO_URL = "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
+        final String SAVE_MISTAKE_NOTE_INFO_URL =
+                "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
         final int[] mistakeNumbers = {1, 2, 3, 4, 5};
-        final SaveMistakeNoteInfoReq saveMistakeNoteInfoReq = SaveMistakeNoteInfoReq.builder()
-                .mistakeNumbers(mistakeNumbers).build();
+        final SaveMistakeNoteInfoReq saveMistakeNoteInfoReq =
+                SaveMistakeNoteInfoReq.builder().mistakeNumbers(mistakeNumbers).build();
 
         // when
-        doNothing().when(saveMistakeNoteInfoUsecase).saveMistakeNoteInfo(any(SaveMistakeNoteInfoDto.class));
+        doNothing()
+                .when(saveMistakeNoteInfoUsecase)
+                .saveMistakeNoteInfo(any(SaveMistakeNoteInfoDto.class));
 
         // then
         mockMvc.perform(

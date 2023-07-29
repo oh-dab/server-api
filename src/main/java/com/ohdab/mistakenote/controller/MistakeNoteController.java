@@ -7,12 +7,11 @@ import com.ohdab.mistakenote.controller.response.SaveMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import java.util.List;
+import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
-
-import javax.validation.Valid;
-import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -33,11 +32,13 @@ public class MistakeNoteController {
     }
 
     @PostMapping("/workbooks/{workbook-id}/students/{student-id}")
-    public ResponseEntity<SaveMistakeNoteInfoRes> saveMistakeNoteInfo(@PathVariable(name = "workbook-id") long workbookId, @PathVariable(name = "student-id") long studentId, @Valid @RequestBody SaveMistakeNoteInfoReq saveMistakeNoteInfoReq) {
-        saveMistakeNoteInfoUsecase.saveMistakeNoteInfo(MistakeNoteMapper.toSaveMistakeNoteInfoDto(workbookId, studentId, saveMistakeNoteInfoReq));
-        return ResponseEntity.ok(
-                SaveMistakeNoteInfoRes.builder()
-                        .message("오답이 기록되었습니다.").build()
-        );
+    public ResponseEntity<SaveMistakeNoteInfoRes> saveMistakeNoteInfo(
+            @PathVariable(name = "workbook-id") long workbookId,
+            @PathVariable(name = "student-id") long studentId,
+            @Valid @RequestBody SaveMistakeNoteInfoReq saveMistakeNoteInfoReq) {
+        saveMistakeNoteInfoUsecase.saveMistakeNoteInfo(
+                MistakeNoteMapper.toSaveMistakeNoteInfoDto(
+                        workbookId, studentId, saveMistakeNoteInfoReq));
+        return ResponseEntity.ok(SaveMistakeNoteInfoRes.builder().message("오답이 기록되었습니다.").build());
     }
 }
