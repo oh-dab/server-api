@@ -3,6 +3,7 @@ package com.ohdab.mistakenote.controller;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import org.junit.jupiter.api.Test;
@@ -78,7 +79,7 @@ class MistakeNoteControllerTest {
                 .mistakeNumbers(mistakeNumbers).build();
 
         // when
-        doNothing().when(saveMistakeNoteInfoUsecase).saveMistakeNoteInfo(any(int[].class));
+        doNothing().when(saveMistakeNoteInfoUsecase).saveMistakeNoteInfo(any(SaveMistakeNoteInfoDto.class));
 
         // then
         mockMvc.perform(
