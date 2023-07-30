@@ -1,5 +1,11 @@
 package com.ohdab.classroom.controller;
 
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.ClassroomReq;
 import com.ohdab.classroom.service.usecase.ClassroomUsecase;
@@ -12,12 +18,6 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
-
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = ClassroomController.class)
@@ -46,10 +46,10 @@ class ClassroomControllerTest {
                                 .with(csrf())
                                 .content(objectMapper.writeValueAsString(classroomReq))
                                 .contentType(MediaType.APPLICATION_JSON))
-                .andExpectAll(status().isOk(),
+                .andExpectAll(
+                        status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.message").value("반이 추가되었습니다.")
-                )
+                        jsonPath("$.message").value("반이 추가되었습니다."))
                 .andDo(createDocument("classrooms/enrollment"));
 
         // then
