@@ -32,12 +32,10 @@ public class MemberServiceTest{
     @DisplayName("선생님 목록 조회 성공 테스트")
     void 선생님_목록_조회_성공() {
         //given
-        List<Authority>authorities = new ArrayList<>();
         List<Member>teachers = new ArrayList<>();
-        authorities.add(new Authority("TEACHER"));
-        teachers.add(createTeacher("선생님1","tjstodsla1",authorities));
-        teachers.add(createTeacher("선생님2","tjstodsla2",authorities));
-        teachers.add(createTeacher("선생님3","tjstodsla3",authorities));
+        teachers.add(createTeacher("선생님1","tjstodsla1"));
+        teachers.add(createTeacher("선생님2","tjstodsla2"));
+        teachers.add(createTeacher("선생님3","tjstodsla3"));
 
         //when
         Mockito.when(memberRepository.findByAuthorities(Mockito.anyString())).thenReturn(teachers);
@@ -47,17 +45,19 @@ public class MemberServiceTest{
         assertThat(results.size()).isEqualTo(3);
         assertThat(results.get(0).getMemberInfo().getName()).isEqualTo("선생님1");
         assertThat(results.get(0).getMemberInfo().getPassword()).isEqualTo("tjstodsla1");
-        assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
+        assertThat(results.get(0).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
         assertThat(results.get(1).getMemberInfo().getName()).isEqualTo("선생님2");
         assertThat(results.get(1).getMemberInfo().getPassword()).isEqualTo("tjstodsla2");
-        assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
+        assertThat(results.get(1).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
         assertThat(results.get(2).getMemberInfo().getName()).isEqualTo("선생님3");
         assertThat(results.get(2).getMemberInfo().getPassword()).isEqualTo("tjstodsla3");
         assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
 
     }
 
-    private Member createTeacher(String name, String password, List<Authority> authorities){
+    private Member createTeacher(String name, String password){
+        List<Authority>authorities = new ArrayList<>();
+        authorities.add(new Authority("TEACHER"));
         return Member.builder()
                 .memberInfo(MemberInfo.builder()
                         .name(name)
