@@ -20,28 +20,26 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetTeacherListService.class})
-public class MemberServiceTest{
+public class MemberServiceTest {
 
-    @Autowired
-    private GetTeacherListUsecase getTeacherListUsecase;
+    @Autowired private GetTeacherListUsecase getTeacherListUsecase;
 
-    @MockBean
-    private MemberRepository memberRepository;
+    @MockBean private MemberRepository memberRepository;
 
     @Test
     @DisplayName("선생님 목록 조회 성공 테스트")
     void 선생님_목록_조회_성공() {
-        //given
-        List<Member>teachers = new ArrayList<>();
-        teachers.add(createTeacher("선생님1","tjstodsla1"));
-        teachers.add(createTeacher("선생님2","tjstodsla2"));
-        teachers.add(createTeacher("선생님3","tjstodsla3"));
+        // given
+        List<Member> teachers = new ArrayList<>();
+        teachers.add(createTeacher("선생님1", "tjstodsla1"));
+        teachers.add(createTeacher("선생님2", "tjstodsla2"));
+        teachers.add(createTeacher("선생님3", "tjstodsla3"));
 
-        //when
+        // when
         Mockito.when(memberRepository.findByAuthorities(Mockito.anyString())).thenReturn(teachers);
         List<Member> results = getTeacherListUsecase.getTeacherList();
 
-        //then
+        // then
         assertThat(results.size()).isEqualTo(3);
         assertThat(results.get(0).getMemberInfo().getName()).isEqualTo("선생님1");
         assertThat(results.get(0).getMemberInfo().getPassword()).isEqualTo("tjstodsla1");
@@ -52,20 +50,14 @@ public class MemberServiceTest{
         assertThat(results.get(2).getMemberInfo().getName()).isEqualTo("선생님3");
         assertThat(results.get(2).getMemberInfo().getPassword()).isEqualTo("tjstodsla3");
         assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
-
     }
 
-    private Member createTeacher(String name, String password){
-        List<Authority>authorities = new ArrayList<>();
+    private Member createTeacher(String name, String password) {
+        List<Authority> authorities = new ArrayList<>();
         authorities.add(new Authority("TEACHER"));
         return Member.builder()
-                .memberInfo(MemberInfo.builder()
-                        .name(name)
-                        .password(password)
-                        .build())
+                .memberInfo(MemberInfo.builder().name(name).password(password).build())
                 .authorities(authorities)
                 .build();
     }
-
-
 }

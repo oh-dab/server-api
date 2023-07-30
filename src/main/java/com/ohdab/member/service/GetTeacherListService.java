@@ -11,13 +11,12 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetTeacherListService implements GetTeacherListUsecase{
+public class GetTeacherListService implements GetTeacherListUsecase {
 
     private final MemberRepository memberRepository;
 
     @Override
-    public List<Member> getTeacherList(){
+    public List<Member> getTeacherList() {
         return memberRepository.findByAuthorities("TEACHER");
     }
-
 }
