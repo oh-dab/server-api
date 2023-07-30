@@ -2,6 +2,7 @@ package com.ohdab.member.service;
 
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.member.service.dto.TeacherReqDto;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -19,4 +20,7 @@ public class GetTeacherListService implements GetTeacherListUsecase {
     public List<Member> getTeacherList() {
         return memberRepository.findByAuthorities("TEACHER");
     }
+
+    @Override
+    public void addTeacher(TeacherReqDto teacherReqDto) {}
 }

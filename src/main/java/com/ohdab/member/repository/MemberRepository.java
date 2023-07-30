@@ -10,4 +10,6 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Optional<Member> findByMemberInfoName(String name);
 
     List<Member> findByAuthorities(String role);
+
+    boolean existsByName(String anyString);
 }

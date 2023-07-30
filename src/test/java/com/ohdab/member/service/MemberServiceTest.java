@@ -1,11 +1,13 @@
 package com.ohdab.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.member.service.dto.TeacherReqDto;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -50,6 +52,20 @@ public class MemberServiceTest {
         assertThat(results.get(2).getMemberInfo().getName()).isEqualTo("선생님3");
         assertThat(results.get(2).getMemberInfo().getPassword()).isEqualTo("tjstodsla3");
         assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
+    }
+
+    @Test
+    @DisplayName("선생님 추가 성공 테스트")
+    void 선생님_추가_성공() {
+        // given
+        String name = "선생님";
+        TeacherReqDto teacherReqDto = TeacherReqDto.builder().name(name).build();
+
+        // when
+        Mockito.when(memberRepository.existsByName(Mockito.anyString())).thenReturn(false);
+
+        // then
+        assertThatNoException().isThrownBy(() -> getTeacherListUsecase.addTeacher(teacherReqDto));
     }
 
     private Member createTeacher(String name, String password) {
