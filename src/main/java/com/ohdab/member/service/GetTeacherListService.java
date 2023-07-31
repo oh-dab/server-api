@@ -8,12 +8,11 @@ import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Autowired))
+@RequiredArgsConstructor
 @Transactional(readOnly = true)
 public class GetTeacherListService implements GetTeacherListUsecase {
 
