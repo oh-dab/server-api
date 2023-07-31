@@ -38,22 +38,21 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
         return mapToMistakeNoteInfo(mistakeNote);
     }
 
-    @Override
-    public GetAllMistakeNoteInfoDto getAllMistakeNoteInfo(long workbookId) {
-        return null;
-    }
-
     private List<MistakeNoteInfoDto> mapToMistakeNoteInfo(MistakeNote mistakeNote) {
         List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         Map<Integer, Integer> mistakeRecords = mistakeNote.getMistakeRecords();
         mistakeRecords.forEach(
-                (number, count) -> {
-                    mistakeNoteInfo.add(
-                            MistakeNoteInfoDto.builder()
-                                    .wrongNumber(number)
-                                    .wrongCount(count)
-                                    .build());
-                });
+                (number, count) ->
+                        mistakeNoteInfo.add(
+                                MistakeNoteInfoDto.builder()
+                                        .wrongNumber(number)
+                                        .wrongCount(count)
+                                        .build()));
         return mistakeNoteInfo;
+    }
+
+    @Override
+    public GetAllMistakeNoteInfoDto getAllMistakeNoteInfo(long workbookId) {
+        return null;
     }
 }
