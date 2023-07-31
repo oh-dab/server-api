@@ -1,26 +1,5 @@
 package com.ohdab.mistakenote.controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.StudentDto;
-import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
-import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -32,6 +11,26 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
+import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.StudentDto;
+import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MistakeNoteController.class)
@@ -102,43 +101,27 @@ class MistakeNoteControllerTest {
                 .andDo(print())
                 .andDo(createDocument("mistake_note/saveMistakeNoteInfo"));
     }
-    
+
     @Test
     @WithMockUser
     void 교재_상세조회() throws Exception {
         // given
-        final String GET_MISTAKE_NOTE_INFO_OF_CLASSROOM_URL = "/mistake-notes/workbooks/{workbook-id}";
+        final String GET_MISTAKE_NOTE_INFO_OF_CLASSROOM_URL =
+                "/mistake-notes/workbooks/{workbook-id}";
 
         final List<StudentDto> students = new ArrayList<>();
-        students.add(StudentDto.builder()
-                .studentId(2)
-                .name("갑")
-                .build());
-        students.add(StudentDto.builder()
-                .studentId(3)
-                .name("을")
-                .build());
-        students.add(StudentDto.builder()
-                .studentId(4)
-                .name("병")
-                .build());
+        students.add(StudentDto.builder().studentId(2).name("갑").build());
+        students.add(StudentDto.builder().studentId(3).name("을").build());
+        students.add(StudentDto.builder().studentId(4).name("병").build());
         final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
-        mistakeNoteInfo.add(MistakeNoteInfoDto.builder()
-                .wrongNumber(1)
-                .wrongCount(4)
-                .build());
-        mistakeNoteInfo.add(MistakeNoteInfoDto.builder()
-                .wrongNumber(4)
-                .wrongCount(2)
-                .build());
-        mistakeNoteInfo.add(MistakeNoteInfoDto.builder()
-                .wrongNumber(10)
-                .wrongCount(7)
-                .build());
-        final GetAllMistakeNoteInfoDto getAllMistakeNoteInfoDto = GetAllMistakeNoteInfoDto.builder()
-                .students(students)
-                .mistakeNoteInfo(mistakeNoteInfo)
-                .build();
+        mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(1).wrongCount(4).build());
+        mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(4).wrongCount(2).build());
+        mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(10).wrongCount(7).build());
+        final GetAllMistakeNoteInfoDto getAllMistakeNoteInfoDto =
+                GetAllMistakeNoteInfoDto.builder()
+                        .students(students)
+                        .mistakeNoteInfo(mistakeNoteInfo)
+                        .build();
 
         // when
         when(getMistakeNoteInfoUsecase.getAllMistakeNoteInfo(anyLong()))
@@ -163,12 +146,10 @@ class MistakeNoteControllerTest {
                         jsonPath("$.mistakeNoteInfo.[1].wrongNumber").value("4"),
                         jsonPath("$.mistakeNoteInfo.[1].wrongCount").value("2"),
                         jsonPath("$.mistakeNoteInfo.[2].wrongNumber").value("10"),
-                        jsonPath("$.mistakeNoteInfo.[2].wrongCount").value("7")
-                )
+                        jsonPath("$.mistakeNoteInfo.[2].wrongCount").value("7"))
                 .andDo(print())
                 .andDo(createDocument("mistake_note/getAllMistakeNoteInfo"));
     }
-    
 
     private RestDocumentationResultHandler createDocument(String identifier) {
         return document(

@@ -6,6 +6,7 @@ import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.exception.NoWorkbookException;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
+import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
@@ -35,6 +36,11 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
                                 new WorkbookId(workbookId), new StudentId(studentId))
                         .orElseThrow(() -> new NoWorkbookException("존재하지 않는 오답노트입니다."));
         return mapToMistakeNoteInfo(mistakeNote);
+    }
+
+    @Override
+    public GetAllMistakeNoteInfoDto getAllMistakeNoteInfo(long workbookId) {
+        return null;
     }
 
     private List<MistakeNoteInfoDto> mapToMistakeNoteInfo(MistakeNote mistakeNote) {
