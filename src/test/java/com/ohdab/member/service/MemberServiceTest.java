@@ -9,7 +9,9 @@ import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDto;
 import com.ohdab.member.service.dto.TeacherReqDto;
+import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.mapper.ServiceMemberMapper;
+import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -23,11 +25,17 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GetTeacherListService.class, ServiceMemberMapper.class})
+@ContextConfiguration(
+        classes = {
+            GetTeacherListService.class,
+            ServiceMemberMapper.class,
+            AddTeacherService.class,
+            MemberHelperService.class
+        })
 public class MemberServiceTest {
 
     @Autowired private GetTeacherListUsecase getTeacherListUsecase;
-
+    @Autowired private AddTeacherUsecase addTeacherUsecase;
     @MockBean private MemberRepository memberRepository;
 
     @Test
@@ -67,7 +75,7 @@ public class MemberServiceTest {
         Mockito.when(memberRepository.existsByName(Mockito.anyString())).thenReturn(false);
 
         // then
-        assertThatNoException().isThrownBy(() -> getTeacherListUsecase.addTeacher(teacherReqDto));
+        assertThatNoException().isThrownBy(() -> addTeacherUsecase.addTeacher(teacherReqDto));
     }
 
     private Member createTeacher(String name, String password) {
