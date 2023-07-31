@@ -1,6 +1,6 @@
 package com.ohdab.member.service;
 
-import com.ohdab.member.service.dto.MemberDto;
+import com.ohdab.member.domain.Member;
 import com.ohdab.member.service.helper.MemberHelperService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -20,20 +20,20 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        MemberDto memberDto = memberHelperService.findExistingMember(name);
-        return createUserDetails(memberDto);
+        Member member = memberHelperService.findExistingMember(name);
+        return createUserDetails(member);
     }
 
-    private UserDetails createUserDetails(MemberDto memberDto) {
+    private UserDetails createUserDetails(Member member) {
         return new User(
-                memberDto.getName(),
-                memberDto.getPassword(),
-                mapToSimpleGrandAuthority(memberDto.getAuthorities()));
+                member.getMemberInfo().getName(),
+                member.getMemberInfo().getPassword(),
+                mapToSimpleGrandAuthority(member));
     }
 
-    private List<SimpleGrantedAuthority> mapToSimpleGrandAuthority(List<String> authorities) {
-        return authorities.stream()
-                .map(authority -> new SimpleGrantedAuthority(authority))
+    private List<SimpleGrantedAuthority> mapToSimpleGrandAuthority(Member member) {
+        return member.getAuthorities().stream()
+                .map(authority -> new SimpleGrantedAuthority(authority.getRole()))
                 .collect(Collectors.toList());
     }
 }
