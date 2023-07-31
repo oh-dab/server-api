@@ -17,6 +17,6 @@ public final class MemberHelperService {
     }
 
     public boolean checkIfMemberExistByName(MemberRepository memberRepository, String name) {
-        return memberRepository.existsByName(name);
+        return memberRepository.existsByMemberInfoName(name);
     }
 }

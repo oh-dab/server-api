@@ -72,7 +72,8 @@ public class MemberServiceTest {
         TeacherReqDto teacherReqDto = TeacherReqDto.builder().name(name).build();
 
         // when
-        Mockito.when(memberRepository.existsByName(Mockito.anyString())).thenReturn(false);
+        Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString()))
+                .thenReturn(false);
 
         // then
         assertThatNoException().isThrownBy(() -> addTeacherUsecase.addTeacher(teacherReqDto));

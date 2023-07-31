@@ -11,7 +11,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     List<Member> findByAuthorities(String role);
 
-    boolean existsByName(String name);
+    boolean existsByMemberInfoName(String name);
 
-    Long countByNameContaining(String name);
+    Long countByMemberInfoNameContaining(String name);
 }

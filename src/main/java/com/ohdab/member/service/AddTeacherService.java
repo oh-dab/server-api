@@ -38,7 +38,7 @@ public class AddTeacherService implements AddTeacherUsecase {
 
     private String changeIfDuplicatedName(String name) {
         if (memberHelperService.checkIfMemberExistByName(memberRepository, name)) {
-            Long sameNameCount = memberRepository.countByNameContaining(name);
+            Long sameNameCount = memberRepository.countByMemberInfoNameContaining(name);
             return name = name + sameNameCount.toString();
         }
         return name;
