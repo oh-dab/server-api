@@ -46,6 +46,17 @@ public class MistakeNoteMapper {
                 .build();
     }
 
+    private static List<StudentRes> mapToStudentRes(List<StudentDto> students) {
+        return students.stream()
+                .map(
+                        dto ->
+                                StudentRes.builder()
+                                        .studentId(dto.getStudentId())
+                                        .name(dto.getName())
+                                        .build())
+                .collect(Collectors.toList());
+    }
+
     private static List<GetMistakeNoteInfoRes> mapToMistakeNoteInfoRes(
             List<MistakeNoteInfoDto> mistakeNoteInfo) {
         return mistakeNoteInfo.stream()
@@ -54,17 +65,6 @@ public class MistakeNoteMapper {
                                 GetMistakeNoteInfoRes.builder()
                                         .wrongNumber(dto.getWrongNumber())
                                         .wrongCount(dto.getWrongCount())
-                                        .build())
-                .collect(Collectors.toList());
-    }
-
-    private static List<StudentRes> mapToStudentRes(List<StudentDto> students) {
-        return students.stream()
-                .map(
-                        dto ->
-                                StudentRes.builder()
-                                        .studentId(dto.getStudentId())
-                                        .name(dto.getName())
                                         .build())
                 .collect(Collectors.toList());
     }
