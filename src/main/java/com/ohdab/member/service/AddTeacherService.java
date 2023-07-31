@@ -23,7 +23,7 @@ public class AddTeacherService implements AddTeacherUsecase {
     @Override
     public void addTeacher(TeacherReqDto teacherReqDto) {
         String name = teacherReqDto.getName();
-        name = changeIfDuplicatedName(name);
+        name = changeNameIfDuplicated(name);
         String password = name;
         JoinReqDto joinReqDto =
                 JoinReqDto.builder()
@@ -36,7 +36,7 @@ public class AddTeacherService implements AddTeacherUsecase {
         // throwIfJoinFailed(name);
     }
 
-    private String changeIfDuplicatedName(String name) {
+    private String changeNameIfDuplicated(String name) {
         if (memberHelperService.checkIfMemberExistByName(memberRepository, name)) {
             Long sameNameCount = memberRepository.countByMemberInfoNameContaining(name);
             return name = name + sameNameCount.toString();
