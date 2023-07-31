@@ -7,7 +7,9 @@ import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.member.service.dto.MemberDto;
 import com.ohdab.member.service.dto.TeacherReqDto;
+import com.ohdab.member.service.mapper.ServiceMemberMapper;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +23,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GetTeacherListService.class})
+@ContextConfiguration(classes = {GetTeacherListService.class, ServiceMemberMapper.class})
 public class MemberServiceTest {
 
     @Autowired private GetTeacherListUsecase getTeacherListUsecase;
@@ -39,19 +41,19 @@ public class MemberServiceTest {
 
         // when
         Mockito.when(memberRepository.findByAuthorities(Mockito.anyString())).thenReturn(teachers);
-        List<Member> results = getTeacherListUsecase.getTeacherList();
+        List<MemberDto> results = getTeacherListUsecase.getTeacherList();
 
         // then
         assertThat(results.size()).isEqualTo(3);
-        assertThat(results.get(0).getMemberInfo().getName()).isEqualTo("선생님1");
-        assertThat(results.get(0).getMemberInfo().getPassword()).isEqualTo("tjstodsla1");
-        assertThat(results.get(0).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
-        assertThat(results.get(1).getMemberInfo().getName()).isEqualTo("선생님2");
-        assertThat(results.get(1).getMemberInfo().getPassword()).isEqualTo("tjstodsla2");
-        assertThat(results.get(1).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
-        assertThat(results.get(2).getMemberInfo().getName()).isEqualTo("선생님3");
-        assertThat(results.get(2).getMemberInfo().getPassword()).isEqualTo("tjstodsla3");
-        assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
+        assertThat(results.get(0).getName()).isEqualTo("선생님1");
+        assertThat(results.get(0).getPassword()).isEqualTo("tjstodsla1");
+        assertThat(results.get(0).getAuthorities().get(0)).isEqualTo("TEACHER");
+        assertThat(results.get(1).getName()).isEqualTo("선생님2");
+        assertThat(results.get(1).getPassword()).isEqualTo("tjstodsla2");
+        assertThat(results.get(1).getAuthorities().get(0)).isEqualTo("TEACHER");
+        assertThat(results.get(2).getName()).isEqualTo("선생님3");
+        assertThat(results.get(2).getPassword()).isEqualTo("tjstodsla3");
+        assertThat(results.get(2).getAuthorities().get(0)).isEqualTo("TEACHER");
     }
 
     @Test
