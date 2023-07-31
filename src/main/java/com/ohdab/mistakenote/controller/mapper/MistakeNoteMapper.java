@@ -7,6 +7,7 @@ import com.ohdab.mistakenote.controller.response.StudentRes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.StudentDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -39,24 +40,32 @@ public class MistakeNoteMapper {
     public static GetAllMistakeNoteInfoRes toGetAllMistakeNoteInfoRes(
             GetAllMistakeNoteInfoDto getAllMistakeNoteInfoDto) {
         return GetAllMistakeNoteInfoRes.builder()
-                .students(
-                        getAllMistakeNoteInfoDto.getStudents().stream()
-                                .map(
-                                        dto ->
-                                                StudentRes.builder()
-                                                        .studentId(dto.getStudentId())
-                                                        .name(dto.getName())
-                                                        .build())
-                                .collect(Collectors.toList()))
+                .students(mapToStudentRes(getAllMistakeNoteInfoDto.getStudents()))
                 .mistakeNoteInfo(
-                        getAllMistakeNoteInfoDto.getMistakeNoteInfo().stream()
-                                .map(
-                                        dto ->
-                                                GetMistakeNoteInfoRes.builder()
-                                                        .wrongNumber(dto.getWrongNumber())
-                                                        .wrongCount(dto.getWrongCount())
-                                                        .build())
-                                .collect(Collectors.toList()))
+                        mapToMistakeNoteInfoRes(getAllMistakeNoteInfoDto.getMistakeNoteInfo()))
                 .build();
+    }
+
+    private static List<GetMistakeNoteInfoRes> mapToMistakeNoteInfoRes(
+            List<MistakeNoteInfoDto> mistakeNoteInfo) {
+        return mistakeNoteInfo.stream()
+                .map(
+                        dto ->
+                                GetMistakeNoteInfoRes.builder()
+                                        .wrongNumber(dto.getWrongNumber())
+                                        .wrongCount(dto.getWrongCount())
+                                        .build())
+                .collect(Collectors.toList());
+    }
+
+    private static List<StudentRes> mapToStudentRes(List<StudentDto> students) {
+        return students.stream()
+                .map(
+                        dto ->
+                                StudentRes.builder()
+                                        .studentId(dto.getStudentId())
+                                        .name(dto.getName())
+                                        .build())
+                .collect(Collectors.toList());
     }
 }
