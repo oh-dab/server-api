@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class TeacherReqDto {
+public class AddTeacherReqDto {
 
     private String name;
 }

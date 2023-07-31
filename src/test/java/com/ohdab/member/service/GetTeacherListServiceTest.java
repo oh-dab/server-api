@@ -1,17 +1,13 @@
 package com.ohdab.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDto;
-import com.ohdab.member.service.dto.TeacherReqDto;
-import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.mapper.ServiceMemberMapper;
-import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -25,17 +21,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(
-        classes = {
-            GetTeacherListService.class,
-            ServiceMemberMapper.class,
-            AddTeacherService.class,
-            MemberHelperService.class
-        })
-public class MemberServiceTest {
+@ContextConfiguration(classes = {GetTeacherListService.class, ServiceMemberMapper.class})
+public class GetTeacherListServiceTest {
 
     @Autowired private GetTeacherListUsecase getTeacherListUsecase;
-    @Autowired private AddTeacherUsecase addTeacherUsecase;
     @MockBean private MemberRepository memberRepository;
 
     @Test
@@ -62,21 +51,6 @@ public class MemberServiceTest {
         assertThat(results.get(2).getName()).isEqualTo("선생님3");
         assertThat(results.get(2).getPassword()).isEqualTo("tjstodsla3");
         assertThat(results.get(2).getAuthorities().get(0)).isEqualTo("TEACHER");
-    }
-
-    @Test
-    @DisplayName("선생님 추가 성공 테스트")
-    void 선생님_추가_성공() {
-        // given
-        String name = "선생님";
-        TeacherReqDto teacherReqDto = TeacherReqDto.builder().name(name).build();
-
-        // when
-        Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString()))
-                .thenReturn(false);
-
-        // then
-        assertThatNoException().isThrownBy(() -> addTeacherUsecase.addTeacher(teacherReqDto));
     }
 
     private Member createTeacher(String name, String password) {

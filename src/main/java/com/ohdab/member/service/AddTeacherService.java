@@ -2,8 +2,8 @@ package com.ohdab.member.service;
 
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.member.service.dto.AddTeacherReqDto;
 import com.ohdab.member.service.dto.JoinReqDto;
-import com.ohdab.member.service.dto.TeacherReqDto;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import java.util.List;
@@ -21,8 +21,8 @@ public class AddTeacherService implements AddTeacherUsecase {
     private final MemberHelperService memberHelperService;
 
     @Override
-    public void addTeacher(TeacherReqDto teacherReqDto) {
-        String name = teacherReqDto.getName();
+    public void addTeacher(AddTeacherReqDto addTeacherReqDto) {
+        String name = addTeacherReqDto.getName();
         name = changeNameIfDuplicated(name);
         String password = name;
         JoinReqDto joinReqDto =
