@@ -4,7 +4,9 @@ import com.ohdab.core.util.jwt.JwtTokenProvider;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.service.dto.LoginReqDto;
 import com.ohdab.member.service.dto.LoginResDto;
+import com.ohdab.member.service.dto.MemberDto;
 import com.ohdab.member.service.helper.MemberHelperService;
+import com.ohdab.member.service.mapper.ServiceMemberMapper;
 import com.ohdab.member.service.usecase.LoginUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -25,11 +27,13 @@ public class LoginService implements LoginUsecase {
     private final UserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
     private final PasswordEncoder passwordEncoder;
+    private final ServiceMemberMapper serviceMemberMapper;
 
     @Override
     public LoginResDto login(LoginReqDto loginReqDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginReqDto.getName());
-        Member member = memberHelperService.findExistingMember(loginReqDto.getName());
+        MemberDto memberDto = memberHelperService.findExistingMember(loginReqDto.getName());
+        Member member = serviceMemberMapper.memberDtoToMemberDomain(memberDto);
         if (!member.matchPassword(
                 passwordEncoder, loginReqDto.getPassword(), userDetails.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");

@@ -6,6 +6,7 @@ import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.exception.DuplicatedMemberException;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.JoinReqDto;
+import com.ohdab.member.service.dto.MemberDto;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;
 import java.util.Optional;
@@ -32,8 +33,8 @@ public class JoinService implements JoinUsecase {
     }
 
     private void checkDuplicatedMember(String name) {
-        Optional<Member> member = memberRepository.findByMemberInfoName(name);
-        if (member.isPresent()) {
+        Optional<MemberDto> memberDto = memberRepository.findByMemberInfoName(name);
+        if (memberDto.isPresent()) {
             throw new DuplicatedMemberException("이미 존재하는 회원입니다.");
         }
     }

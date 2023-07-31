@@ -1,7 +1,7 @@
 package com.ohdab.member.service;
 
-import com.ohdab.member.domain.Member;
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.member.service.dto.MemberDto;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
@@ -16,7 +16,7 @@ public class GetTeacherListService implements GetTeacherListUsecase {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<Member> getTeacherList() {
+    public List<MemberDto> getTeacherList() {
         return memberRepository.findByAuthorities("TEACHER");
     }
 }
