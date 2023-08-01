@@ -5,11 +5,10 @@ import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.mapper.ClassroomServiceMapper;
 import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
 
 @Service
 @RequiredArgsConstructor
