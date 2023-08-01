@@ -54,7 +54,6 @@ class GetMistakeNoteInfoServiceTest {
         mistakeRecords.put(1, 2);
         mistakeRecords.put(2, 4);
         mistakeRecords.put(4, 1);
-
         MistakeNote mistakeNote =
                 MistakeNote.builder()
                         .workbookId(new WorkbookId(workbookId))

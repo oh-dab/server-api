@@ -45,6 +45,7 @@ class MistakeNoteControllerTest {
         // given
         final String GET_MISTAKE_NOTE_INFO_BY_STUDENT_URL =
                 "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
+
         final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(1).wrongCount(3).build());
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(2).wrongCount(1).build());
@@ -75,7 +76,11 @@ class MistakeNoteControllerTest {
         // given
         final String SAVE_MISTAKE_NOTE_INFO_URL =
                 "/mistake-notes/workbooks/{workbook-id}/students/{student-id}";
-        final int[] mistakeNumbers = {1, 2, 3, 4, 5};
+
+        final List<Integer> mistakeNumbers = new ArrayList<>();
+        mistakeNumbers.add(1);
+        mistakeNumbers.add(2);
+        mistakeNumbers.add(3);
         final SaveMistakeNoteInfoReq saveMistakeNoteInfoReq =
                 SaveMistakeNoteInfoReq.builder().mistakeNumbers(mistakeNumbers).build();
 
