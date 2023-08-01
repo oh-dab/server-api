@@ -1,5 +1,7 @@
 package com.ohdab.classroom.service;
 
+import static org.assertj.core.api.Assertions.assertThatNoException;
+
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomReqDto;
 import com.ohdab.member.repository.MemberRepository;
@@ -11,8 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import static org.assertj.core.api.Assertions.assertThatNoException;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AddClassroomService.class})
