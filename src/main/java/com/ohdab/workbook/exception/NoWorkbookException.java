@@ -1,4 +1,4 @@
-package com.ohdab.mistakenote.exception;
+package com.ohdab.workbook.exception;
 
 public class NoWorkbookException extends RuntimeException {
 

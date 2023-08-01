@@ -1,5 +1,6 @@
 package com.ohdab.mistakenote.service.dto;
 
+import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -9,5 +10,5 @@ public class SaveMistakeNoteInfoDto {
 
     private long workbookId;
     private long studentId;
-    private int[] mistakeNumbers;
+    private List<Integer> mistakeNumbers;
 }
