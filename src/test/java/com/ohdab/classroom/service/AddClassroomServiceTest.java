@@ -1,6 +1,6 @@
 package com.ohdab.classroom.service;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomReqDto;
@@ -15,10 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AddClassroomService.class})
+@ContextConfiguration(classes = {AddAddClassroomService.class})
 class AddClassroomServiceTest {
 
-    @Autowired private AddClassroomService addClassroomService;
+    @Autowired private AddAddClassroomService addClassroomService;
     @MockBean private MemberRepository memberRepository;
     @MockBean private ClassroomRepository classroomRepository;
 
@@ -26,7 +26,7 @@ class AddClassroomServiceTest {
     @DisplayName("반 정보와 선생님 id를 통해 반을 추가 테스트")
     void 반추가() throws Exception {
         // given
-        Long id = 1L;
+        long id = 1L;
         String name = "1반";
         String desc = "1반에 대한 설명입니다.";
         String grade = "high1";
