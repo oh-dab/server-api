@@ -5,20 +5,17 @@ import static org.assertj.core.api.Assertions.assertThat;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-@ExtendWith(SpringExtension.class)
 @DataJpaTest
-@EnableConfigurationProperties
 class MistakeNoteRepositoryTest {
 
     @Autowired private MistakeNoteRepository mistakeNoteRepository;
@@ -28,14 +25,13 @@ class MistakeNoteRepositoryTest {
     @Test
     void 학생별_오답노트_조회() {
         // given
-        final StudentId studentId = new StudentId(1);
-        final WorkbookId workbookId = new WorkbookId(2);
+        final StudentId studentId = new StudentId(1L);
+        final WorkbookId workbookId = new WorkbookId(2L);
 
         final Map<Integer, Integer> mistakeRecords = new HashMap<>();
         mistakeRecords.put(1, 2);
         mistakeRecords.put(2, 4);
         mistakeRecords.put(4, 1);
-
         final MistakeNote mistakeNote =
                 MistakeNote.builder()
                         .workbookId(workbookId)
@@ -57,5 +53,55 @@ class MistakeNoteRepositoryTest {
         assertThat(result.getMistakeRecords()).containsEntry(1, 2);
         assertThat(result.getMistakeRecords()).containsEntry(2, 4);
         assertThat(result.getMistakeRecords()).containsEntry(4, 1);
+    }
+
+    @DisplayName("변경감지를 활용하여 틀린 문제 번호마다 틀린 횟수를 저장한다.")
+    @Test
+    void 오답_기록하기() {
+        // given
+        final List<Integer> numbers = new ArrayList<>();
+        numbers.add(1);
+        numbers.add(2);
+        numbers.add(3);
+        numbers.add(5);
+
+        final StudentId studentId = new StudentId(1L);
+        final WorkbookId workbookId = new WorkbookId(2L);
+
+        final Map<Integer, Integer> mistakeRecords = new HashMap<>();
+        mistakeRecords.put(1, 2);
+        mistakeRecords.put(2, 4);
+        mistakeRecords.put(4, 1);
+        final MistakeNote mistakeNote =
+                MistakeNote.builder()
+                        .workbookId(workbookId)
+                        .studentId(studentId)
+                        .mistakeRecords(mistakeRecords)
+                        .build();
+
+        MistakeNote savedMistakeNote = mistakeNoteRepository.save(mistakeNote);
+        Map<Integer, Integer> savedRecords = savedMistakeNote.getMistakeRecords();
+
+        // when
+        numbers.forEach(
+                number -> {
+                    if (savedRecords.containsKey(number)) {
+                        savedRecords.put(number, savedRecords.get(number) + 1);
+                    } else {
+                        savedRecords.put(number, 1);
+                    }
+                });
+        em.flush();
+        em.clear();
+
+        // then
+        MistakeNote result = mistakeNoteRepository.findById(savedMistakeNote.getId()).get();
+        Map<Integer, Integer> resultRecords = result.getMistakeRecords();
+        assertThat(resultRecords)
+                .containsEntry(1, 3)
+                .containsEntry(2, 5)
+                .containsEntry(3, 1)
+                .containsEntry(4, 1)
+                .containsEntry(5, 1);
     }
 }
