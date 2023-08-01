@@ -15,10 +15,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AddClassroomService.class})
+@ContextConfiguration(classes = {AddAddClassroomService.class})
 class AddClassroomServiceTest {
 
-    @Autowired private AddClassroomService addClassroomService;
+    @Autowired private AddAddClassroomService addClassroomService;
     @MockBean private MemberRepository memberRepository;
     @MockBean private ClassroomRepository classroomRepository;
 
