@@ -7,7 +7,7 @@ import com.ohdab.classroom.exception.CannotFindGradeException;
 import com.ohdab.classroom.exception.CannotFindTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomReqDto;
-import com.ohdab.classroom.service.usecase.ClassroomUsecase;
+import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class AddClassroomService implements ClassroomUsecase {
+public class AddAddClassroomService implements AddClassroomUsecase {
 
     private final MemberRepository memberRepository;
     private final ClassroomRepository classroomRepository;
