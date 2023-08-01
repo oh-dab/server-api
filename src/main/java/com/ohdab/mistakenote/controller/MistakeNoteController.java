@@ -3,10 +3,10 @@ package com.ohdab.mistakenote.controller;
 import com.ohdab.mistakenote.controller.mapper.MistakeNoteMapper;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.controller.response.GetAllMistakeNoteInfoRes;
-import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoRes;
+import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoOfStudentRes;
 import com.ohdab.mistakenote.controller.response.SaveMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.List;
@@ -24,13 +24,13 @@ public class MistakeNoteController {
     private final SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
 
     @GetMapping("/workbooks/{workbook-id}/students/{student-id}")
-    public ResponseEntity<List<GetMistakeNoteInfoRes>> getNoteInfoByStudent(
+    public ResponseEntity<List<GetMistakeNoteInfoOfStudentRes>> getMistakeNoteInfoOfStudent(
             @Valid @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "student-id") long studentId) {
-        List<MistakeNoteInfoDto> mistakeNoteInfo =
-                getMistakeNoteInfoUsecase.getMistakeNoteInfoByStudent(workbookId, studentId);
+        GetMistakeNoteInfoOfStudent.Response mistakeNoteInfo =
+                getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
         return ResponseEntity.ok(
-                MistakeNoteMapper.toGetMistakeNoteInfoByStudentRes(mistakeNoteInfo));
+                MistakeNoteMapper.toGetMistakeNoteInfoOfStudentRes(mistakeNoteInfo));
     }
 
     @PostMapping("/workbooks/{workbook-id}/students/{student-id}")
@@ -47,7 +47,7 @@ public class MistakeNoteController {
     @GetMapping("/workbooks/{workbook-id}")
     public ResponseEntity<GetAllMistakeNoteInfoRes> getAllMistakeNoteInfo(
             @PathVariable(name = "workbook-id") long workbookId) {
-        GetAllMistakeNoteInfoDto getAllMistakeNoteInfoDto =
+        GetAllMistakeNoteInfoDto.Response getAllMistakeNoteInfoDto =
                 getMistakeNoteInfoUsecase.getAllMistakeNoteInfo(workbookId);
         return ResponseEntity.ok(
                 MistakeNoteMapper.toGetAllMistakeNoteInfoRes(getAllMistakeNoteInfoDto));

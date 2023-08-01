@@ -7,7 +7,8 @@ import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.exception.NoWorkbookException;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent.Response.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
@@ -26,7 +27,8 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
     private final MemberRepository memberRepository;
 
     @Override
-    public List<MistakeNoteInfoDto> getMistakeNoteInfoByStudent(long workbookId, long studentId) {
+    public GetMistakeNoteInfoOfStudent.Response getMistakeNoteInfoOfStudent(
+            long workbookId, long studentId) {
         if (mistakeNoteHelperService.isNotExistingMember(memberRepository, studentId)) {
             throw new NoMemberException("존재하지 않는 회원입니다.");
         }
@@ -38,7 +40,7 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
         return mapToMistakeNoteInfo(mistakeNote);
     }
 
-    private List<MistakeNoteInfoDto> mapToMistakeNoteInfo(MistakeNote mistakeNote) {
+    private GetMistakeNoteInfoOfStudent.Response mapToMistakeNoteInfo(MistakeNote mistakeNote) {
         List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         Map<Integer, Integer> mistakeRecords = mistakeNote.getMistakeRecords();
         mistakeRecords.forEach(
@@ -48,11 +50,13 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
                                         .wrongNumber(number)
                                         .wrongCount(count)
                                         .build()));
-        return mistakeNoteInfo;
+        return GetMistakeNoteInfoOfStudent.Response.builder()
+                .mistakeNoteInfo(mistakeNoteInfo)
+                .build();
     }
 
     @Override
-    public GetAllMistakeNoteInfoDto getAllMistakeNoteInfo(long workbookId) {
+    public GetAllMistakeNoteInfoDto.Response getAllMistakeNoteInfo(long workbookId) {
         return null;
     }
 }

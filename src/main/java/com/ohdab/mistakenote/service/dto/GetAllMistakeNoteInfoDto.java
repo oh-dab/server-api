@@ -1,26 +1,32 @@
 package com.ohdab.mistakenote.service.dto;
 
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class GetAllMistakeNoteInfoDto {
 
     @Getter
     @Builder
     public static class Response {
-        private List<StudentInfo> students;
-        private List<AllMistakeNoteInfoRes> allMistakeNoteInfo;
+        private List<StudentInfoDto> students;
+        private List<AllMistakeNoteInfoDto> allMistakeNoteInfo;
 
-        public static class StudentInfo {}
-    }
+        @Getter
+        @Builder
+        public static class StudentInfoDto {
+            private long studentId;
+            private String name;
+        }
 
-    @Getter
-    @Builder
-    public static class Request {
-        private List<StudentRes> students;
-        private List<AllMistakeNoteInfoRes> allMistakeNoteInfo;
+        @Getter
+        @Builder
+        public static class AllMistakeNoteInfoDto {
+            private int wrongNumber;
+            private int wrongStudentsCount;
+        }
     }
 }

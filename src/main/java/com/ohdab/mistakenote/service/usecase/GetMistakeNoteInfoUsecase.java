@@ -1,12 +1,12 @@
 package com.ohdab.mistakenote.service.usecase;
 
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
-import java.util.List;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
 
 public interface GetMistakeNoteInfoUsecase {
 
-    List<MistakeNoteInfoDto> getMistakeNoteInfoByStudent(long workbookId, long studentId);
+    GetMistakeNoteInfoOfStudent.Response getMistakeNoteInfoOfStudent(
+            long workbookId, long studentId);
 
-    GetAllMistakeNoteInfoDto getAllMistakeNoteInfo(long workbookId);
+    GetAllMistakeNoteInfoDto.Response getAllMistakeNoteInfo(long workbookId);
 }
