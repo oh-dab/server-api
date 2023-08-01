@@ -4,7 +4,7 @@ import com.ohdab.classroom.controller.mapper.ClassroomMapper;
 import com.ohdab.classroom.controller.request.ClassroomReq;
 import com.ohdab.classroom.controller.response.ClassroomRes;
 import com.ohdab.classroom.service.dto.ClassroomReqDto;
-import com.ohdab.classroom.service.usecase.ClassroomUsecase;
+import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -18,14 +18,14 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/classrooms")
 public class ClassroomController {
 
-    private final ClassroomUsecase classroomUsecase;
+    private final AddClassroomUsecase addClassroomUsecase;
 
     @PostMapping("/enrollment")
     public ResponseEntity<ClassroomRes> addClassroom(
             @Valid @RequestBody ClassroomReq classroomReq) {
         ClassroomReqDto classroomReqDto =
                 ClassroomMapper.classroomReqToClassroomReqDto(classroomReq);
-        classroomUsecase.addClassroom(classroomReqDto);
+        addClassroomUsecase.addClassroom(classroomReqDto);
         return ResponseEntity.ok(ClassroomMapper.createClassRoomRes());
     }
 }

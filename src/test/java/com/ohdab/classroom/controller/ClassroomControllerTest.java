@@ -9,7 +9,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.ClassroomReq;
-import com.ohdab.classroom.service.usecase.ClassroomUsecase;
+import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -26,7 +26,7 @@ class ClassroomControllerTest {
 
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
-    @MockBean private ClassroomUsecase classroomUsecase;
+    @MockBean private AddClassroomUsecase addClassroomUsecase;
 
     @Test
     @WithMockUser
