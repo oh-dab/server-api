@@ -8,6 +8,19 @@ import lombok.Getter;
 @Builder
 public class GetAllMistakeNoteInfoDto {
 
-    private List<StudentDto> students;
-    private List<MistakeNoteInfoDto> mistakeNoteInfo;
+    @Getter
+    @Builder
+    public static class Response {
+        private List<StudentInfo> students;
+        private List<AllMistakeNoteInfoRes> allMistakeNoteInfo;
+
+        public static class StudentInfo {}
+    }
+
+    @Getter
+    @Builder
+    public static class Request {
+        private List<StudentRes> students;
+        private List<AllMistakeNoteInfoRes> allMistakeNoteInfo;
+    }
 }
