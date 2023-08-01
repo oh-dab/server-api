@@ -6,6 +6,7 @@ import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.AddTeacherReqDto;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
+import com.ohdab.member.service.usecase.JoinUsecase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,6 +22,7 @@ public class AddTeacherServiceTest {
 
     @Autowired private AddTeacherUsecase addTeacherUsecase;
     @MockBean private MemberRepository memberRepository;
+    @MockBean private JoinUsecase joinUsecase;
 
     @Test
     @DisplayName("선생님 추가 성공 테스트")
@@ -32,6 +34,7 @@ public class AddTeacherServiceTest {
         // when
         Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString()))
                 .thenReturn(false);
+        Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString())).thenReturn(true);
 
         // then
         assertThatNoException().isThrownBy(() -> addTeacherUsecase.addTeacher(addTeacherReqDto));

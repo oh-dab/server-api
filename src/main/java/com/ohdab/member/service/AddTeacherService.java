@@ -6,6 +6,7 @@ import com.ohdab.member.service.dto.AddTeacherReqDto;
 import com.ohdab.member.service.dto.JoinReqDto;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
+import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddTeacherService implements AddTeacherUsecase {
 
     private final MemberRepository memberRepository;
-    // private final JoinService joinService;
+    private final JoinUsecase joinUsecase;
     private final MemberHelperService memberHelperService;
 
     @Override
@@ -32,14 +33,14 @@ public class AddTeacherService implements AddTeacherUsecase {
                         .role(List.of("TEACHER", "STUDENT"))
                         .build();
         // TODO:선생님 추가 시 회원가입 요청
-        // joinService.join(joinReqDto);
-        // throwIfJoinFailed(name);
+        joinUsecase.join(joinReqDto);
+        throwIfJoinFailed(name);
     }
 
     private String changeNameIfDuplicated(String name) {
         if (memberHelperService.checkIfMemberExistByName(memberRepository, name)) {
-            Long sameNameCount = memberRepository.countByMemberInfoNameContaining(name);
-            return name = name + sameNameCount.toString();
+            long sameNameCount = memberRepository.countByMemberInfoNameContaining(name);
+            return name = name + sameNameCount;
         }
         return name;
     }

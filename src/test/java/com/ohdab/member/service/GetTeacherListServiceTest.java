@@ -7,7 +7,6 @@ import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDto;
-import com.ohdab.member.service.mapper.ServiceMemberMapper;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -21,7 +20,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GetTeacherListService.class, ServiceMemberMapper.class})
+@ContextConfiguration(classes = {GetTeacherListService.class})
 public class GetTeacherListServiceTest {
 
     @Autowired private GetTeacherListUsecase getTeacherListUsecase;
