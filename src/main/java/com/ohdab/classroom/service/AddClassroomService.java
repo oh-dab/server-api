@@ -53,7 +53,7 @@ public class AddClassroomService implements ClassroomUsecase {
         try {
             return Grade.valueOfLabel(stringGrade);
         } catch (Exception e) {
-            throw new CannotFindGradeException("Cannot find Grade : " + stringGrade);
+            throw new CannotFindGradeException("Cannot find Grade : " + stringGrade, e);
         }
     }
 }
