@@ -26,3 +26,15 @@ include::{snippets}/members/login/http-request.adoc[]
 ==== Response
 
 include::{snippets}/members/login/http-response.adoc[]
+
+== Classroom
+
+=== 반 추가
+
+=== Request
+
+include::{snippets}/classrooms/enrollment/http-request.adoc[]
+
+=== Response
+
+include::{snippets}/classrooms/enrollment/http-response.adoc[]
