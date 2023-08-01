@@ -1,6 +1,7 @@
 package com.ohdab.member.service;
 
 import com.ohdab.member.domain.Member;
+import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.helper.MemberHelperService;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -16,11 +17,12 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public class UserDetailServiceImpl implements UserDetailsService {
 
+    private final MemberRepository memberRepository;
     private final MemberHelperService memberHelperService;
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Member member = memberHelperService.findExistingMember(name);
+        Member member = memberHelperService.findExistingMember(memberRepository, name);
         return createUserDetails(member);
     }
 

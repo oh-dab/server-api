@@ -10,11 +10,13 @@ import org.springframework.stereotype.Service;
 @RequiredArgsConstructor
 public final class MemberHelperService {
 
-    private final MemberRepository memberRepository;
-
-    public Member findExistingMember(String name) {
+    public Member findExistingMember(MemberRepository memberRepository, String name) {
         return memberRepository
                 .findByMemberInfoName(name)
                 .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다."));
+    }
+
+    public boolean checkIfMemberExistByName(MemberRepository memberRepository, String name) {
+        return memberRepository.existsByMemberInfoName(name);
     }
 }

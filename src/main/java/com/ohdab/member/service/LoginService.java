@@ -2,6 +2,7 @@ package com.ohdab.member.service;
 
 import com.ohdab.core.util.jwt.JwtTokenProvider;
 import com.ohdab.member.domain.Member;
+import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.LoginReqDto;
 import com.ohdab.member.service.dto.LoginResDto;
 import com.ohdab.member.service.helper.MemberHelperService;
@@ -21,6 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class LoginService implements LoginUsecase {
 
+    private final MemberRepository memberRepository;
     private final MemberHelperService memberHelperService;
     private final UserDetailsService userDetailsService;
     private final JwtTokenProvider jwtTokenProvider;
@@ -29,7 +31,8 @@ public class LoginService implements LoginUsecase {
     @Override
     public LoginResDto login(LoginReqDto loginReqDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginReqDto.getName());
-        Member member = memberHelperService.findExistingMember(loginReqDto.getName());
+        Member member =
+                memberHelperService.findExistingMember(memberRepository, loginReqDto.getName());
         if (!member.matchPassword(
                 passwordEncoder, loginReqDto.getPassword(), userDetails.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
