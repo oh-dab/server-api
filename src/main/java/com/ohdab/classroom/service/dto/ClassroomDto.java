@@ -1,9 +1,9 @@
 package com.ohdab.classroom.service.dto;
 
-import com.ohdab.classroom.controller.request.ClassroomReq;
-import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
+
+import java.util.List;
 
 @Getter
 @Builder
@@ -36,17 +36,5 @@ public class ClassroomDto {
         private List<Long> studentIds;
 
         private List<Long> workbookIds;
-    }
-
-    static ClassroomDto.Request toDto(ClassroomReq req) {
-        return Request.builder()
-                .teacherId(req.getTeacherId())
-                .info(
-                        Info.builder()
-                                .name(req.getName())
-                                .description(req.getDescription())
-                                .grade(req.getGrade())
-                                .build())
-                .build();
     }
 }
