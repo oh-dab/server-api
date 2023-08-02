@@ -8,7 +8,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.classroom.controller.request.ClassroomReq;
+import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -33,8 +33,8 @@ class ClassroomControllerTest {
     void 반추가() throws Exception {
         // given
         final String url = "/classrooms/enrollment";
-        final ClassroomReq classroomReq =
-                ClassroomReq.builder()
+        final AddClassroomReq addClassroomReq =
+                AddClassroomReq.builder()
                         .name("1반")
                         .description("1반 설명입니다.")
                         .grade("high1")
@@ -45,7 +45,7 @@ class ClassroomControllerTest {
         mockMvc.perform(
                         post(url)
                                 .with(csrf())
-                                .content(objectMapper.writeValueAsString(classroomReq))
+                                .content(objectMapper.writeValueAsString(addClassroomReq))
                                 .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
                         status().isOk(),
