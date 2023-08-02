@@ -22,7 +22,7 @@ class AddClassroomRepositoryTest {
     @DisplayName("반 추가 (저장) 테스트 -> 선생님 아이디를 통해 조회")
     void 반_추가_테스트() {
         // given
-        Long id = 1L;
+        long id = 1L;
         TeacherId teacherId = TeacherId.builder().id(id).build();
         String name = "1반";
         String desc = "1반에 대한 설명입니다.";
