@@ -32,11 +32,11 @@ public class ClassroomMapper {
     public static ClassroomResList classroomDtoListToClassroomResList(
             List<ClassroomDto.Response> classroomDtoList) {
         return ClassroomResList.builder()
-                .classroomResList(
+                .classroomInfoList(
                         classroomDtoList.stream()
                                 .map(
                                         classroomDto ->
-                                                ClassroomResList.ClassroomRes.builder()
+                                                ClassroomResList.ClassroomInfo.builder()
                                                         .id(classroomDto.getId())
                                                         .name(classroomDto.getInfo().getName())
                                                         .description(

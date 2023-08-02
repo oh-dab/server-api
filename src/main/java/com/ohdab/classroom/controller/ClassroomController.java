@@ -2,7 +2,6 @@ package com.ohdab.classroom.controller;
 
 import com.ohdab.classroom.controller.mapper.ClassroomMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
-import com.ohdab.classroom.controller.request.TeacherIdReq;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
 import com.ohdab.classroom.service.dto.ClassroomDto;
@@ -33,9 +32,9 @@ public class ClassroomController {
 
     @GetMapping("")
     public ResponseEntity<ClassroomResList> getClassroomListByTeacherId(
-            @Valid @RequestBody TeacherIdReq teacherIdReq) {
+            @RequestParam(name = "teacherId") long teacherId) {
         List<ClassroomDto.Response> responses =
-                findClassroomListUsecase.findClassroomListByTeacherId(teacherIdReq.getTeacherId());
+                findClassroomListUsecase.findClassroomListByTeacherId(teacherId);
         return ResponseEntity.ok(ClassroomMapper.classroomDtoListToClassroomResList(responses));
     }
 }
