@@ -4,5 +4,5 @@ import com.ohdab.member.service.dto.MemberDtoForJoin;
 
 public interface JoinUsecase {
 
-    void join(MemberDtoForJoin.Request memberDtoForJoin);
+    void join(MemberDtoForJoin.Request joinReqDto);
 }

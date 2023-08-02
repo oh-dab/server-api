@@ -4,5 +4,5 @@ import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 
 public interface AddTeacherUsecase {
 
-    void addTeacher(MemberDtoForAddTeacher.Request memberDtoForAddTeacherDto);
+    void addTeacher(MemberDtoForAddTeacher.Request addTeacherReqDto);
 }

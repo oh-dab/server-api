@@ -25,9 +25,9 @@ public class JoinService implements JoinUsecase {
 
     @Transactional
     @Override
-    public void join(MemberDtoForJoin.Request memberDtoForJoin) {
-        checkDuplicatedMember(memberDtoForJoin.getName());
-        Member member = createMember(memberDtoForJoin, createAuthorities(memberDtoForJoin));
+    public void join(MemberDtoForJoin.Request joinReqDto) {
+        checkDuplicatedMember(joinReqDto.getName());
+        Member member = createMember(joinReqDto, createAuthorities(joinReqDto));
         memberRepository.save(member);
     }
 
@@ -38,17 +38,16 @@ public class JoinService implements JoinUsecase {
         }
     }
 
-    private List<Authority> createAuthorities(MemberDtoForJoin.Request memberDtoForJoin) {
-        List<String> roleList = memberDtoForJoin.getRole();
+    private List<Authority> createAuthorities(MemberDtoForJoin.Request joinReqDto) {
+        List<String> roleList = joinReqDto.getRole();
         return roleList.stream()
                 .map(role -> Authority.builder().role(role).build())
                 .collect(Collectors.toList());
     }
 
-    private Member createMember(
-            MemberDtoForJoin.Request memberDtoForJoin, List<Authority> authorities) {
+    private Member createMember(MemberDtoForJoin.Request joinReqDto, List<Authority> authorities) {
         return Member.builder()
-                .memberInfo(createMemberInfo(memberDtoForJoin))
+                .memberInfo(createMemberInfo(joinReqDto))
                 .authorities(authorities)
                 .build();
     }

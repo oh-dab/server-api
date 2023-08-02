@@ -22,8 +22,8 @@ public class AddTeacherService implements AddTeacherUsecase {
     private final MemberHelperService memberHelperService;
 
     @Override
-    public void addTeacher(MemberDtoForAddTeacher.Request memberDtoForAddTeacherDto) {
-        String name = memberDtoForAddTeacherDto.getName();
+    public void addTeacher(MemberDtoForAddTeacher.Request addTeacherReqDto) {
+        String name = addTeacherReqDto.getName();
         name = changeNameIfDuplicated(name);
         String password = name;
         MemberDtoForJoin.Request memberDtoForJoin =
