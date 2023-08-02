@@ -1,5 +1,6 @@
 package com.ohdab.member.service;
 
+import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDto;
@@ -19,7 +20,8 @@ public class GetTeacherListService implements GetTeacherListUsecase {
 
     @Override
     public List<MemberDto> getTeacherList() {
-        List<Member> memberList = memberRepository.findByAuthorities("TEACHER");
+        Authority role = new Authority("TEACHER");
+        List<Member> memberList = memberRepository.findByAuthoritiesContaining(role);
         return ServiceMemberMapper.memberDomainListToMemberDtoList(memberList);
     }
 }

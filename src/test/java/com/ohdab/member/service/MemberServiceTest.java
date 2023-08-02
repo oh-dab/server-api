@@ -38,7 +38,8 @@ public class MemberServiceTest {
         teachers.add(createTeacher("선생님3", "tjstodsla3"));
 
         // when
-        Mockito.when(memberRepository.findByAuthorities(Mockito.anyString())).thenReturn(teachers);
+        Mockito.when(memberRepository.findByAuthoritiesContaining(Mockito.any()))
+                .thenReturn(teachers);
         List<MemberDto> results = getTeacherListUsecase.getTeacherList();
 
         // then
