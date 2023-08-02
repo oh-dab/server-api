@@ -11,7 +11,6 @@ import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClassroomMapper {
-
     public static ClassroomDto.Request classroomReqToClassroomDtoRequest(
             AddClassroomReq addClassroomReq) {
 

@@ -25,7 +25,6 @@ public class ClassroomController {
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
             @Valid @RequestBody AddClassroomReq addClassroomReq) {
-
         ClassroomDto.Request classroomReqDto =
                 ClassroomMapper.classroomReqToClassroomDtoRequest(addClassroomReq);
         addClassroomUsecase.addClassroom(classroomReqDto);
