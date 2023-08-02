@@ -10,5 +10,6 @@ spring:
       hibernate:
         format_sql: true
         use_sql_comments: true
-  mybatis:
-    mapper-locations: mapper/*.xml
+mybatis:
+  mapper-locations: mapper/*.xml
+  type-aliases-package: com.ohdab.*

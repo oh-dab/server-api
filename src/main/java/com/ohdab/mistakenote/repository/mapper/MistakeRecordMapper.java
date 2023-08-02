@@ -1,8 +1,9 @@
-package com.ohdab.mistakenote.repository.mapper;
+package com.ohdab.mistakenote.mapper;
 
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
-import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
+
+import java.util.List;
 
 @Mapper
 public interface MistakeRecordMapper {

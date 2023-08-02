@@ -1,9 +1,10 @@
-package com.ohdab.member.repository.mapper;
+package com.ohdab.member.mapper;
 
-import static com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
+import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import org.apache.ibatis.annotations.Mapper;
+
+import static com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 
 @Mapper
 public interface MemberMapper {
