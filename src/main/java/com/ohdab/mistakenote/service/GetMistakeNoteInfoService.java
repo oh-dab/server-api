@@ -16,14 +16,13 @@ import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -67,9 +66,11 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
 
     @Override
     public GetAllMistakeNoteInfoDto.Response getAllMistakeNoteInfo(long workbookId) {
-        List<MistakeNote> mistakeNotes = mistakeNoteRepository.findByWorkbookId(new WorkbookId(workbookId));
+        List<MistakeNote> mistakeNotes =
+                mistakeNoteRepository.findByWorkbookId(new WorkbookId(workbookId));
         List<StudentInfoDto> students = memberMapper.findAllStudent(getStudentIdList(mistakeNotes));
-        List<AllMistakeNoteInfoDto> allMistakeNoteInfoDto = mistakeRecordMapper.findAllMistakeNoteInfo(getMistakeNoteIdList(mistakeNotes));
+        List<AllMistakeNoteInfoDto> allMistakeNoteInfoDto =
+                mistakeRecordMapper.findAllMistakeNoteInfo(getMistakeNoteIdList(mistakeNotes));
         return GetAllMistakeNoteInfoDto.Response.builder()
                 .students(students)
                 .allMistakeNoteInfo(allMistakeNoteInfoDto)
@@ -83,8 +84,6 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
     }
 
     private List<Long> getMistakeNoteIdList(List<MistakeNote> mistakeNotes) {
-        return mistakeNotes.stream()
-                .map(MistakeNote::getId)
-                .collect(Collectors.toList());
+        return mistakeNotes.stream().map(MistakeNote::getId).collect(Collectors.toList());
     }
 }
