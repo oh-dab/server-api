@@ -125,7 +125,7 @@ class MistakeNoteControllerTest {
         students.add(StudentInfoDto.builder().studentId(2).name("갑").build());
         students.add(StudentInfoDto.builder().studentId(3).name("을").build());
         students.add(StudentInfoDto.builder().studentId(4).name("병").build());
-      
+
         final List<GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto> mistakeNoteInfo =
                 new ArrayList<>();
         mistakeNoteInfo.add(
