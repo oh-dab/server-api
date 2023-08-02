@@ -3,6 +3,7 @@ package com.ohdab.member.service;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -14,7 +15,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DeleteTeacherService.class})
+@ContextConfiguration(classes = {DeleteTeacherService.class, MemberHelperService.class})
 public class DeleteTeacherServiceTest {
 
     @Autowired private DeleteTeacherUsecase deleteTeacherUsecase;
