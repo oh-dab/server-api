@@ -29,6 +29,16 @@ include::{snippets}/members/login/http-response.adoc[]
 
 == MistakeNote
 
+=== 교재 상세조회(전체 학생에 대한 오답노트 조회)
+
+==== Request
+
+include::{snippets}/mistake_note/getAllMistakeNoteInfo/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/mistake_note/getAllMistakeNoteInfo/http-response.adoc[]
+
 === 학생별 오답노트 조회
 
 ==== Request

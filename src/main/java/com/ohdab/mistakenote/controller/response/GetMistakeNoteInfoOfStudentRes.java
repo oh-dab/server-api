@@ -1,11 +1,11 @@
-package com.ohdab.mistakenote.service.dto;
+package com.ohdab.mistakenote.controller.response;
 
 import lombok.Builder;
 import lombok.Getter;
 
 @Getter
 @Builder
-public class MistakeNoteInfoDto {
+public class GetMistakeNoteInfoOfStudentRes {
 
     private int wrongNumber;
     private int wrongCount;

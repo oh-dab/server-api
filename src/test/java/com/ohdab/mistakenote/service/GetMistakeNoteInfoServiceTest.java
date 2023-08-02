@@ -12,7 +12,7 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
-import com.ohdab.mistakenote.service.dto.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
@@ -54,42 +54,28 @@ class GetMistakeNoteInfoServiceTest {
         mistakeRecords.put(1, 2);
         mistakeRecords.put(2, 4);
         mistakeRecords.put(4, 1);
-        MistakeNote mistakeNote =
+
+        final MistakeNote mistakeNote =
                 MistakeNote.builder()
                         .workbookId(new WorkbookId(workbookId))
                         .studentId(new StudentId(studentId))
                         .mistakeRecords(mistakeRecords)
                         .build();
 
-        final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
-        mistakeRecords.forEach(
-                (key, value) -> {
-                    mistakeNoteInfo.add(
-                            MistakeNoteInfoDto.builder()
-                                    .wrongNumber(key)
-                                    .wrongCount(value)
-                                    .build());
-                });
-
         // when
         when(memberRepository.findActiveMemberById(anyLong())).thenReturn(Optional.of(findMember));
         when(mistakeNoteRepository.findByWorkbookIdAndStudentId(
                         any(WorkbookId.class), any(StudentId.class)))
                 .thenReturn(Optional.of(mistakeNote));
-        List<MistakeNoteInfoDto> result =
-                getMistakeNoteInfoUsecase.getMistakeNoteInfoByStudent(workbookId, studentId);
+        GetMistakeNoteInfoOfStudent.Response result =
+                getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
 
         // then
-        assertThat(result.get(0).getWrongNumber())
-                .isEqualTo(mistakeNoteInfo.get(0).getWrongNumber());
-        assertThat(result.get(0).getWrongCount()).isEqualTo(mistakeNoteInfo.get(0).getWrongCount());
-
-        assertThat(result.get(1).getWrongNumber())
-                .isEqualTo(mistakeNoteInfo.get(1).getWrongNumber());
-        assertThat(result.get(1).getWrongCount()).isEqualTo(mistakeNoteInfo.get(1).getWrongCount());
-
-        assertThat(result.get(2).getWrongNumber())
-                .isEqualTo(mistakeNoteInfo.get(2).getWrongNumber());
-        assertThat(result.get(2).getWrongCount()).isEqualTo(mistakeNoteInfo.get(2).getWrongCount());
+        assertThat(result.getMistakeNoteInfo().get(0).getWrongNumber()).isEqualTo(1);
+        assertThat(result.getMistakeNoteInfo().get(0).getWrongCount()).isEqualTo(2);
+        assertThat(result.getMistakeNoteInfo().get(1).getWrongNumber()).isEqualTo(2);
+        assertThat(result.getMistakeNoteInfo().get(1).getWrongCount()).isEqualTo(4);
+        assertThat(result.getMistakeNoteInfo().get(2).getWrongNumber()).isEqualTo(4);
+        assertThat(result.getMistakeNoteInfo().get(2).getWrongCount()).isEqualTo(1);
     }
 }
