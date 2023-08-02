@@ -6,7 +6,7 @@ import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.classroom.exception.CannotFindGradeException;
 import com.ohdab.classroom.exception.CannotFindTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import com.ohdab.classroom.service.dto.ClassroomReqDto;
+import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
@@ -23,15 +23,15 @@ public class AddAddClassroomService implements AddClassroomUsecase {
     private final ClassroomRepository classroomRepository;
 
     @Override
-    public void addClassroom(ClassroomReqDto classroomReqDto) {
-        Long teacherId = classroomReqDto.getTeacherId();
+    public void addClassroom(ClassroomDto.Request classroomReqDto) {
+        long teacherId = classroomReqDto.getTeacherId();
         throwIfTeacherDoesNotExist(teacherId);
 
         ClassroomInfo classroomInfo =
                 ClassroomInfo.builder()
-                        .name(classroomReqDto.getName())
-                        .description(classroomReqDto.getDescription())
-                        .grade(findGradeByString(classroomReqDto.getGrade()))
+                        .name(classroomReqDto.getInfo().getName())
+                        .description(classroomReqDto.getInfo().getDescription())
+                        .grade(findGradeByString(classroomReqDto.getInfo().getGrade()))
                         .build();
 
         Classroom classroom =

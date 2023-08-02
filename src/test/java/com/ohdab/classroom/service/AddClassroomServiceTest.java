@@ -3,7 +3,7 @@ package com.ohdab.classroom.service;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.classroom.repository.ClassroomRepository;
-import com.ohdab.classroom.service.dto.ClassroomReqDto;
+import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -30,11 +30,14 @@ class AddClassroomServiceTest {
         String name = "1반";
         String desc = "1반에 대한 설명입니다.";
         String grade = "high1";
-        ClassroomReqDto classroomReqDto =
-                ClassroomReqDto.builder()
-                        .name(name)
-                        .description(desc)
-                        .grade(grade)
+        ClassroomDto.Request classroomReqDto =
+                ClassroomDto.Request.builder()
+                        .info(
+                                ClassroomDto.Info.builder()
+                                        .name(name)
+                                        .description(desc)
+                                        .grade(grade)
+                                        .build())
                         .teacherId(id)
                         .build();
         // when

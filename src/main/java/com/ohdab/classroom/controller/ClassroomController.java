@@ -1,9 +1,9 @@
 package com.ohdab.classroom.controller;
 
 import com.ohdab.classroom.controller.mapper.ClassroomMapper;
-import com.ohdab.classroom.controller.request.ClassroomReq;
-import com.ohdab.classroom.controller.response.ClassroomRes;
-import com.ohdab.classroom.service.dto.ClassroomReqDto;
+import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.response.AddClassroomRes;
+import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,10 +21,10 @@ public class ClassroomController {
     private final AddClassroomUsecase addClassroomUsecase;
 
     @PostMapping("/enrollment")
-    public ResponseEntity<ClassroomRes> addClassroom(
-            @Valid @RequestBody ClassroomReq classroomReq) {
-        ClassroomReqDto classroomReqDto =
-                ClassroomMapper.classroomReqToClassroomReqDto(classroomReq);
+    public ResponseEntity<AddClassroomRes> addClassroom(
+            @Valid @RequestBody AddClassroomReq addClassroomReq) {
+        ClassroomDto.Request classroomReqDto =
+                ClassroomMapper.classroomReqToClassroomDtoRequest(addClassroomReq);
         addClassroomUsecase.addClassroom(classroomReqDto);
         return ResponseEntity.ok(ClassroomMapper.createClassRoomRes());
     }
