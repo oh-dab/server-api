@@ -7,7 +7,7 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClassroomReq {
+public class AddClassroomReq {
 
     @NotNull(message = "반 이름은 필수 입력 값입니다.")
     private String name;
@@ -18,5 +18,5 @@ public class ClassroomReq {
     private String grade;
 
     @NotNull(message = "선생님 아이디는 필수 입력값 입니다.")
-    private int teacherId;
+    private long teacherId;
 }

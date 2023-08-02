@@ -12,7 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
-class FindAllClassroomByTeacherIdRepositoryTest {
+class FindAllClassroomByTeacherIdRepositoryTestReq {
 
     @Autowired private ClassroomRepository classroomRepository;
     @Autowired private EntityManager em;

@@ -31,10 +31,20 @@ include::{snippets}/members/login/http-response.adoc[]
 
 === 반 추가
 
-=== Request
+==== Request
 
 include::{snippets}/classrooms/enrollment/http-request.adoc[]
 
-=== Response
+==== Response
 
 include::{snippets}/classrooms/enrollment/http-response.adoc[]
+
+=== 반 목록 조회
+
+==== Request
+
+include::{snippets}/classrooms/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/http-response.adoc[]
