@@ -16,6 +16,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Long countByMemberInfoNameContaining(String name);
 
     boolean existsById(long id);
-
-    void deleteById(long id);
 }

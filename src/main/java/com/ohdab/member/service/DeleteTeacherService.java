@@ -1,6 +1,7 @@
 package com.ohdab.member.service;
 
-import com.ohdab.member.exception.NoMemberException;
+import com.ohdab.member.domain.Member;
+import com.ohdab.member.domain.MemberStatus;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
@@ -18,13 +19,23 @@ public class DeleteTeacherService implements DeleteTeacherUsecase {
 
     @Override
     public void deleteTeacherById(long id) {
-        throwIfUnknownId(id);
-        memberRepository.deleteById(id);
+        Member member = memberHelperService.findExistingMemberById(memberRepository, id);
+        throwIfInactiveMember(member);
+        member.withdrawal();
+        throwIfWithdrawalFailed(member);
     }
 
-    private void throwIfUnknownId(long id) {
-        if (!memberHelperService.checkIfMemberExistById(memberRepository, id)) {
-            throw new NoMemberException("Unknown member with id \"" + id + "\"");
+    private void throwIfInactiveMember(Member member) {
+        if (member.getStatus() == MemberStatus.INACTIVE) {
+            throw new IllegalStateException(
+                    "Already withdrawal Member with id \"" + member.getId() + "\"");
+        }
+    }
+
+    private void throwIfWithdrawalFailed(Member member) {
+        if (member.getStatus() != MemberStatus.INACTIVE) {
+            throw new IllegalStateException(
+                    "Withdrawal Failed with Member id \"" + member.getId() + "\"");
         }
     }
 }

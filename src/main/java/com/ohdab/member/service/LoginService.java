@@ -31,7 +31,8 @@ public class LoginService implements LoginUsecase {
     public MemberDtoForLogin.Response login(MemberDtoForLogin.Request loginReqDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginReqDto.getName());
         Member member =
-                memberHelperService.findExistingMember(memberRepository, loginReqDto.getName());
+                memberHelperService.findExistingMemberByName(
+                        memberRepository, loginReqDto.getName());
         if (!member.matchPassword(
                 passwordEncoder, loginReqDto.getPassword(), userDetails.getPassword())) {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
