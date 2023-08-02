@@ -12,7 +12,7 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
@@ -67,7 +67,7 @@ class GetMistakeNoteInfoServiceTest {
         when(mistakeNoteRepository.findByWorkbookIdAndStudentId(
                         any(WorkbookId.class), any(StudentId.class)))
                 .thenReturn(Optional.of(mistakeNote));
-        GetMistakeNoteInfoOfStudent.Response result =
+        GetMistakeNoteInfoOfStudentDto.Response result =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
 
         // then
