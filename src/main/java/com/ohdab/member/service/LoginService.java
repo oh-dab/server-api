@@ -3,8 +3,7 @@ package com.ohdab.member.service;
 import com.ohdab.core.util.jwt.JwtTokenProvider;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.dto.LoginReqDto;
-import com.ohdab.member.service.dto.LoginResDto;
+import com.ohdab.member.service.dto.MemberDtoForLogin;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.LoginUsecase;
 import lombok.RequiredArgsConstructor;
@@ -29,7 +28,7 @@ public class LoginService implements LoginUsecase {
     private final PasswordEncoder passwordEncoder;
 
     @Override
-    public LoginResDto login(LoginReqDto loginReqDto) {
+    public MemberDtoForLogin.Response login(MemberDtoForLogin.Request loginReqDto) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginReqDto.getName());
         Member member =
                 memberHelperService.findExistingMember(memberRepository, loginReqDto.getName());
@@ -38,7 +37,7 @@ public class LoginService implements LoginUsecase {
             throw new BadCredentialsException("비밀번호가 일치하지 않습니다.");
         }
         Authentication authentication = createAuthentication(userDetails);
-        return LoginResDto.builder()
+        return MemberDtoForLogin.Response.builder()
                 .memberId(member.getId())
                 .jwtToken(jwtTokenProvider.createToken(authentication, member.getId()))
                 .build();

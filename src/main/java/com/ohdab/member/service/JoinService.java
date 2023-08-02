@@ -5,7 +5,7 @@ import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.exception.DuplicatedMemberException;
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.dto.JoinReqDto;
+import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;
 import java.util.Optional;
@@ -25,9 +25,9 @@ public class JoinService implements JoinUsecase {
 
     @Transactional
     @Override
-    public void join(JoinReqDto joinReqDto) {
-        checkDuplicatedMember(joinReqDto.getName());
-        Member member = createMember(joinReqDto, createAuthorities(joinReqDto));
+    public void join(MemberDtoForJoin.Request memberDtoForJoin) {
+        checkDuplicatedMember(memberDtoForJoin.getName());
+        Member member = createMember(memberDtoForJoin, createAuthorities(memberDtoForJoin));
         memberRepository.save(member);
     }
 
@@ -38,24 +38,25 @@ public class JoinService implements JoinUsecase {
         }
     }
 
-    private List<Authority> createAuthorities(JoinReqDto joinReqDto) {
-        List<String> roleList = joinReqDto.getRole();
+    private List<Authority> createAuthorities(MemberDtoForJoin.Request memberDtoForJoin) {
+        List<String> roleList = memberDtoForJoin.getRole();
         return roleList.stream()
                 .map(role -> Authority.builder().role(role).build())
                 .collect(Collectors.toList());
     }
 
-    private Member createMember(JoinReqDto joinReqDto, List<Authority> authorities) {
+    private Member createMember(
+            MemberDtoForJoin.Request memberDtoForJoin, List<Authority> authorities) {
         return Member.builder()
-                .memberInfo(createMemberInfo(joinReqDto))
+                .memberInfo(createMemberInfo(memberDtoForJoin))
                 .authorities(authorities)
                 .build();
     }
 
-    private MemberInfo createMemberInfo(JoinReqDto joinReqDto) {
+    private MemberInfo createMemberInfo(MemberDtoForJoin.Request memberDtoForJoin) {
         return MemberInfo.builder()
-                .name(joinReqDto.getName())
-                .password(passwordEncoder.encode(joinReqDto.getPassword()))
+                .name(memberDtoForJoin.getName())
+                .password(passwordEncoder.encode(memberDtoForJoin.getPassword()))
                 .build();
     }
 }

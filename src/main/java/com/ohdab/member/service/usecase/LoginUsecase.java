@@ -1,9 +1,8 @@
 package com.ohdab.member.service.usecase;
 
-import com.ohdab.member.service.dto.LoginReqDto;
-import com.ohdab.member.service.dto.LoginResDto;
+import com.ohdab.member.service.dto.MemberDtoForLogin;
 
 public interface LoginUsecase {
 
-    LoginResDto login(LoginReqDto loginReqDto);
+    MemberDtoForLogin.Response login(MemberDtoForLogin.Request memberDtoForLogin);
 }

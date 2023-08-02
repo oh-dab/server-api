@@ -1,8 +1,8 @@
 package com.ohdab.member.service.usecase;
 
-import com.ohdab.member.service.dto.AddTeacherReqDto;
+import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 
 public interface AddTeacherUsecase {
 
-    void addTeacher(AddTeacherReqDto addTeacherReqDto);
+    void addTeacher(MemberDtoForAddTeacher.Request memberDtoForAddTeacherDto);
 }
