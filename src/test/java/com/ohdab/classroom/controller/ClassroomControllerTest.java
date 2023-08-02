@@ -1,22 +1,10 @@
 package com.ohdab.classroom.controller;
 
-import static org.mockito.Mockito.when;
-import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
-import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
-import com.ohdab.classroom.controller.request.TeacherIdReq;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
-import java.util.ArrayList;
-import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
@@ -26,6 +14,18 @@ import org.springframework.http.MediaType;
 import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.Mockito.when;
+import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = ClassroomController.class)
@@ -99,21 +99,16 @@ class ClassroomControllerTest {
         // when
         when(findClassroomListUsecase.findClassroomListByTeacherId(1L)).thenReturn(responseList);
         // then
-        mockMvc.perform(
-                        get(url).with(csrf())
-                                .content(
-                                        objectMapper.writeValueAsString(
-                                                TeacherIdReq.builder().teacherId(1L).build()))
-                                .contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(get(url).with(csrf()).param("teacherId", "1"))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.classroomResList[0].id").value(1),
-                        jsonPath("$.classroomResList[0].name").value(1),
-                        jsonPath("$.classroomResList[1].id").value(2),
-                        jsonPath("$.classroomResList[1].name").value(2),
-                        jsonPath("$.classroomResList[1].description").value(222),
-                        jsonPath("$.classroomResList[1].grade").value("high2"))
+                        jsonPath("$.classroomInfoList[0].id").value(1),
+                        jsonPath("$.classroomInfoList[0].name").value(1),
+                        jsonPath("$.classroomInfoList[1].id").value(2),
+                        jsonPath("$.classroomInfoList[1].name").value(2),
+                        jsonPath("$.classroomInfoList[1].description").value(222),
+                        jsonPath("$.classroomInfoList[1].grade").value("high2"))
                 .andDo(print())
                 .andDo(createDocument("classrooms"));
     }
