@@ -3,9 +3,11 @@ package com.ohdab.mistakenote.controller.mapper;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.controller.response.GetAllMistakeNoteInfoRes;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoOfStudentRes;
+import com.ohdab.mistakenote.controller.response.GetNumbersWrongNTimes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
+import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimeDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -68,5 +70,22 @@ public class MistakeNoteMapper {
                                         .wrongStudentsCount(dto.getWrongStudentsCount())
                                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public static GetNumbersWrongNTimeDto.Request toGetNumbersWrongNTimeDto(
+            long mistakeNoteId, int count, int from, int to) {
+        return GetNumbersWrongNTimeDto.Request.builder()
+                .mistakeNoteId(mistakeNoteId)
+                .count(count)
+                .from(from)
+                .to(to)
+                .build();
+    }
+
+    public static GetNumbersWrongNTimes toGetNumbersWrongNTimesRes(
+            GetNumbersWrongNTimeDto.Response numbersWrongNTimes) {
+        return GetNumbersWrongNTimes.builder()
+                .wrongNumbers(numbersWrongNTimes.getWrongNumbers())
+                .build();
     }
 }

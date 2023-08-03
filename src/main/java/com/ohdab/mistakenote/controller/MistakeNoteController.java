@@ -4,9 +4,11 @@ import com.ohdab.mistakenote.controller.mapper.MistakeNoteMapper;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.controller.response.GetAllMistakeNoteInfoRes;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoOfStudentRes;
+import com.ohdab.mistakenote.controller.response.GetNumbersWrongNTimes;
 import com.ohdab.mistakenote.controller.response.SaveMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
+import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimeDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.List;
@@ -25,12 +27,25 @@ public class MistakeNoteController {
 
     @GetMapping("/workbooks/{workbook-id}/students/{student-id}")
     public ResponseEntity<List<GetMistakeNoteInfoOfStudentRes>> getMistakeNoteInfoOfStudent(
-            @Valid @PathVariable(name = "workbook-id") long workbookId,
+            @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "student-id") long studentId) {
         GetMistakeNoteInfoOfStudentDto.Response mistakeNoteInfo =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
         return ResponseEntity.ok(
                 MistakeNoteMapper.toGetMistakeNoteInfoOfStudentRes(mistakeNoteInfo));
+    }
+
+    @GetMapping("/{mistake-note-id}")
+    public ResponseEntity<GetNumbersWrongNTimes> getNumbersWrongNTimes(
+            @PathVariable(name = "mistake-note-id") long mistakeNoteId,
+            @RequestParam(name = "count") int count,
+            @RequestParam(name = "from") int from,
+            @RequestParam(name = "to") int to) {
+        GetNumbersWrongNTimeDto.Response numbersWrongNTimes =
+                getMistakeNoteInfoUsecase.getNumbersWrongNTimes(
+                        MistakeNoteMapper.toGetNumbersWrongNTimeDto(
+                                mistakeNoteId, count, from, to));
+        return ResponseEntity.ok(MistakeNoteMapper.toGetNumbersWrongNTimesRes(numbersWrongNTimes));
     }
 
     @PostMapping("/workbooks/{workbook-id}/students/{student-id}")
