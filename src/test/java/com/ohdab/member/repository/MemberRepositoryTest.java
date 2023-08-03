@@ -66,6 +66,33 @@ public class MemberRepositoryTest {
                                 teacher3.getStatus()));
     }
 
+    @Test
+    @DisplayName("선생님 추가 성공 테스트")
+    void 선생님_추가_성공() {
+        // given
+        Authority teacher = new Authority("TEACHER");
+        Member member = createMember("선생님", "tjstodsla", teacher);
+
+        // when
+        memberRepository.save(member);
+        Member result = memberRepository.findById(member.getId()).get();
+
+        // then
+        assertThat(result)
+                .extracting(
+                        Member::getId,
+                        m -> m.getMemberInfo().getName(),
+                        m -> m.getMemberInfo().getPassword(),
+                        m -> m.getAuthorities().get(0).getRole(),
+                        Member::getStatus)
+                .containsExactly(
+                        member.getId(),
+                        member.getMemberInfo().getName(),
+                        member.getMemberInfo().getPassword(),
+                        member.getAuthorities().get(0).getRole(),
+                        member.getStatus());
+    }
+
     private Member createMember(String name, String password, Authority role) {
         List<Authority> authorities = new ArrayList<>();
         authorities.add(role);
