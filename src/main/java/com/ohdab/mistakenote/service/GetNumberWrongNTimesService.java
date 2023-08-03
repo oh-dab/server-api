@@ -66,11 +66,11 @@ public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase 
     }
 
     private boolean fromIsInRange(int from, int startingNumber, int endingNumber) {
-        return (from < startingNumber || endingNumber < from);
+        return (startingNumber <= from && from <= endingNumber);
     }
 
     private boolean toIsInRange(int to, int startingNumber, int endingNumber) {
-        return (to < startingNumber || endingNumber < to);
+        return (startingNumber <= to && to <= endingNumber);
     }
 
     private String wrongNumbersToString(List<Integer> numberWrongNTimes) {

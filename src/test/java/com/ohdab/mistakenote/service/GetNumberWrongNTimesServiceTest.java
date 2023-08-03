@@ -17,7 +17,9 @@ import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import org.junit.jupiter.api.*;
+import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
@@ -26,27 +28,27 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetNumberWrongNTimesService.class})
-class GetNumbersWrongNTimesServiceTest {
+class GetNumberWrongNTimesServiceTest {
 
     @Autowired private GetNumberWrongNTimesUsecase getNumberWrongNTimesUsecase;
 
     @MockBean private MistakeRecordMapper mistakeRecordMapper;
     @MockBean private WorkbookRepository workbookRepository;
 
-    @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+    @DisplayName("getNumbersWrongNTimes 메서드는")
     @Nested
-    class getNumbersWrongNTimes_메서드는 {
+    class getNumbersWrongNTimes {
 
-        @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+        @DisplayName("요청받은 범위가 해당 교재의 문제범위에 속하고")
         @Nested
-        class 요청받은_범위가_해당_교재의_문제범위에_속하고 {
+        class ifInRange {
 
-            @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+            @DisplayName("N번 이상 틀린 문제가 존재한다면")
             @Nested
-            class N번_이상_틀린_문제가_존재한다면 {
+            class ifResultIsExist {
                 @DisplayName("틀린 문제번호들을 쉼표로 구분하여 공백없는 문자열로 반환한다")
                 @Test
-                void 틀린_문제번호들을_쉼표로_구분하여_공백없는_문자열로_반환한다() {
+                void success() {
                     // given
                     final GetNumberWrongNTimesDto.Request requestDto =
                             GetNumberWrongNTimesDto.Request.builder()
@@ -84,13 +86,13 @@ class GetNumbersWrongNTimesServiceTest {
                 }
             }
 
-            @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+            @DisplayName("N번 이상 틀린 문제가 없다면")
             @Nested
-            class N번_이상_틀린_문제가_없다면 {
+            class ifNoResult {
 
                 @DisplayName("NoNumbersWrongNTimesException 예외를 던진다.")
                 @Test
-                void NoNumbersWrongNTimesException_예외를_발생시킨다() {
+                void throwNoNumbersWrongNTimesException() {
                     // given
                     final GetNumberWrongNTimesDto.Request requestDto =
                             GetNumberWrongNTimesDto.Request.builder()
@@ -132,13 +134,13 @@ class GetNumbersWrongNTimesServiceTest {
             }
         }
 
-        @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
+        @DisplayName("요청받은 범위가 해당 교재의 문제범위에 속하지 않는다면")
         @Nested
-        class 요청받은_범위가_해당_교재의_문제범위에_속하지_않는다면 {
+        class ifIsNotInRange {
 
             @DisplayName("NumberIsOutOfRangeException 예외를 던진다.")
             @Test
-            void NumberIsOutOfRangeException_예외를_던진다() {
+            void trowNumberIsOutOfRangeException() {
                 // given
                 final GetNumberWrongNTimesDto.Request requestDto =
                         GetNumberWrongNTimesDto.Request.builder()
