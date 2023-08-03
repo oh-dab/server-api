@@ -6,7 +6,7 @@ import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.dto.MemberDto;
+import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -37,7 +37,7 @@ public class GetTeacherListServiceTest {
 
         // when
         Mockito.when(memberRepository.findByAuthorities(Mockito.anyString())).thenReturn(teachers);
-        List<MemberDto> results = getTeacherListUsecase.getTeacherList();
+        List<MemberDtoForGetTeacherList.Response> results = getTeacherListUsecase.getTeacherList();
 
         // then
         assertThat(results.size()).isEqualTo(3);

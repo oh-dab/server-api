@@ -15,7 +15,7 @@ import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
 import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
-import com.ohdab.member.service.dto.LoginResDto;
+import com.ohdab.member.service.dto.MemberDtoForLogin;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import com.ohdab.member.service.usecase.LoginUsecase;
 import java.util.List;
@@ -75,8 +75,8 @@ class MemberControllerTest {
                         .message("로그인에 성공하였습니다.")
                         .jwtToken("jwt-token")
                         .build();
-        final LoginResDto loginResDto =
-                LoginResDto.builder().memberId(1L).jwtToken("jwt-token").build();
+        final MemberDtoForLogin.Response loginResDto =
+                MemberDtoForLogin.Response.builder().memberId(1L).jwtToken("jwt-token").build();
 
         // when
         when(loginUsecase.login(any())).thenReturn(loginResDto);
