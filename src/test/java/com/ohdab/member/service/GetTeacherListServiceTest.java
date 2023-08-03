@@ -36,7 +36,8 @@ public class GetTeacherListServiceTest {
         teachers.add(createTeacher("선생님3", "tjstodsla3"));
 
         // when
-        Mockito.when(memberRepository.findByAuthorities(Mockito.anyString())).thenReturn(teachers);
+        Mockito.when(memberRepository.findByAuthoritiesContaining(Mockito.any()))
+                .thenReturn(teachers);
         List<MemberDtoForGetTeacherList.Response> results = getTeacherListUsecase.getTeacherList();
 
         // then

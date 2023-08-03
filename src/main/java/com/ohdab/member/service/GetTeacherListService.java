@@ -20,7 +20,8 @@ public class GetTeacherListService implements GetTeacherListUsecase {
 
     @Override
     public List<MemberDtoForGetTeacherList.Response> getTeacherList() {
-        List<Member> memberList = memberRepository.findByAuthorities("TEACHER");
+        Authority role = new Authority("TEACHER");
+        List<Member> memberList = memberRepository.findByAuthoritiesContaining(role);
         return memberDomainListToMemberDtoList(memberList);
     }
 
