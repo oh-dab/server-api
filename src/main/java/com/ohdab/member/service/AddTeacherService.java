@@ -2,8 +2,8 @@ package com.ohdab.member.service;
 
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.dto.AddTeacherReqDto;
-import com.ohdab.member.service.dto.JoinReqDto;
+import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
+import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
@@ -22,18 +22,18 @@ public class AddTeacherService implements AddTeacherUsecase {
     private final MemberHelperService memberHelperService;
 
     @Override
-    public void addTeacher(AddTeacherReqDto addTeacherReqDto) {
+    public void addTeacher(MemberDtoForAddTeacher.Request addTeacherReqDto) {
         String name = addTeacherReqDto.getName();
         name = changeNameIfDuplicated(name);
         String password = name;
-        JoinReqDto joinReqDto =
-                JoinReqDto.builder()
+        MemberDtoForJoin.Request memberDtoForJoin =
+                MemberDtoForJoin.Request.builder()
                         .name(name)
                         .password(password)
                         .role(List.of("TEACHER", "STUDENT"))
                         .build();
         // TODO:선생님 추가 시 회원가입 요청
-        joinUsecase.join(joinReqDto);
+        joinUsecase.join(memberDtoForJoin);
         throwIfJoinFailed(name);
     }
 

@@ -5,7 +5,7 @@ import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
 import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
-import com.ohdab.member.service.dto.LoginResDto;
+import com.ohdab.member.service.dto.MemberDtoForLogin;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import com.ohdab.member.service.usecase.LoginUsecase;
 import javax.validation.Valid;
@@ -29,7 +29,8 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<LoginRes> login(@Valid @RequestBody LoginReq loginReq) {
-        LoginResDto loginResDto = loginUsecase.login(MemberWebMapper.toLoginReqDto(loginReq));
+        MemberDtoForLogin.Response loginResDto =
+                loginUsecase.login(MemberWebMapper.toLoginReqDto(loginReq));
         return ResponseEntity.ok(MemberWebMapper.toLoginRes(loginResDto));
     }
 

@@ -3,7 +3,7 @@ package com.ohdab.member.service;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.dto.AddTeacherReqDto;
+import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
@@ -29,7 +29,8 @@ public class AddTeacherServiceTest {
     void 선생님_추가_성공() {
         // given
         String name = "선생님";
-        AddTeacherReqDto addTeacherReqDto = AddTeacherReqDto.builder().name(name).build();
+        MemberDtoForAddTeacher.Request memberDtoForAddTeacherReqDto =
+                MemberDtoForAddTeacher.Request.builder().name(name).build();
 
         // when
         Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString()))
@@ -37,6 +38,7 @@ public class AddTeacherServiceTest {
         Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString())).thenReturn(true);
 
         // then
-        assertThatNoException().isThrownBy(() -> addTeacherUsecase.addTeacher(addTeacherReqDto));
+        assertThatNoException()
+                .isThrownBy(() -> addTeacherUsecase.addTeacher(memberDtoForAddTeacherReqDto));
     }
 }
