@@ -9,8 +9,8 @@ import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.exception.NumberIsOutOfRangeException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
-import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
+import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.repository.WorkbookRepository;
@@ -25,10 +25,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GetNumbersWrongNTimesService.class})
+@ContextConfiguration(classes = {GetNumberWrongNTimesService.class})
 class GetNumbersWrongNTimesServiceTest {
 
-    @Autowired private GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
+    @Autowired private GetNumberWrongNTimesUsecase getNumberWrongNTimesUsecase;
 
     @MockBean private MistakeRecordMapper mistakeRecordMapper;
     @MockBean private WorkbookRepository workbookRepository;
@@ -48,8 +48,8 @@ class GetNumbersWrongNTimesServiceTest {
                 @Test
                 void 틀린_문제번호들을_쉼표로_구분하여_공백없는_문자열로_반환한다() {
                     // given
-                    final GetNumbersWrongNTimesDto.Request requestDto =
-                            GetNumbersWrongNTimesDto.Request.builder()
+                    final GetNumberWrongNTimesDto.Request requestDto =
+                            GetNumberWrongNTimesDto.Request.builder()
                                     .workbookId(1L)
                                     .mistakeNoteId(2L)
                                     .count(2)
@@ -69,18 +69,18 @@ class GetNumbersWrongNTimesServiceTest {
                                                     .build())
                                     .build();
 
-                    final List<Integer> numbersWrongNTimes = List.of(10, 11, 12, 19, 20);
+                    final List<Integer> numberWrongNTimes = List.of(10, 11, 12, 19, 20);
 
                     // when
                     when(workbookRepository.findById(anyLong()))
                             .thenReturn(Optional.ofNullable(workbook));
                     when(mistakeRecordMapper.findNumbersWrongNTimes(requestDto))
-                            .thenReturn(numbersWrongNTimes);
-                    GetNumbersWrongNTimesDto.Response result =
-                            getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(requestDto);
+                            .thenReturn(numberWrongNTimes);
+                    GetNumberWrongNTimesDto.Response result =
+                            getNumberWrongNTimesUsecase.getNumberWrongNTimes(requestDto);
 
                     // then
-                    assertThat(result).extracting("wrongNumbers").isEqualTo("10,11,12,19,20");
+                    assertThat(result).extracting("wrongNumber").isEqualTo("10,11,12,19,20");
                 }
             }
 
@@ -92,8 +92,8 @@ class GetNumbersWrongNTimesServiceTest {
                 @Test
                 void NoNumbersWrongNTimesException_예외를_발생시킨다() {
                     // given
-                    final GetNumbersWrongNTimesDto.Request requestDto =
-                            GetNumbersWrongNTimesDto.Request.builder()
+                    final GetNumberWrongNTimesDto.Request requestDto =
+                            GetNumberWrongNTimesDto.Request.builder()
                                     .workbookId(1L)
                                     .mistakeNoteId(2L)
                                     .count(2)
@@ -113,17 +113,17 @@ class GetNumbersWrongNTimesServiceTest {
                                                     .build())
                                     .build();
 
-                    final List<Integer> numbersWrongNTimes = new ArrayList<>();
+                    final List<Integer> numberWrongNTimes = new ArrayList<>();
 
                     // when
                     when(workbookRepository.findById(anyLong()))
                             .thenReturn(Optional.ofNullable(workbook));
                     when(mistakeRecordMapper.findNumbersWrongNTimes(requestDto))
-                            .thenReturn(numbersWrongNTimes);
+                            .thenReturn(numberWrongNTimes);
                     Throwable thrown =
                             catchException(
                                     () ->
-                                            getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(
+                                            getNumberWrongNTimesUsecase.getNumberWrongNTimes(
                                                     requestDto));
 
                     // then
@@ -140,8 +140,8 @@ class GetNumbersWrongNTimesServiceTest {
             @Test
             void NumberIsOutOfRangeException_예외를_던진다() {
                 // given
-                final GetNumbersWrongNTimesDto.Request requestDto =
-                        GetNumbersWrongNTimesDto.Request.builder()
+                final GetNumberWrongNTimesDto.Request requestDto =
+                        GetNumberWrongNTimesDto.Request.builder()
                                 .workbookId(1L)
                                 .mistakeNoteId(2L)
                                 .count(2)
@@ -166,9 +166,7 @@ class GetNumbersWrongNTimesServiceTest {
                         .thenReturn(Optional.ofNullable(workbook));
                 Throwable thrown =
                         catchException(
-                                () ->
-                                        getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(
-                                                requestDto));
+                                () -> getNumberWrongNTimesUsecase.getNumberWrongNTimes(requestDto));
 
                 // then
                 assertThat(thrown).isInstanceOf(NumberIsOutOfRangeException.class);

@@ -3,8 +3,8 @@ package com.ohdab.mistakenote.service;
 import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.exception.NumberIsOutOfRangeException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
-import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
+import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.exception.NoWorkbookException;
 import com.ohdab.workbook.repository.WorkbookRepository;
@@ -17,42 +17,42 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class GetNumbersWrongNTimesService implements GetNumbersWrongNTimesUsecase {
+public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase {
 
     private final MistakeRecordMapper mistakeRecordMapper;
     private final WorkbookRepository workbookRepository;
 
     @Override
-    public GetNumberWrongNTimesDto.Response getNumbersWrongNTimes(
-            GetNumberWrongNTimesDto.Request getNumbersWrongNTimeDto) {
+    public GetNumberWrongNTimesDto.Response getNumberWrongNTimes(
+            GetNumberWrongNTimesDto.Request getNumberWrongNTimeDto) {
         Workbook workbook =
                 workbookRepository
-                        .findById(getNumbersWrongNTimeDto.getWorkbookId())
+                        .findById(getNumberWrongNTimeDto.getWorkbookId())
                         .orElseThrow(() -> new NoWorkbookException("존재하지 않는 교재입니다."));
-        checkNumberIsInRange(getNumbersWrongNTimeDto, workbook);
-        List<Integer> numbersWrongNTimes =
-                mistakeRecordMapper.findNumbersWrongNTimes(getNumbersWrongNTimeDto);
+        checkNumberIsInRange(getNumberWrongNTimeDto, workbook);
+        List<Integer> numberWrongNTimes =
+                mistakeRecordMapper.findNumbersWrongNTimes(getNumberWrongNTimeDto);
         return GetNumberWrongNTimesDto.Response.builder()
-                .wrongNumbers(wrongNumbersToString(numbersWrongNTimes))
+                .wrongNumber(wrongNumbersToString(numberWrongNTimes))
                 .build();
     }
 
     private void checkNumberIsInRange(
-            GetNumberWrongNTimesDto.Request getNumbersWrongNTimeDto, Workbook workbook) {
+            GetNumberWrongNTimesDto.Request getNumberWrongNTimeDto, Workbook workbook) {
         int startingNumber = workbook.getWorkbookInfo().getStartingNumber();
         int endingNumber = workbook.getWorkbookInfo().getEndingNumber();
-        if (getNumbersWrongNTimeDto.getFrom() < startingNumber
-                || endingNumber < getNumbersWrongNTimeDto.getFrom()
-                || getNumbersWrongNTimeDto.getTo() < startingNumber
-                || endingNumber < getNumbersWrongNTimeDto.getTo()) {
+        if (getNumberWrongNTimeDto.getFrom() < startingNumber
+                || endingNumber < getNumberWrongNTimeDto.getFrom()
+                || getNumberWrongNTimeDto.getTo() < startingNumber
+                || endingNumber < getNumberWrongNTimeDto.getTo()) {
             throw new NumberIsOutOfRangeException("교재에 존재하지 않는 번호를 요청했습니다.");
         }
     }
 
-    private String wrongNumbersToString(List<Integer> numbersWrongNTimes) {
-        if (numbersWrongNTimes.isEmpty()) {
+    private String wrongNumbersToString(List<Integer> numberWrongNTimes) {
+        if (numberWrongNTimes.isEmpty()) {
             throw new NoNumbersWrongNTimesException("틀린 문제가 없습니다.");
         }
-        return numbersWrongNTimes.stream().map(String::valueOf).collect(Collectors.joining(","));
+        return numberWrongNTimes.stream().map(String::valueOf).collect(Collectors.joining(","));
     }
 }
