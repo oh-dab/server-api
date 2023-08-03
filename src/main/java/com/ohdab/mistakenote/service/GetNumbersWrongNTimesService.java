@@ -4,12 +4,11 @@ import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
 import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor

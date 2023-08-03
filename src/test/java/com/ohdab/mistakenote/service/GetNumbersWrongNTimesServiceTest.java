@@ -1,9 +1,15 @@
 package com.ohdab.mistakenote.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
+import static org.mockito.Mockito.when;
+
 import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
 import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import java.util.ArrayList;
+import java.util.List;
 import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,22 +17,13 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchException;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetNumbersWrongNTimesService.class})
 class GetNumbersWrongNTimesServiceTest {
 
-    @Autowired
-    private GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
+    @Autowired private GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
 
-    @MockBean
-    private MistakeRecordMapper mistakeRecordMapper;
+    @MockBean private MistakeRecordMapper mistakeRecordMapper;
 
     @DisplayNameGeneration(DisplayNameGenerator.ReplaceUnderscores.class)
     @Nested
@@ -50,7 +47,8 @@ class GetNumbersWrongNTimesServiceTest {
                 final List<Integer> numbersWrongNTimes = List.of(10, 11, 12, 19, 20);
 
                 // when
-                when(mistakeRecordMapper.findNumbersWrongNTimes(requestDto)).thenReturn(numbersWrongNTimes);
+                when(mistakeRecordMapper.findNumbersWrongNTimes(requestDto))
+                        .thenReturn(numbersWrongNTimes);
                 GetNumbersWrongNTimesDto.Response result =
                         getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(requestDto);
 
@@ -79,7 +77,11 @@ class GetNumbersWrongNTimesServiceTest {
                 // when
                 when(mistakeRecordMapper.findNumbersWrongNTimes(requestDto))
                         .thenThrow(NoNumbersWrongNTimesException.class);
-                Throwable thrown = catchException(() -> getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(requestDto));
+                Throwable thrown =
+                        catchException(
+                                () ->
+                                        getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(
+                                                requestDto));
 
                 // then
                 assertThat(thrown).isInstanceOf(NoNumbersWrongNTimesException.class);
