@@ -5,7 +5,7 @@ import lombok.Getter;
 
 @Getter
 @Builder
-public class GetNumbersWrongNTimes {
+public class GetNumberWrongNTimes {
 
-    private String wrongNumbers;
+    private String wrongNumber;
 }

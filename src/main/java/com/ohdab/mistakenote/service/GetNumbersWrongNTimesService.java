@@ -23,8 +23,8 @@ public class GetNumbersWrongNTimesService implements GetNumbersWrongNTimesUsecas
     private final WorkbookRepository workbookRepository;
 
     @Override
-    public GetNumbersWrongNTimesDto.Response getNumbersWrongNTimes(
-            GetNumbersWrongNTimesDto.Request getNumbersWrongNTimeDto) {
+    public GetNumberWrongNTimesDto.Response getNumbersWrongNTimes(
+            GetNumberWrongNTimesDto.Request getNumbersWrongNTimeDto) {
         Workbook workbook =
                 workbookRepository
                         .findById(getNumbersWrongNTimeDto.getWorkbookId())
@@ -32,13 +32,13 @@ public class GetNumbersWrongNTimesService implements GetNumbersWrongNTimesUsecas
         checkNumberIsInRange(getNumbersWrongNTimeDto, workbook);
         List<Integer> numbersWrongNTimes =
                 mistakeRecordMapper.findNumbersWrongNTimes(getNumbersWrongNTimeDto);
-        return GetNumbersWrongNTimesDto.Response.builder()
+        return GetNumberWrongNTimesDto.Response.builder()
                 .wrongNumbers(wrongNumbersToString(numbersWrongNTimes))
                 .build();
     }
 
     private void checkNumberIsInRange(
-            GetNumbersWrongNTimesDto.Request getNumbersWrongNTimeDto, Workbook workbook) {
+            GetNumberWrongNTimesDto.Request getNumbersWrongNTimeDto, Workbook workbook) {
         int startingNumber = workbook.getWorkbookInfo().getStartingNumber();
         int endingNumber = workbook.getWorkbookInfo().getEndingNumber();
         if (getNumbersWrongNTimeDto.getFrom() < startingNumber
