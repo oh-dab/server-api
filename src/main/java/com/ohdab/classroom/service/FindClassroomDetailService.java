@@ -5,7 +5,7 @@ import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetail
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.mapper.ClassroomDetailServiceMapper;
-import com.ohdab.classroom.service.usecase.ClassroomDetailUsecase;
+import com.ohdab.classroom.service.usecase.FindClassroomDetailUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Service
 @RequiredArgsConstructor
 @Transactional(readOnly = true)
-public class ClassroomDetailService implements ClassroomDetailUsecase {
+public class FindClassroomDetailService implements FindClassroomDetailUsecase {
 
     private final ClassroomRepository classroomRepository;
 

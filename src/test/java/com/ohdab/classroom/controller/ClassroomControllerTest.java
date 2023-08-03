@@ -1,5 +1,7 @@
 package com.ohdab.classroom.controller;
 
+import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoInfo;
+import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -13,6 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
+import com.ohdab.classroom.service.usecase.FindClassroomDetailUsecase;
 import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -34,6 +37,7 @@ class ClassroomControllerTest {
     @Autowired private ObjectMapper objectMapper;
     @MockBean private AddClassroomUsecase addClassroomUsecase;
     @MockBean private FindClassroomListUsecase findClassroomListUsecase;
+    @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
 
     @Test
     @WithMockUser
@@ -109,7 +113,53 @@ class ClassroomControllerTest {
                         jsonPath("$.classroomInfoList[1].description").value(222),
                         jsonPath("$.classroomInfoList[1].grade").value("high2"))
                 .andDo(print())
-                .andDo(createDocument("classrooms"));
+                .andDo(createDocument("classrooms?teacherId="));
+    }
+
+    @Test
+    @WithMockUser
+    void 반_상세조회() throws Exception {
+        // given
+        final String url = "/classrooms/";
+
+        List<Long> studentIds = new ArrayList<>();
+        studentIds.add(3L);
+
+        List<Long> workbookIds = new ArrayList<>();
+        workbookIds.add(4L);
+
+        ClassroomDetailDtoResponse classroomDetailDtoResponse =
+                ClassroomDetailDtoResponse.builder()
+                        .classroomId(1)
+                        .teacherId(2)
+                        .info(
+                                ClassroomDetailDtoInfo.builder()
+                                        .name("1반")
+                                        .description("1반 설명")
+                                        .grade("high1")
+                                        .build())
+                        .studentIds(studentIds)
+                        .workbookIds(workbookIds)
+                        .build();
+
+        // when
+        when(findClassroomDetailUsecase.getClassroomDetailById(1L))
+                .thenReturn(classroomDetailDtoResponse);
+
+        // then
+        mockMvc.perform(get(url + "{classroom-id}", 1).with(csrf()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.id").value(1),
+                        jsonPath("$.teacherId").value(2),
+                        jsonPath("$.name").value("1반"),
+                        jsonPath("$.description").value("1반 설명"),
+                        jsonPath("$.grade").value("high1"),
+                        jsonPath("$.studentIds[0]").value(3),
+                        jsonPath("$.workbookIds[0]").value(4))
+                .andDo(print())
+                .andDo(createDocument("classrooms/{classroom-id}"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {
