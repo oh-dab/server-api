@@ -15,10 +15,9 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent.Response.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
@@ -53,8 +52,8 @@ class MistakeNoteControllerTest {
         final List<MistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(1).wrongCount(3).build());
         mistakeNoteInfo.add(MistakeNoteInfoDto.builder().wrongNumber(2).wrongCount(1).build());
-        final GetMistakeNoteInfoOfStudent.Response responseDto =
-                GetMistakeNoteInfoOfStudent.Response.builder()
+        final GetMistakeNoteInfoOfStudentDto.Response responseDto =
+                GetMistakeNoteInfoOfStudentDto.Response.builder()
                         .mistakeNoteInfo(mistakeNoteInfo)
                         .build();
 
@@ -126,13 +125,25 @@ class MistakeNoteControllerTest {
         students.add(StudentInfoDto.builder().studentId(2).name("갑").build());
         students.add(StudentInfoDto.builder().studentId(3).name("을").build());
         students.add(StudentInfoDto.builder().studentId(4).name("병").build());
-        final List<AllMistakeNoteInfoDto> mistakeNoteInfo = new ArrayList<>();
+
+        final List<GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto> mistakeNoteInfo =
+                new ArrayList<>();
         mistakeNoteInfo.add(
-                AllMistakeNoteInfoDto.builder().wrongNumber(1).wrongStudentsCount(4).build());
+                GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto.builder()
+                        .wrongNumber(1)
+                        .wrongStudentsCount(4)
+                        .build());
         mistakeNoteInfo.add(
-                AllMistakeNoteInfoDto.builder().wrongNumber(4).wrongStudentsCount(2).build());
+                GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto.builder()
+                        .wrongNumber(4)
+                        .wrongStudentsCount(2)
+                        .build());
         mistakeNoteInfo.add(
-                AllMistakeNoteInfoDto.builder().wrongNumber(10).wrongStudentsCount(7).build());
+                GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto.builder()
+                        .wrongNumber(10)
+                        .wrongStudentsCount(7)
+                        .build());
+
         final GetAllMistakeNoteInfoDto.Response responseDto =
                 GetAllMistakeNoteInfoDto.Response.builder()
                         .students(students)

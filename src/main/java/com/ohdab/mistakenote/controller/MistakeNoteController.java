@@ -6,7 +6,7 @@ import com.ohdab.mistakenote.controller.response.GetAllMistakeNoteInfoRes;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoOfStudentRes;
 import com.ohdab.mistakenote.controller.response.SaveMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.List;
@@ -27,7 +27,7 @@ public class MistakeNoteController {
     public ResponseEntity<List<GetMistakeNoteInfoOfStudentRes>> getMistakeNoteInfoOfStudent(
             @Valid @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "student-id") long studentId) {
-        GetMistakeNoteInfoOfStudent.Response mistakeNoteInfo =
+        GetMistakeNoteInfoOfStudentDto.Response mistakeNoteInfo =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
         return ResponseEntity.ok(
                 MistakeNoteMapper.toGetMistakeNoteInfoOfStudentRes(mistakeNoteInfo));

@@ -4,9 +4,8 @@ import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.controller.response.GetAllMistakeNoteInfoRes;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoOfStudentRes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudent;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -17,7 +16,7 @@ import lombok.NoArgsConstructor;
 public class MistakeNoteMapper {
 
     public static List<GetMistakeNoteInfoOfStudentRes> toGetMistakeNoteInfoOfStudentRes(
-            GetMistakeNoteInfoOfStudent.Response responseDto) {
+            GetMistakeNoteInfoOfStudentDto.Response responseDto) {
         return responseDto.getMistakeNoteInfo().stream()
                 .map(
                         dto ->
@@ -59,7 +58,8 @@ public class MistakeNoteMapper {
     }
 
     private static List<GetAllMistakeNoteInfoRes.AllMistakeNoteInfoRes>
-            mapToMistakeNoteInfoOfStudentRes(List<AllMistakeNoteInfoDto> mistakeNoteInfo) {
+            mapToMistakeNoteInfoOfStudentRes(
+                    List<GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto> mistakeNoteInfo) {
         return mistakeNoteInfo.stream()
                 .map(
                         dto ->

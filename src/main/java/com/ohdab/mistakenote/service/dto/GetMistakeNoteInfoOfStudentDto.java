@@ -7,7 +7,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetMistakeNoteInfoOfStudent {
+public class GetMistakeNoteInfoOfStudentDto {
 
     @Getter
     @Builder
