@@ -1,5 +1,8 @@
 package com.ohdab.member.repository.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
@@ -45,8 +48,8 @@ class MemberMapperTest {
         Member savedStudent2 = memberRepository.save(student2);
         Member savedStudent3 = memberRepository.save(student3);
 
-        em.clear();
         em.flush();
+        em.clear();
 
         // when
         List<StudentInfoDto> result =
@@ -57,10 +60,11 @@ class MemberMapperTest {
                                 savedStudent3.getId()));
 
         // then
-        //        assertThat(result).hasSize(3);
-        //                .extracting("studentId", "name")
-        //                .contains(tuple(savedStudent1.getId(), "값"))
-        //                .contains(tuple(savedStudent2.getId(), "을"))
-        //                .contains(tuple(savedStudent3.getId(), "병"));
+        assertThat(result)
+                .hasSize(3)
+                .extracting("studentId", "name")
+                .contains(tuple(savedStudent1.getId(), "갑"))
+                .contains(tuple(savedStudent2.getId(), "을"))
+                .contains(tuple(savedStudent3.getId(), "병"));
     }
 }
