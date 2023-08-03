@@ -73,8 +73,9 @@ public class MistakeNoteMapper {
     }
 
     public static GetNumbersWrongNTimesDto.Request toGetNumbersWrongNTimeDto(
-            long mistakeNoteId, int count, int from, int to) {
+            long workbookId, long mistakeNoteId, int count, int from, int to) {
         return GetNumbersWrongNTimesDto.Request.builder()
+                .workbookId(workbookId)
                 .mistakeNoteId(mistakeNoteId)
                 .count(count)
                 .from(from)
