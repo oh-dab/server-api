@@ -1,5 +1,6 @@
 package com.ohdab.member.repository;
 
+import static com.ohdab.member.domain.MemberStatus.INACTIVE;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.groups.Tuple.tuple;
 
@@ -91,6 +92,24 @@ public class MemberRepositoryTest {
                         member.getMemberInfo().getPassword(),
                         member.getAuthorities().get(0).getRole(),
                         member.getStatus());
+    }
+
+    @Test
+    @DisplayName("선생님 삭제(탈퇴) 성공 테스트")
+    void 선생님_삭제_및_탈퇴_성공() {
+        // given
+        Authority teacher = new Authority("TEACHER");
+        Member member = createMember("선생님", "tjstodsla", teacher);
+
+        // when
+        memberRepository.save(member);
+        member.withdrawal();
+        Member result = memberRepository.findById(member.getId()).get();
+
+        // then
+        assertThat(result)
+                .extracting(Member::getId, Member::getStatus)
+                .containsExactly(member.getId(), INACTIVE);
     }
 
     private Member createMember(String name, String password, Authority role) {
