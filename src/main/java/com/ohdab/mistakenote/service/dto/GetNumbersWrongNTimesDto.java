@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetNumbersWrongNTimeDto {
+public class GetNumbersWrongNTimesDto {
 
     @Getter
     @Builder

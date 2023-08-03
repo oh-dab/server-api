@@ -7,12 +7,13 @@ import com.ohdab.mistakenote.controller.response.GetNumbersWrongNTimes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimeDto;
+import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MistakeNoteMapper {
@@ -72,9 +73,9 @@ public class MistakeNoteMapper {
                 .collect(Collectors.toList());
     }
 
-    public static GetNumbersWrongNTimeDto.Request toGetNumbersWrongNTimeDto(
+    public static GetNumbersWrongNTimesDto.Request toGetNumbersWrongNTimeDto(
             long mistakeNoteId, int count, int from, int to) {
-        return GetNumbersWrongNTimeDto.Request.builder()
+        return GetNumbersWrongNTimesDto.Request.builder()
                 .mistakeNoteId(mistakeNoteId)
                 .count(count)
                 .from(from)
@@ -83,7 +84,7 @@ public class MistakeNoteMapper {
     }
 
     public static GetNumbersWrongNTimes toGetNumbersWrongNTimesRes(
-            GetNumbersWrongNTimeDto.Response numbersWrongNTimes) {
+            GetNumbersWrongNTimesDto.Response numbersWrongNTimes) {
         return GetNumbersWrongNTimes.builder()
                 .wrongNumbers(numbersWrongNTimes.getWrongNumbers())
                 .build();

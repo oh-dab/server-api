@@ -13,17 +13,17 @@ import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMi
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimeDto;
 import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
@@ -48,12 +48,6 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
                                 new WorkbookId(workbookId), new StudentId(studentId))
                         .orElseThrow(() -> new NoMistakeNoteException("존재하지 않는 오답노트입니다."));
         return mapToMistakeNoteInfo(mistakeNote);
-    }
-
-    @Override
-    public GetNumbersWrongNTimeDto.Response getNumbersWrongNTimes(
-            GetNumbersWrongNTimeDto.Request getNumbersWrongNTimeDto) {
-        return null;
     }
 
     private GetMistakeNoteInfoOfStudentDto.Response mapToMistakeNoteInfo(MistakeNote mistakeNote) {

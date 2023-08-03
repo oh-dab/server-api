@@ -8,14 +8,16 @@ import com.ohdab.mistakenote.controller.response.GetNumbersWrongNTimes;
 import com.ohdab.mistakenote.controller.response.SaveMistakeNoteInfoRes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimeDto;
+import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
-import java.util.List;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -23,6 +25,7 @@ import org.springframework.web.bind.annotation.*;
 public class MistakeNoteController {
 
     private final GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
+    private final GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
     private final SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
 
     @GetMapping("/workbooks/{workbook-id}/students/{student-id}")
@@ -41,8 +44,8 @@ public class MistakeNoteController {
             @RequestParam(name = "count") int count,
             @RequestParam(name = "from") int from,
             @RequestParam(name = "to") int to) {
-        GetNumbersWrongNTimeDto.Response numbersWrongNTimes =
-                getMistakeNoteInfoUsecase.getNumbersWrongNTimes(
+        GetNumbersWrongNTimesDto.Response numbersWrongNTimes =
+                getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(
                         MistakeNoteMapper.toGetNumbersWrongNTimeDto(
                                 mistakeNoteId, count, from, to));
         return ResponseEntity.ok(MistakeNoteMapper.toGetNumbersWrongNTimesRes(numbersWrongNTimes));
