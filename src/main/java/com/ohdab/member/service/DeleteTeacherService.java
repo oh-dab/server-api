@@ -22,20 +22,12 @@ public class DeleteTeacherService implements DeleteTeacherUsecase {
         Member member = memberHelperService.findExistingMemberById(memberRepository, id);
         throwIfInactiveMember(member);
         member.withdrawal();
-        throwIfWithdrawalFailed(member);
     }
 
     private void throwIfInactiveMember(Member member) {
         if (member.getStatus() == MemberStatus.INACTIVE) {
             throw new IllegalStateException(
                     "Already withdrawal Member with id \"" + member.getId() + "\"");
-        }
-    }
-
-    private void throwIfWithdrawalFailed(Member member) {
-        if (member.getStatus() != MemberStatus.INACTIVE) {
-            throw new IllegalStateException(
-                    "Withdrawal Failed with Member id \"" + member.getId() + "\"");
         }
     }
 }
