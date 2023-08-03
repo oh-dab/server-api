@@ -1,6 +1,6 @@
 package com.ohdab.mistakenote.service;
 
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -12,8 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetNumbersWrongNTimesService implements GetNumbersWrongNTimesUsecase {
 
     @Override
-    public GetNumbersWrongNTimesDto.Response getNumbersWrongNTimes(
-            GetNumbersWrongNTimesDto.Request getNumbersWrongNTimeDto) {
+    public GetNumberWrongNTimesDto.Response getNumberWrongNTimes(
+            GetNumberWrongNTimesDto.Request getNumberWrongNTimeDto) {
         return null;
     }
 }

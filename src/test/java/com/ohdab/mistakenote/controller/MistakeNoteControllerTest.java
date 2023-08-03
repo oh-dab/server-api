@@ -1,5 +1,29 @@
 package com.ohdab.mistakenote.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
+import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
+import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -11,29 +35,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
-import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
-import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
-import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MistakeNoteController.class)
@@ -187,14 +188,14 @@ class MistakeNoteControllerTest {
         final String GET_NUMBER_WRONG_N_TIMES =
                 "/mistake-notes/workbooks/{workbook-id}/{mistake-note-id}";
 
-        final String wrongNumbers = "30,31,33,40,45,50";
+        final String wrongNumber = "30,31,33,40,45,50";
 
-        final GetNumbersWrongNTimesDto.Response responseDto =
-                GetNumbersWrongNTimesDto.Response.builder().wrongNumbers(wrongNumbers).build();
+        final GetNumberWrongNTimesDto.Response responseDto =
+                GetNumberWrongNTimesDto.Response.builder().wrongNumber(wrongNumber).build();
 
         // when
-        when(getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(
-                        any(GetNumbersWrongNTimesDto.Request.class)))
+        when(getNumbersWrongNTimesUsecase.getNumberWrongNTimes(
+                        any(GetNumberWrongNTimesDto.Request.class)))
                 .thenReturn(responseDto);
 
         // then
@@ -208,9 +209,9 @@ class MistakeNoteControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.wrongNumbers").value(wrongNumbers))
+                        jsonPath("$.wrongNumber").value(wrongNumber))
                 .andDo(print())
-                .andDo(createDocument("mistake_note/getNumbersWrongNTimes"));
+                .andDo(createDocument("mistake_note/getNumberWrongNTimes"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {

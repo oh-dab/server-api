@@ -3,16 +3,17 @@ package com.ohdab.mistakenote.controller.mapper;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.controller.response.GetAllMistakeNoteInfoRes;
 import com.ohdab.mistakenote.controller.response.GetMistakeNoteInfoOfStudentRes;
-import com.ohdab.mistakenote.controller.response.GetNumbersWrongNTimes;
+import com.ohdab.mistakenote.controller.response.GetNumberWrongNTimes;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
-import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class MistakeNoteMapper {
@@ -72,9 +73,9 @@ public class MistakeNoteMapper {
                 .collect(Collectors.toList());
     }
 
-    public static GetNumbersWrongNTimesDto.Request toGetNumbersWrongNTimeDto(
+    public static GetNumberWrongNTimesDto.Request toGetNumberWrongNTimeDto(
             long workbookId, long mistakeNoteId, int count, int from, int to) {
-        return GetNumbersWrongNTimesDto.Request.builder()
+        return GetNumberWrongNTimesDto.Request.builder()
                 .workbookId(workbookId)
                 .mistakeNoteId(mistakeNoteId)
                 .count(count)
@@ -83,10 +84,10 @@ public class MistakeNoteMapper {
                 .build();
     }
 
-    public static GetNumbersWrongNTimes toGetNumbersWrongNTimesRes(
-            GetNumbersWrongNTimesDto.Response numbersWrongNTimes) {
-        return GetNumbersWrongNTimes.builder()
-                .wrongNumbers(numbersWrongNTimes.getWrongNumbers())
+    public static GetNumberWrongNTimes toGetNumberWrongNTimesRes(
+            GetNumberWrongNTimesDto.Response numbersWrongNTimes) {
+        return GetNumberWrongNTimes.builder()
+                .wrongNumber(numbersWrongNTimes.getWrongNumber())
                 .build();
     }
 }

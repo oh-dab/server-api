@@ -6,7 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class GetNumbersWrongNTimesDto {
+public class GetNumberWrongNTimesDto {
 
     @Getter
     @Builder
@@ -23,6 +23,6 @@ public class GetNumbersWrongNTimesDto {
     @Builder
     public static class Response {
 
-        private String wrongNumbers;
+        private String wrongNumber;
     }
 }
