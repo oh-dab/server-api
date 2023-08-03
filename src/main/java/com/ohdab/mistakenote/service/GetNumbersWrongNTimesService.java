@@ -12,7 +12,8 @@ import org.springframework.transaction.annotation.Transactional;
 public class GetNumbersWrongNTimesService implements GetNumbersWrongNTimesUsecase {
 
     @Override
-    public GetNumbersWrongNTimesDto.Response getNumbersWrongNTimes(GetNumbersWrongNTimesDto.Request getNumbersWrongNTimeDto) {
+    public GetNumbersWrongNTimesDto.Response getNumbersWrongNTimes(
+            GetNumbersWrongNTimesDto.Request getNumbersWrongNTimeDto) {
         return null;
     }
 }
