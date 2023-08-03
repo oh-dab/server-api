@@ -184,7 +184,8 @@ class MistakeNoteControllerTest {
     @WithMockUser
     void 학생별_N번_이상_틀린_문제_출력() throws Exception {
         // given
-        final String GET_NUMBER_WRONG_N_TIMES = "/mistake-notes/{mistake-note-id}";
+        final String GET_NUMBER_WRONG_N_TIMES =
+                "/mistake-notes/workbooks/{workbook-id}/{mistake-note-id}";
 
         final String wrongNumbers = "30,31,33,40,45,50";
 
@@ -198,7 +199,7 @@ class MistakeNoteControllerTest {
 
         // then
         mockMvc.perform(
-                        get(GET_NUMBER_WRONG_N_TIMES, 1L)
+                        get(GET_NUMBER_WRONG_N_TIMES, 1L, 2L)
                                 .param("count", "2")
                                 .param("from", "30")
                                 .param("to", "50")

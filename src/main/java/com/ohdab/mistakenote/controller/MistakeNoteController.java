@@ -12,11 +12,12 @@ import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
-import java.util.List;
-import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
+import java.util.List;
 
 @RestController
 @RequiredArgsConstructor
@@ -37,8 +38,9 @@ public class MistakeNoteController {
                 MistakeNoteMapper.toGetMistakeNoteInfoOfStudentRes(mistakeNoteInfo));
     }
 
-    @GetMapping("/{mistake-note-id}")
+    @GetMapping("/workbooks/{workbook-id}/{mistake-note-id}")
     public ResponseEntity<GetNumbersWrongNTimes> getNumbersWrongNTimes(
+            @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "mistake-note-id") long mistakeNoteId,
             @RequestParam(name = "count") int count,
             @RequestParam(name = "from") int from,
@@ -46,7 +48,7 @@ public class MistakeNoteController {
         GetNumbersWrongNTimesDto.Response numbersWrongNTimes =
                 getNumbersWrongNTimesUsecase.getNumbersWrongNTimes(
                         MistakeNoteMapper.toGetNumbersWrongNTimeDto(
-                                mistakeNoteId, count, from, to));
+                                workbookId, mistakeNoteId, count, from, to));
         return ResponseEntity.ok(MistakeNoteMapper.toGetNumbersWrongNTimesRes(numbersWrongNTimes));
     }
 

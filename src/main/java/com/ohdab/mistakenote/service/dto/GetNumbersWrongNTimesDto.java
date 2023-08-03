@@ -12,6 +12,7 @@ public class GetNumbersWrongNTimesDto {
     @Builder
     public static class Request {
 
+        private long workbookId;
         private long mistakeNoteId;
         private int count;
         private int from;
