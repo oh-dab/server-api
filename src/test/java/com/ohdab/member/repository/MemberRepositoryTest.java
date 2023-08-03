@@ -48,6 +48,25 @@ public class MemberRepositoryTest {
         assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
     }
 
+    @Test
+    @DisplayName("선생님 추가 성공 테스트")
+    void 선생님_추가_성공() {
+        // given
+        Authority teacher = new Authority("TEACHER");
+        Member member = createMember("선생님", "tjstodsla", teacher);
+
+        // when
+        memberRepository.save(member);
+        Member result = memberRepository.findById(member.getId()).get();
+
+        // then
+        assertThat(result.getId()).isNotNegative();
+        assertThat(result.getMemberInfo().getName()).isEqualTo("선생님");
+        assertThat(result.getMemberInfo().getPassword()).isEqualTo("tjstodsla");
+        assertThat(result.getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
+        assertThat(result.getStatus().name()).isEqualTo("ACTIVE");
+    }
+
     private Member createMember(String name, String password, Authority role) {
         List<Authority> authorities = new ArrayList<>();
         authorities.add(role);
