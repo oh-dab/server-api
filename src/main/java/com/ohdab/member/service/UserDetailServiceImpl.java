@@ -22,7 +22,7 @@ public class UserDetailServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String name) throws UsernameNotFoundException {
-        Member member = memberHelperService.findExistingMember(memberRepository, name);
+        Member member = memberHelperService.findExistingMemberByName(memberRepository, name);
         return createUserDetails(member);
     }
 

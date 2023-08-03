@@ -1,6 +1,7 @@
 package com.ohdab.member.repository;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.groups.Tuple.tuple;
 
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
@@ -25,10 +26,10 @@ public class MemberRepositoryTest {
         // given
         Authority teacher = new Authority("TEACHER");
         Authority student = new Authority("STUDENT");
-        memberRepository.save(createMember("선생님", "tjstodsla", teacher));
-        memberRepository.save(createMember("선생님2", "tjstodsla2", teacher));
-        memberRepository.save(createMember("선생님3", "tjstodsla3", teacher));
-        memberRepository.save(createMember("학생", "gkrtod", student));
+        Member teacher1 = memberRepository.save(createMember("선생님", "tjstodsla", teacher));
+        Member teacher2 = memberRepository.save(createMember("선생님2", "tjstodsla2", teacher));
+        Member teacher3 = memberRepository.save(createMember("선생님3", "tjstodsla3", teacher));
+        Member student1 = memberRepository.save(createMember("학생", "gkrtod", student));
         entityManager.flush();
         entityManager.clear();
 
@@ -36,16 +37,33 @@ public class MemberRepositoryTest {
         List<Member> results = memberRepository.findByAuthoritiesContaining(teacher);
 
         // then
-        assertThat(results.size()).isEqualTo(3);
-        assertThat(results.get(0).getMemberInfo().getName()).isEqualTo("선생님");
-        assertThat(results.get(0).getMemberInfo().getPassword()).isEqualTo("tjstodsla");
-        assertThat(results.get(0).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
-        assertThat(results.get(1).getMemberInfo().getName()).isEqualTo("선생님2");
-        assertThat(results.get(1).getMemberInfo().getPassword()).isEqualTo("tjstodsla2");
-        assertThat(results.get(1).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
-        assertThat(results.get(2).getMemberInfo().getName()).isEqualTo("선생님3");
-        assertThat(results.get(2).getMemberInfo().getPassword()).isEqualTo("tjstodsla3");
-        assertThat(results.get(2).getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
+        assertThat(results)
+                .hasSize(3)
+                .extracting(
+                        Member::getId,
+                        m -> m.getMemberInfo().getName(),
+                        m -> m.getMemberInfo().getPassword(),
+                        m -> m.getAuthorities().get(0).getRole(),
+                        Member::getStatus)
+                .contains(
+                        tuple(
+                                teacher1.getId(),
+                                teacher1.getMemberInfo().getName(),
+                                teacher1.getMemberInfo().getPassword(),
+                                teacher1.getAuthorities().get(0).getRole(),
+                                teacher1.getStatus()),
+                        tuple(
+                                teacher2.getId(),
+                                teacher2.getMemberInfo().getName(),
+                                teacher2.getMemberInfo().getPassword(),
+                                teacher2.getAuthorities().get(0).getRole(),
+                                teacher2.getStatus()),
+                        tuple(
+                                teacher3.getId(),
+                                teacher3.getMemberInfo().getName(),
+                                teacher3.getMemberInfo().getPassword(),
+                                teacher3.getAuthorities().get(0).getRole(),
+                                teacher3.getStatus()));
     }
 
     @Test
@@ -60,11 +78,19 @@ public class MemberRepositoryTest {
         Member result = memberRepository.findById(member.getId()).get();
 
         // then
-        assertThat(result.getId()).isNotNegative();
-        assertThat(result.getMemberInfo().getName()).isEqualTo("선생님");
-        assertThat(result.getMemberInfo().getPassword()).isEqualTo("tjstodsla");
-        assertThat(result.getAuthorities().get(0).getRole()).isEqualTo("TEACHER");
-        assertThat(result.getStatus().name()).isEqualTo("ACTIVE");
+        assertThat(result)
+                .extracting(
+                        Member::getId,
+                        m -> m.getMemberInfo().getName(),
+                        m -> m.getMemberInfo().getPassword(),
+                        m -> m.getAuthorities().get(0).getRole(),
+                        Member::getStatus)
+                .containsExactly(
+                        member.getId(),
+                        member.getMemberInfo().getName(),
+                        member.getMemberInfo().getPassword(),
+                        member.getAuthorities().get(0).getRole(),
+                        member.getStatus());
     }
 
     private Member createMember(String name, String password, Authority role) {
