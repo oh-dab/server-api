@@ -1,6 +1,7 @@
 package com.ohdab.mistakenote.repository.mapper;
 
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetNumbersWrongNTimesDto;
 import java.util.List;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,4 +9,6 @@ import org.apache.ibatis.annotations.Mapper;
 public interface MistakeRecordMapper {
 
     List<AllMistakeNoteInfoDto> findAllMistakeNoteInfo(List<Long> mistakeNoteIdList);
+
+    List<Integer> findNumbersWrongNTimes(GetNumbersWrongNTimesDto.Request request);
 }
