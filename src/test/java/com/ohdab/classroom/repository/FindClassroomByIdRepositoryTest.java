@@ -36,12 +36,12 @@ class FindClassroomByIdRepositoryTest {
         classroom1.addStudent(StudentId.builder().id(3).build());
         classroom1.addWorkbook(WorkbookId.builder().id(4).build());
         classroomRepository.save(classroom1);
-
+        long id = classroom1.getId();
         // when
-        Classroom foundClassroom = classroomRepository.findClassroomById(1);
+        Classroom foundClassroom = classroomRepository.findClassroomById(id);
 
         // then
-        assertThat(foundClassroom.getId()).isEqualTo(1);
+        assertThat(foundClassroom.getId()).isEqualTo(id);
         assertThat(foundClassroom.getTeacher().getId()).isEqualTo(2);
         assertThat(foundClassroom.getClassroomInfo().getName()).isEqualTo("1반");
         assertThat(foundClassroom.getClassroomInfo().getDescription()).isEqualTo("1반 설명");
