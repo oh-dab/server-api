@@ -12,4 +12,13 @@
         </foreach>
         group by problem_number
     </select>
+
+    <select id="findNumbersWrongNTimes" parameterType="com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto$Request" resultType="Integer">
+        select problem_number
+        from MISTAKE_RECORD
+        where mistakenote_id = #{mistakeNoteId}
+          and count >= #{count}
+          and problem_number between #{from} and #{to}
+        order by problem_number asc
+    </select>
 </mapper>
