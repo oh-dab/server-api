@@ -12,12 +12,14 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.member.controller.MemberController;
+import com.ohdab.member.controller.request.AddTeacherReq;
 import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
 import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
 import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.dto.MemberDtoForLogin;
+import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import com.ohdab.member.service.usecase.LoginUsecase;
@@ -42,6 +44,7 @@ class MemberControllerTest {
     @MockBean private JoinUsecase joinUsecase;
     @MockBean private LoginUsecase loginUsecase;
     @MockBean private GetTeacherListUsecase getTeacherListUsecase;
+    @MockBean private AddTeacherUsecase addTeacherUsecase;
 
     @Test
     @WithMockUser
@@ -145,6 +148,29 @@ class MemberControllerTest {
                 .authorities(List.of("TEACHER"))
                 .status("ACTIVE")
                 .build();
+    }
+
+    @Test
+    @WithMockUser
+    void 선생님_추가() throws Exception {
+        // given
+        final String url = "/members/teachers/enrollment";
+        final AddTeacherReq addTeacherReq = AddTeacherReq.builder().name("선생님").build();
+
+        // when
+
+        // then
+        mockMvc.perform(
+                        post(url)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(addTeacherReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("선생님 추가에 성공하였습니다."))
+                .andDo(print())
+                .andDo(createDocument("members/teachers/enrollment"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {

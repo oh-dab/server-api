@@ -1,10 +1,13 @@
 package com.ohdab.member.controller.mapper;
 
+import com.ohdab.member.controller.request.AddTeacherReq;
 import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
+import com.ohdab.member.controller.response.AddTeacherRes;
 import com.ohdab.member.controller.response.GetTeacherListRes;
 import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
+import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.dto.MemberDtoForLogin;
@@ -58,5 +61,14 @@ public class MemberWebMapper {
                                                         .build())
                                 .collect(Collectors.toList()))
                 .build();
+    }
+
+    public static MemberDtoForAddTeacher.Request addTeacherRequestToDto(
+            AddTeacherReq addTeacherReq) {
+        return MemberDtoForAddTeacher.Request.builder().name(addTeacherReq.getName()).build();
+    }
+
+    public static AddTeacherRes createAddTeacherRes() {
+        return AddTeacherRes.builder().message("선생님 추가에 성공하였습니다.").build();
     }
 }
