@@ -1,8 +1,9 @@
-package com.ohdab.webmvc.member.controller;
+package com.ohdab.member.Controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -15,9 +16,12 @@ import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
 import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
+import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.dto.MemberDtoForLogin;
+import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import com.ohdab.member.service.usecase.LoginUsecase;
+import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -37,6 +41,7 @@ class MemberControllerTest {
     @Autowired private ObjectMapper objectMapper;
     @MockBean private JoinUsecase joinUsecase;
     @MockBean private LoginUsecase loginUsecase;
+    @MockBean private GetTeacherListUsecase getTeacherListUsecase;
 
     @Test
     @WithMockUser
@@ -95,6 +100,51 @@ class MemberControllerTest {
                         jsonPath("$.jwtToken").value(loginRes.getJwtToken()))
                 .andDo(print())
                 .andDo(createDocument("members/login"));
+    }
+
+    @Test
+    @WithMockUser
+    void 선생님_목록_조회() throws Exception {
+        // given
+        final String url = "/members/teachers";
+
+        List<MemberDtoForGetTeacherList.Response> responseList = new ArrayList<>();
+
+        responseList.add(createTeacher(1L, "선생님"));
+        responseList.add(createTeacher(2L, "선생님2"));
+        responseList.add(createTeacher(3L, "선생님3"));
+
+        // when
+        when(getTeacherListUsecase.getTeacherList()).thenReturn(responseList);
+
+        // then
+        mockMvc.perform(get(url).with(csrf()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.teachers[0].id").value(1),
+                        jsonPath("$.teachers[0].name").value("선생님"),
+                        jsonPath("$.teachers[0].authorities[0]").value("TEACHER"),
+                        jsonPath("$.teachers[0].status").value("ACTIVE"),
+                        jsonPath("$.teachers[1].id").value(2),
+                        jsonPath("$.teachers[1].name").value("선생님2"),
+                        jsonPath("$.teachers[1].authorities[0]").value("TEACHER"),
+                        jsonPath("$.teachers[1].status").value("ACTIVE"),
+                        jsonPath("$.teachers[2].id").value(3),
+                        jsonPath("$.teachers[2].name").value("선생님3"),
+                        jsonPath("$.teachers[2].authorities[0]").value("TEACHER"),
+                        jsonPath("$.teachers[2].status").value("ACTIVE"))
+                .andDo(print())
+                .andDo(createDocument("members/teachers"));
+    }
+
+    private MemberDtoForGetTeacherList.Response createTeacher(long id, String name) {
+        return MemberDtoForGetTeacherList.Response.builder()
+                .id(id)
+                .name(name)
+                .authorities(List.of("TEACHER"))
+                .status("ACTIVE")
+                .build();
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {

@@ -16,8 +16,6 @@ public class MemberDtoForGetTeacherList {
 
         private String name;
 
-        private String password;
-
         private List<String> authorities;
 
         private String status;

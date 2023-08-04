@@ -33,8 +33,8 @@ public class GetTeacherListService implements GetTeacherListUsecase {
                                 MemberDtoForGetTeacherList.Response.builder()
                                         .id(member.getId())
                                         .name(member.getMemberInfo().getName())
-                                        .password(member.getMemberInfo().getPassword())
                                         .authorities(createAuthoritiesDto(member.getAuthorities()))
+                                        .status(member.getStatus().name())
                                         .build())
                 .collect(Collectors.toList());
     }

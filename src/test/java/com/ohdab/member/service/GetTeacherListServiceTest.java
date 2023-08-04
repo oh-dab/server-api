@@ -1,6 +1,7 @@
 package com.ohdab.member.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
@@ -41,16 +42,13 @@ public class GetTeacherListServiceTest {
         List<MemberDtoForGetTeacherList.Response> results = getTeacherListUsecase.getTeacherList();
 
         // then
-        assertThat(results.size()).isEqualTo(3);
-        assertThat(results.get(0).getName()).isEqualTo("선생님1");
-        assertThat(results.get(0).getPassword()).isEqualTo("tjstodsla1");
-        assertThat(results.get(0).getAuthorities().get(0)).isEqualTo("TEACHER");
-        assertThat(results.get(1).getName()).isEqualTo("선생님2");
-        assertThat(results.get(1).getPassword()).isEqualTo("tjstodsla2");
-        assertThat(results.get(1).getAuthorities().get(0)).isEqualTo("TEACHER");
-        assertThat(results.get(2).getName()).isEqualTo("선생님3");
-        assertThat(results.get(2).getPassword()).isEqualTo("tjstodsla3");
-        assertThat(results.get(2).getAuthorities().get(0)).isEqualTo("TEACHER");
+        assertThat(results)
+                .hasSize(3)
+                .extracting(m -> m.getName(), m -> m.getAuthorities().get(0), m -> m.getStatus())
+                .contains(
+                        tuple("선생님1", "TEACHER", "ACTIVE"),
+                        tuple("선생님2", "TEACHER", "ACTIVE"),
+                        tuple("선생님3", "TEACHER", "ACTIVE"));
     }
 
     private Member createTeacher(String name, String password) {
