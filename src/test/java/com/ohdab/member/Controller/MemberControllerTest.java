@@ -4,6 +4,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.get;
+import static org.springframework.restdocs.mockmvc.RestDocumentationRequestBuilders.patch;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -20,6 +21,7 @@ import com.ohdab.member.controller.response.LoginRes;
 import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.dto.MemberDtoForLogin;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
+import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
 import com.ohdab.member.service.usecase.GetTeacherListUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import com.ohdab.member.service.usecase.LoginUsecase;
@@ -45,6 +47,7 @@ class MemberControllerTest {
     @MockBean private LoginUsecase loginUsecase;
     @MockBean private GetTeacherListUsecase getTeacherListUsecase;
     @MockBean private AddTeacherUsecase addTeacherUsecase;
+    @MockBean private DeleteTeacherUsecase deleteTeacherUsecase;
 
     @Test
     @WithMockUser
@@ -168,9 +171,27 @@ class MemberControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.message").value("선생님 추가에 성공하였습니다."))
+                        jsonPath("$.message").value("선생님 추가 및 회원가입에 성공하였습니다."))
                 .andDo(print())
                 .andDo(createDocument("members/teachers/enrollment"));
+    }
+
+    @Test
+    @WithMockUser
+    void 선생님_삭제() throws Exception {
+        // given
+        final String url = "/members/teachers/expulsion/{teacher-id}";
+
+        // when
+
+        // then
+        mockMvc.perform(patch(url, 1).with(csrf()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("선생님 삭제 및 탈퇴에 성공하였습니다."))
+                .andDo(print())
+                .andDo(createDocument("members/teachers/expulsion/{teacher-id}"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {
