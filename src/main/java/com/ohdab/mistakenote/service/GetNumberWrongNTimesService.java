@@ -43,8 +43,8 @@ public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase 
         int endingNumber = getEndingNumber(workbook);
         int from = getFrom(getNumberWrongNTimeDto);
         int to = getTo(getNumberWrongNTimeDto);
-        if (!fromIsInRange(from, startingNumber, endingNumber)
-                || !toIsInRange(to, startingNumber, endingNumber)) {
+        if (isNotInRange(from, startingNumber, endingNumber)
+                || isNotInRange(to, startingNumber, endingNumber)) {
             throw new NumberIsOutOfRangeException("교재에 존재하지 않는 번호를 요청했습니다.");
         }
     }
@@ -65,12 +65,8 @@ public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase 
         return getNumberWrongNTimeDto.getFrom();
     }
 
-    private boolean fromIsInRange(int from, int startingNumber, int endingNumber) {
-        return (startingNumber <= from && from <= endingNumber);
-    }
-
-    private boolean toIsInRange(int to, int startingNumber, int endingNumber) {
-        return (startingNumber <= to && to <= endingNumber);
+    private boolean isNotInRange(int target, int startingNumber, int endingNumber) {
+        return (target < startingNumber || endingNumber < target);
     }
 
     private String wrongNumbersToString(List<Integer> numberWrongNTimes) {
