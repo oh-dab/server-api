@@ -1,24 +1,23 @@
 package com.ohdab.mistakenote.repository.mapper;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
+
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-
-import javax.persistence.EntityManager;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
 
 @DataJpaTest
 @AutoConfigureMybatis
@@ -127,19 +126,19 @@ class MistakeRecordMapperTest {
         em.flush();
         em.clear();
 
-        final GetNumberWrongNTimesDto.Request requestDto = GetNumberWrongNTimesDto.Request.builder()
-                .workbookId(10L)
-                .mistakeNoteId(savedMistakeNote.getId())
-                .count(2)
-                .from(10)
-                .to(30)
-                .build();
+        final GetNumberWrongNTimesDto.Request requestDto =
+                GetNumberWrongNTimesDto.Request.builder()
+                        .workbookId(10L)
+                        .mistakeNoteId(savedMistakeNote.getId())
+                        .count(2)
+                        .from(10)
+                        .to(30)
+                        .build();
 
         // when
         List<Integer> result = mistakeRecordMapper.findNumbersWrongNTimes(requestDto);
 
         // then
-        assertThat(result).hasSize(3)
-                .contains(10, 20, 25);
+        assertThat(result).hasSize(3).contains(10, 20, 25);
     }
 }
