@@ -18,5 +18,5 @@ public class AddClassroomReq {
     private String grade;
 
     @NotNull(message = "선생님 아이디는 필수 입력값 입니다.")
-    private int teacherId;
+    private long teacherId;
 }
