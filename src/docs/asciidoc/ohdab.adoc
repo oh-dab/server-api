@@ -47,3 +47,13 @@ include::{snippets}/members/teachers/enrollment/http-request.adoc[]
 
 include::{snippets}/members/teachers/enrollment/http-response.adoc[]
 
+=== 선생님 삭제
+
+==== Request
+
+include::{snippets}/members/teachers/expulsion/{teacher-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/teachers/expulsion/{teacher-id}/http-response.adoc[]
+

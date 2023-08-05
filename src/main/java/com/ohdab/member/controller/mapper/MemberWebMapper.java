@@ -4,6 +4,7 @@ import com.ohdab.member.controller.request.AddTeacherReq;
 import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
 import com.ohdab.member.controller.response.AddTeacherRes;
+import com.ohdab.member.controller.response.DeleteTeacherRes;
 import com.ohdab.member.controller.response.GetTeacherListRes;
 import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
@@ -69,6 +70,10 @@ public class MemberWebMapper {
     }
 
     public static AddTeacherRes createAddTeacherRes() {
-        return AddTeacherRes.builder().message("선생님 추가에 성공하였습니다.").build();
+        return AddTeacherRes.builder().message("선생님 추가 및 회원가입에 성공하였습니다.").build();
+    }
+
+    public static DeleteTeacherRes createDeleteTeacherRes() {
+        return DeleteTeacherRes.builder().message("선생님 삭제 및 탈퇴에 성공하였습니다.").build();
     }
 }
