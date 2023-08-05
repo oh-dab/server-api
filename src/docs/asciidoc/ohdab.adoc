@@ -25,4 +25,14 @@ include::{snippets}/members/login/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/members/login/http-response.adoc[]
+include::{snippets}/members/login/http-response.adoc
+
+=== 반 목록 조회
+
+==== Request
+
+include::{snippets}/members/teachers/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/teachers/http-response.adoc[]
