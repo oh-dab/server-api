@@ -149,7 +149,7 @@ class MemberControllerTest {
                 .status("ACTIVE")
                 .build();
     }
-
+  
     @Test
     @WithMockUser
     void 선생님_추가() throws Exception {

@@ -46,3 +46,4 @@ include::{snippets}/members/teachers/enrollment/http-request.adoc[]
 ==== Response
 
 include::{snippets}/members/teachers/enrollment/http-response.adoc[]
+
