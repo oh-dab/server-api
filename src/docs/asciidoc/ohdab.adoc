@@ -56,3 +56,4 @@ include::{snippets}/members/teachers/expulsion/{teacher-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/members/teachers/expulsion/{teacher-id}/http-response.adoc[]
+
