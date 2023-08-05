@@ -67,6 +67,7 @@ public class MemberController {
         addTeacherUsecase.addTeacher(addTeacherDto);
         return ResponseEntity.ok(MemberWebMapper.createAddTeacherRes());
     }
+
     @PatchMapping("/teachers/expulsion/{teacher-id}")
     public ResponseEntity<DeleteTeacherRes> deleteTeacher(@PathVariable("teacher-id") long id) {
         deleteTeacherUsecase.deleteTeacherById(id);
