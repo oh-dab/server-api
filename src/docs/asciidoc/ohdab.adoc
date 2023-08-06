@@ -43,11 +43,11 @@ include::{snippets}/classrooms/enrollment/http-response.adoc[]
 
 ==== Request
 
-include::{snippets}/classrooms/http-request.adoc[]
+include::{snippets}/classrooms?teacherId=/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/classrooms/http-response.adoc[]
+include::{snippets}/classrooms?teacherId=/http-response.adoc[]
 
 === 반 상세 조회
 
