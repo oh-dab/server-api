@@ -39,7 +39,6 @@ class ClassroomControllerTest {
     @MockBean private FindClassroomListUsecase findClassroomListUsecase;
     @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
 
-
     @Test
     @WithMockUser
     void 반추가() throws Exception {
