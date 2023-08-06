@@ -46,7 +46,7 @@ public class UpdateClassroomRepositoryTest {
         Classroom foundClassrooom = classroomRepository.findClassroomById(saveClassroom.getId());
 
         // then
-        Assertions.assertThat(foundClassrooom.getId()).isEqualTo(1);
+        Assertions.assertThat(foundClassrooom.getId()).isEqualTo(saveClassroom.getId());
         Assertions.assertThat(foundClassrooom.getClassroomInfo().getName()).isEqualTo("2반");
         Assertions.assertThat(foundClassrooom.getClassroomInfo().getDescription()).isEqualTo("22");
         Assertions.assertThat(foundClassrooom.getClassroomInfo().getGrade())
