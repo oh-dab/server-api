@@ -6,17 +6,18 @@ import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import com.ohdab.classroom.service.usecase.FindClassroomDetailUsecase;
 import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
+import com.ohdab.classroom.service.usecase.UpdateClassroomInfoUsecase;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -38,6 +39,7 @@ class ClassroomControllerTest {
     @MockBean private AddClassroomUsecase addClassroomUsecase;
     @MockBean private FindClassroomListUsecase findClassroomListUsecase;
     @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
+    @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
 
     @Test
     @WithMockUser
@@ -160,6 +162,30 @@ class ClassroomControllerTest {
                         jsonPath("$.workbookIds[0]").value(4))
                 .andDo(print())
                 .andDo(createDocument("classrooms/{classroom-id}"));
+    }
+
+    @Test
+    @WithMockUser
+    void 반정보수정() throws Exception {
+        // given
+        final String url = "/classrooms/info/";
+        UpdateClassroomReq request =
+                UpdateClassroomReq.builder().name("2반").description("2222").grade("high2").build();
+
+        // when
+
+        // then
+        mockMvc.perform(
+                        patch(url + "{classroom-id}", 1)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(request))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("반 정보 수정 성공"))
+                .andDo(print())
+                .andDo(createDocument("classrooms/info/{classroom-id}"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {
