@@ -14,10 +14,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.service.dto.ClassroomDto;
-import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
-import com.ohdab.classroom.service.usecase.FindClassroomDetailUsecase;
-import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
-import com.ohdab.classroom.service.usecase.UpdateClassroomInfoUsecase;
+import com.ohdab.classroom.service.usecase.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -40,6 +37,7 @@ class ClassroomControllerTest {
     @MockBean private FindClassroomListUsecase findClassroomListUsecase;
     @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
     @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
+    @MockBean private DeleteClassroomUsecase deleteClassroomUsecase;
 
     @Test
     @WithMockUser
@@ -186,6 +184,24 @@ class ClassroomControllerTest {
                         jsonPath("$.message").value("반 정보 수정 성공"))
                 .andDo(print())
                 .andDo(createDocument("classrooms/info/{classroom-id}"));
+    }
+
+    @Test
+    @WithMockUser
+    void 반삭제() throws Exception {
+        // given
+        final String url = "/classrooms/expulsion/";
+
+        // when
+
+        // then
+        mockMvc.perform(delete(url + "{classroom-id}", 1).with(csrf()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("반 삭제 성공"))
+                .andDo(print())
+                .andDo(createDocument("classrooms/expulsion/{classroom-id}"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {

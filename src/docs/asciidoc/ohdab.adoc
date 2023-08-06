@@ -68,3 +68,13 @@ include::{snippets}/classrooms/info/{classroom-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/info/{classroom-id}/http-response.adoc[]
+
+=== 반 삭제
+
+==== Request
+
+include::{snippets}/classrooms/expulsion/{classroom-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/expulsion/{classroom-id}/http-response.adoc[]
