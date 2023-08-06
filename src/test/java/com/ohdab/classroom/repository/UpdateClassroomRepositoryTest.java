@@ -34,7 +34,7 @@ public class UpdateClassroomRepositoryTest {
         classroomRepository.save(classroom);
         em.flush();
         em.clear();
-        Classroom saveClassroom = classroomRepository.findClassroomById(1);
+        Classroom saveClassroom = classroomRepository.findAllByTeacherId(1).get(0);
 
         saveClassroom.setClassroomInfo(
                 ClassroomInfo.builder().name("2반").description("22").grade(Grade.HIGH_2).build());
@@ -43,7 +43,7 @@ public class UpdateClassroomRepositoryTest {
         em.clear();
 
         // when
-        Classroom foundClassrooom = classroomRepository.findClassroomById(1);
+        Classroom foundClassrooom = classroomRepository.findClassroomById(saveClassroom.getId());
 
         // then
         Assertions.assertThat(foundClassrooom.getId()).isEqualTo(1);
