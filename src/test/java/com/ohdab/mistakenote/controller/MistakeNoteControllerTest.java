@@ -18,8 +18,10 @@ import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -40,6 +42,7 @@ class MistakeNoteControllerTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
     @MockBean private GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
+    @MockBean private GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
     @MockBean private SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
 
     @Test
@@ -175,6 +178,39 @@ class MistakeNoteControllerTest {
                         jsonPath("$.mistakeNoteInfo.[2].wrongStudentsCount").value(7))
                 .andDo(print())
                 .andDo(createDocument("mistake_note/getAllMistakeNoteInfo"));
+    }
+
+    @Test
+    @WithMockUser
+    void 학생별_N번_이상_틀린_문제_출력() throws Exception {
+        // given
+        final String GET_NUMBER_WRONG_N_TIMES =
+                "/mistake-notes/workbooks/{workbook-id}/{mistake-note-id}";
+
+        final String wrongNumber = "30,31,33,40,45,50";
+
+        final GetNumberWrongNTimesDto.Response responseDto =
+                GetNumberWrongNTimesDto.Response.builder().wrongNumber(wrongNumber).build();
+
+        // when
+        when(getNumbersWrongNTimesUsecase.getNumberWrongNTimes(
+                        any(GetNumberWrongNTimesDto.Request.class)))
+                .thenReturn(responseDto);
+
+        // then
+        mockMvc.perform(
+                        get(GET_NUMBER_WRONG_N_TIMES, 1L, 2L)
+                                .param("count", "2")
+                                .param("from", "30")
+                                .param("to", "50")
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.wrongNumber").value(wrongNumber))
+                .andDo(print())
+                .andDo(createDocument("mistake_note/getNumberWrongNTimes"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {

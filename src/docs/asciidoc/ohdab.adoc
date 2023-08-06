@@ -39,6 +39,16 @@ include::{snippets}/mistake_note/getAllMistakeNoteInfo/http-request.adoc[]
 
 include::{snippets}/mistake_note/getAllMistakeNoteInfo/http-response.adoc[]
 
+=== 학생별 N번 틀린 문제 문자열 출력
+
+==== Request
+
+include::{snippets}/mistake_note/getNumberWrongNTimes/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/mistake_note/getNumberWrongNTimes/http-response.adoc[]
+
 === 학생별 오답노트 조회
 
 ==== Request
