@@ -21,7 +21,7 @@ import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
-import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.ArrayList;
 import java.util.List;
@@ -42,7 +42,7 @@ class MistakeNoteControllerTest {
     @Autowired private MockMvc mockMvc;
     @Autowired private ObjectMapper objectMapper;
     @MockBean private GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
-    @MockBean private GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
+    @MockBean private GetNumberWrongNTimesUsecase getNumberWrongNTimesUsecase;
     @MockBean private SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
 
     @Test
@@ -193,7 +193,7 @@ class MistakeNoteControllerTest {
                 GetNumberWrongNTimesDto.Response.builder().wrongNumber(wrongNumber).build();
 
         // when
-        when(getNumbersWrongNTimesUsecase.getNumberWrongNTimes(
+        when(getNumberWrongNTimesUsecase.getNumberWrongNTimes(
                         any(GetNumberWrongNTimesDto.Request.class)))
                 .thenReturn(responseDto);
 

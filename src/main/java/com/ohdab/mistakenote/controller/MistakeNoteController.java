@@ -10,7 +10,7 @@ import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
-import com.ohdab.mistakenote.service.usecase.GetNumbersWrongNTimesUsecase;
+import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import java.util.List;
 import javax.validation.Valid;
@@ -24,12 +24,12 @@ import org.springframework.web.bind.annotation.*;
 public class MistakeNoteController {
 
     private final GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
-    private final GetNumbersWrongNTimesUsecase getNumbersWrongNTimesUsecase;
+    private final GetNumberWrongNTimesUsecase getNumberWrongNTimesUsecase;
     private final SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
 
     @GetMapping("/workbooks/{workbook-id}/students/{student-id}")
     public ResponseEntity<List<GetMistakeNoteInfoOfStudentRes>> getMistakeNoteInfoOfStudent(
-            @PathVariable(name = "workbook-id") long workbookId,
+            @Valid @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "student-id") long studentId) {
         GetMistakeNoteInfoOfStudentDto.Response mistakeNoteInfo =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
@@ -45,7 +45,7 @@ public class MistakeNoteController {
             @RequestParam(name = "from") int from,
             @RequestParam(name = "to") int to) {
         GetNumberWrongNTimesDto.Response numberWrongNTimes =
-                getNumbersWrongNTimesUsecase.getNumberWrongNTimes(
+                getNumberWrongNTimesUsecase.getNumberWrongNTimes(
                         MistakeNoteMapper.toGetNumberWrongNTimeDto(
                                 workbookId, mistakeNoteId, count, from, to));
         return ResponseEntity.ok(MistakeNoteMapper.toGetNumberWrongNTimesRes(numberWrongNTimes));
