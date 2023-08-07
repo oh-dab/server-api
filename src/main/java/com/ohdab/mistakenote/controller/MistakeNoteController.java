@@ -29,7 +29,7 @@ public class MistakeNoteController {
 
     @GetMapping("/workbooks/{workbook-id}/students/{student-id}")
     public ResponseEntity<List<GetMistakeNoteInfoOfStudentRes>> getMistakeNoteInfoOfStudent(
-            @PathVariable(name = "workbook-id") long workbookId,
+            @Valid @PathVariable(name = "workbook-id") long workbookId,
             @PathVariable(name = "student-id") long studentId) {
         GetMistakeNoteInfoOfStudentDto.Response mistakeNoteInfo =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
