@@ -7,6 +7,7 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import java.util.HashMap;
 import java.util.List;
@@ -93,5 +94,51 @@ class MistakeRecordMapperTest {
                 .contains(tuple(5, 1))
                 .contains(tuple(102, 1))
                 .contains(tuple(110, 1));
+    }
+
+    @DisplayName("주어진 범위 내에서 N번 이상 틀린 문제 번호를 오름차순으로 조회한다.")
+    @Test
+    void 학생별_N번_이상_틀린_문제_출력() {
+        // given
+        final WorkbookId workbookId = new WorkbookId(10L);
+
+        final StudentId studentId = new StudentId(1L);
+        final Map<Integer, Integer> mistakeRecords = new HashMap<>();
+        mistakeRecords.put(1, 1);
+        mistakeRecords.put(2, 2);
+
+        mistakeRecords.put(10, 2);
+        mistakeRecords.put(20, 3);
+        mistakeRecords.put(22, 1);
+        mistakeRecords.put(25, 2);
+        mistakeRecords.put(30, 1);
+
+        mistakeRecords.put(40, 4);
+        final MistakeNote mistakeNote =
+                MistakeNote.builder()
+                        .workbookId(workbookId)
+                        .studentId(studentId)
+                        .mistakeRecords(mistakeRecords)
+                        .build();
+
+        MistakeNote savedMistakeNote = mistakeNoteRepository.save(mistakeNote);
+
+        em.flush();
+        em.clear();
+
+        final GetNumberWrongNTimesDto.Request requestDto =
+                GetNumberWrongNTimesDto.Request.builder()
+                        .workbookId(10L)
+                        .mistakeNoteId(savedMistakeNote.getId())
+                        .count(2)
+                        .from(10)
+                        .to(30)
+                        .build();
+
+        // when
+        List<Integer> result = mistakeRecordMapper.findNumbersWrongNTimes(requestDto);
+
+        // then
+        assertThat(result).hasSize(3).contains(10, 20, 25);
     }
 }
