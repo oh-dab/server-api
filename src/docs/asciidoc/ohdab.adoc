@@ -102,6 +102,8 @@ include::{snippets}/mistake_note/saveMistakeNoteInfo/http-request.adoc[]
 
 include::{snippets}/mistake_note/saveMistakeNoteInfo/http-response.adoc[]
 
+include::{snippets}/mistake_note/saveMistakeNoteInfo/http-response.adoc[]
+
 include::{snippets}/members/login/http-response.adoc[]
 
 == Classroom
