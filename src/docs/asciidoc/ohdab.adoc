@@ -43,11 +43,11 @@ include::{snippets}/classrooms/enrollment/http-response.adoc[]
 
 ==== Request
 
-include::{snippets}/classrooms/http-request.adoc[]
+include::{snippets}/classrooms?teacherId=/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/classrooms/http-response.adoc[]
+include::{snippets}/classrooms?teacherId=/http-response.adoc[]
 
 === 반 상세 조회
 
@@ -58,3 +58,13 @@ include::{snippets}/classrooms/{classroom-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/{classroom-id}/http-response.adoc[]
+
+=== 반 정보 수정
+
+==== Request
+
+include::{snippets}/classrooms/info/{classroom-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/info/{classroom-id}/http-response.adoc[]
