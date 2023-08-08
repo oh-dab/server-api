@@ -22,7 +22,8 @@ public class DeleteStudentService implements DeleteStudentUsecase {
 
     @Override
     public void deleteStudent(long classroomId, long studentId) {
-        Classroom classroom = ClassroomServiceHelper.getClassroomById(classroomId, classroomRepository);
+        Classroom classroom =
+                ClassroomServiceHelper.getClassroomById(classroomId, classroomRepository);
         Member student = memberHelperService.findExistingMemberById(memberRepository, studentId);
         student.withdrawal();
         classroom.deleteStudent(studentId);

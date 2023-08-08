@@ -2,8 +2,7 @@ package com.ohdab.classroom.exception;
 
 public class NoStudentException extends RuntimeException {
 
-    public NoStudentException() {
-    }
+    public NoStudentException() {}
 
     public NoStudentException(String message) {
         super(message);

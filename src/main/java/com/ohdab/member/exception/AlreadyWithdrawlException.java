@@ -2,8 +2,7 @@ package com.ohdab.member.exception;
 
 public class AlreadyWithdrawlException extends RuntimeException {
 
-    public AlreadyWithdrawlException() {
-    }
+    public AlreadyWithdrawlException() {}
 
     public AlreadyWithdrawlException(String message) {
         super(message);

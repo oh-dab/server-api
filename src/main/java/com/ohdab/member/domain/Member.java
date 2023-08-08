@@ -3,14 +3,13 @@ package com.ohdab.member.domain;
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.exception.AlreadyWithdrawlException;
+import java.util.List;
+import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
-
-import javax.persistence.*;
-import java.util.List;
 
 @Entity
 @Table(name = "MEMBER")
