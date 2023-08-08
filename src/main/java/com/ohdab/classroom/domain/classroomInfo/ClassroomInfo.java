@@ -28,6 +28,7 @@ public class ClassroomInfo {
             throw new IllegalStateException(
                     "Name length cannot exceed 20 : current length \"" + name.length() + "\"");
         }
+        this.name = name;
     }
 
     private void setDescription(String description) {
@@ -37,6 +38,7 @@ public class ClassroomInfo {
                             + name.length()
                             + "\"");
         }
+        this.description = description;
     }
 
     private void setGrade(Grade grade) {

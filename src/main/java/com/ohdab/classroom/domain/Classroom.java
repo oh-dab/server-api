@@ -5,6 +5,7 @@ import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AccessLevel;
@@ -31,11 +32,11 @@ public class Classroom extends BaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "STUDENT_LIST", joinColumns = @JoinColumn(name = "classroom_id"))
-    private List<StudentId> students;
+    private List<StudentId> students = new ArrayList<>();
 
     @ElementCollection
     @CollectionTable(name = "WORKBOOK_LIST", joinColumns = @JoinColumn(name = "classroom_id"))
-    private List<WorkbookId> workbooks;
+    private List<WorkbookId> workbooks = new ArrayList<>();
 
     @Builder
     public Classroom(ClassroomInfo classroomInfo, TeacherId teacher) {
@@ -49,7 +50,7 @@ public class Classroom extends BaseEntity {
         setTeacher(teacher);
     }
 
-    private void setClassroomInfo(ClassroomInfo classroomInfo) {
+    public void setClassroomInfo(ClassroomInfo classroomInfo) {
         this.classroomInfo = classroomInfo;
     }
 
