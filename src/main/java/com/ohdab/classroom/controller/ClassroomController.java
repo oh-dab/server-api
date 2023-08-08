@@ -6,15 +6,9 @@ import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdate
 import com.ohdab.classroom.controller.mapper.ClassroomMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
-import com.ohdab.classroom.controller.response.AddClassroomRes;
-import com.ohdab.classroom.controller.response.ClassroomDetailRes;
-import com.ohdab.classroom.controller.response.ClassroomResList;
-import com.ohdab.classroom.controller.response.UpdateClassroomRes;
+import com.ohdab.classroom.controller.response.*;
 import com.ohdab.classroom.service.dto.ClassroomDto;
-import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
-import com.ohdab.classroom.service.usecase.FindClassroomDetailUsecase;
-import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
-import com.ohdab.classroom.service.usecase.UpdateClassroomInfoUsecase;
+import com.ohdab.classroom.service.usecase.*;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -30,6 +24,7 @@ public class ClassroomController {
     private final FindClassroomListUsecase findClassroomListUsecase;
     private final FindClassroomDetailUsecase findClassroomDetailUsecase;
     private final UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
+    private final DeleteClassroomUsecase deleteClassroomUsecase;
 
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
@@ -67,5 +62,12 @@ public class ClassroomController {
                         classroomId, request);
         updateClassroomInfoUsecase.updateClassroomInfo(classroomUpdateDto);
         return ResponseEntity.ok(UpdateClassroomRes.builder().message("반 정보 수정 성공").build());
+    }
+
+    @DeleteMapping("/expulsion/{classroom-id}")
+    public ResponseEntity<DeleteClassroomRes> deleteClassroom(
+            @PathVariable(name = "classroom-id") long classroomId) {
+        deleteClassroomUsecase.deleteClassroomById(classroomId);
+        return ResponseEntity.ok(DeleteClassroomRes.builder().message("반 삭제 성공").build());
     }
 }
