@@ -4,7 +4,6 @@ import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdate
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
-import com.ohdab.classroom.exception.CannotFindClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
 import com.ohdab.classroom.service.usecase.UpdateClassroomInfoUsecase;
@@ -21,7 +20,9 @@ public class UpdateClassroomInfoService implements UpdateClassroomInfoUsecase {
 
     @Override
     public void updateClassroomInfo(ClassroomUpdateDtoRequest request) {
-        Classroom classroom = getClassroomById(request.getClassroomId());
+        Classroom classroom =
+                ClassroomServiceHelper.getClassroomById(
+                        request.getClassroomId(), classroomRepository);
         classroom.setClassroomInfo(
                 ClassroomInfo.builder()
                         .name(request.getName())
@@ -29,13 +30,5 @@ public class UpdateClassroomInfoService implements UpdateClassroomInfoUsecase {
                         .grade(ClassroomServiceHelper.findGradeByString(request.getGrade()))
                         .build());
         classroomRepository.save(classroom);
-    }
-
-    private Classroom getClassroomById(long id) {
-        try {
-            return classroomRepository.findClassroomById(id);
-        } catch (Exception e) {
-            throw new CannotFindClassroomException("반을 찾을 수 없습니다. id : " + id, e);
-        }
     }
 }
