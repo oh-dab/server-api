@@ -211,13 +211,13 @@ class ClassroomControllerTest {
     @WithMockUser
     void 학생_삭제() throws Exception {
         // given
-        final String url = "/classrooms/expulsion/{student-id}";
+        final String url = "/classrooms/{classroom-id}/expulsion/students/{student-id}";
 
         // when
-        doNothing().when(deleteStudentUsecase).deleteStudent(anyLong());
+        doNothing().when(deleteStudentUsecase).deleteStudent(anyLong(), anyLong());
 
         // then
-        mockMvc.perform(patch(url, 1L).with(csrf()).contentType(MediaType.APPLICATION_JSON))
+        mockMvc.perform(patch(url, 1L, 2L).with(csrf()).contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(status().isOk(), content().contentType(MediaType.APPLICATION_JSON))
                 .andDo(print())
                 .andDo(createDocument("classrooms/deleteStudent"));

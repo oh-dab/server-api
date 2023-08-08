@@ -9,5 +9,5 @@ import org.springframework.stereotype.Service;
 public class DeleteStudentService implements DeleteStudentUsecase {
 
     @Override
-    public void deleteStudent(long studentId) {}
+    public void deleteStudent(long classroomId, long studentId) {}
 }
