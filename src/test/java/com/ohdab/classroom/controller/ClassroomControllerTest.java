@@ -2,6 +2,8 @@ package com.ohdab.classroom.controller;
 
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoInfo;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -38,6 +40,7 @@ class ClassroomControllerTest {
     @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
     @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     @MockBean private DeleteClassroomUsecase deleteClassroomUsecase;
+    @MockBean private DeleteStudentUsecase deleteStudentUsecase;
 
     @Test
     @WithMockUser
@@ -202,6 +205,22 @@ class ClassroomControllerTest {
                         jsonPath("$.message").value("반 삭제 성공"))
                 .andDo(print())
                 .andDo(createDocument("classrooms/expulsion/{classroom-id}"));
+    }
+
+    @Test
+    @WithMockUser
+    void 학생_삭제() throws Exception {
+        // given
+        final String url = "/classrooms/expulsion/{student-id}";
+
+        // when
+        doNothing().when(deleteStudentUsecase).deleteStudent(anyLong());
+
+        // then
+        mockMvc.perform(patch(url, 1L).with(csrf()).contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(status().isOk(), content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(createDocument("classrooms/deleteStudent"));
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {
