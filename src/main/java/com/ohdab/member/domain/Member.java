@@ -56,6 +56,7 @@ public class Member extends BaseEntity {
                             + memberInfo.getName().length()
                             + "\"");
         }
+        this.memberInfo = memberInfo;
     }
 
     public boolean matchPassword(
