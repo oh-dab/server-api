@@ -5,10 +5,8 @@ import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.classroom.exception.CannotFindClassroomException;
 import com.ohdab.classroom.exception.CannotFindGradeException;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import org.springframework.stereotype.Service;
 
-@Service
-public class ClassroomHelperService {
+public class ClassroomServiceHelper {
 
     public static Grade findGradeByString(String stringGrade) {
         try {

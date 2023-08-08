@@ -2,13 +2,15 @@ package com.ohdab.member.domain;
 
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
-import java.util.List;
-import javax.persistence.*;
+import com.ohdab.member.exception.AlreadyWithdrawlException;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
+
+import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "MEMBER")
@@ -66,7 +68,7 @@ public class Member extends BaseEntity {
 
     public void withdrawal() {
         if (this.status == MemberStatus.INACTIVE) {
-            throw new IllegalStateException("예외");
+            throw new AlreadyWithdrawlException("이미 탈퇴한 회원입니다.");
         }
         this.status = MemberStatus.INACTIVE;
     }
