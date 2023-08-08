@@ -1,7 +1,10 @@
 package com.ohdab.classroom.controller.mapper;
 
+import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+
 import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
+import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import java.util.List;
@@ -46,6 +49,19 @@ public class ClassroomMapper {
                                                         .grade(classroomDto.getInfo().getGrade())
                                                         .build())
                                 .collect(Collectors.toList()))
+                .build();
+    }
+
+    public static ClassroomDetailRes ClassroomDetailToClassroomDetailRes(
+            ClassroomDetailDtoResponse detailDto) {
+        return ClassroomDetailRes.builder()
+                .id(detailDto.getClassroomId())
+                .teacherId(detailDto.getTeacherId())
+                .name(detailDto.getInfo().getName())
+                .description(detailDto.getInfo().getDescription())
+                .grade(detailDto.getInfo().getGrade())
+                .studentIds(detailDto.getStudentIds())
+                .workbookIds(detailDto.getWorkbookIds())
                 .build();
     }
 }

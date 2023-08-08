@@ -1,11 +1,15 @@
 package com.ohdab.classroom.controller;
 
+import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+
 import com.ohdab.classroom.controller.mapper.ClassroomMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
+import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
+import com.ohdab.classroom.service.usecase.FindClassroomDetailUsecase;
 import com.ohdab.classroom.service.usecase.FindClassroomListUsecase;
 import java.util.List;
 import javax.validation.Valid;
@@ -20,6 +24,7 @@ public class ClassroomController {
 
     private final AddClassroomUsecase addClassroomUsecase;
     private final FindClassroomListUsecase findClassroomListUsecase;
+    private final FindClassroomDetailUsecase findClassroomDetailUsecase;
 
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
@@ -36,5 +41,15 @@ public class ClassroomController {
         List<ClassroomDto.Response> responses =
                 findClassroomListUsecase.findClassroomListByTeacherId(teacherId);
         return ResponseEntity.ok(ClassroomMapper.classroomDtoListToClassroomResList(responses));
+    }
+
+    @GetMapping("/{classroom-id}")
+    public ResponseEntity<ClassroomDetailRes> getClassroomDetailById(
+            @PathVariable("classroom-id") long id) {
+        ClassroomDetailDtoResponse classroomDetail =
+                findClassroomDetailUsecase.getClassroomDetailById(id);
+        ClassroomDetailRes classroomDetailRes =
+                ClassroomMapper.ClassroomDetailToClassroomDetailRes(classroomDetail);
+        return ResponseEntity.ok(classroomDetailRes);
     }
 }

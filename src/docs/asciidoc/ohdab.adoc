@@ -48,3 +48,13 @@ include::{snippets}/classrooms/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/http-response.adoc[]
+
+=== 반 상세 조회
+
+==== Request
+
+include::{snippets}/classrooms/{classroom-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/{classroom-id}/http-response.adoc[]
