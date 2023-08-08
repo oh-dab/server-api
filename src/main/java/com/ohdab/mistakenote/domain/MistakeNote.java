@@ -2,6 +2,8 @@ package com.ohdab.mistakenote.domain;
 
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.student.studentid.StudentId;
+import com.ohdab.workbook.domain.Workbook;
+import com.ohdab.workbook.domain.service.NumberScopeCheckService;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import java.util.HashMap;
 import java.util.List;
@@ -45,17 +47,29 @@ public class MistakeNote extends BaseEntity {
         this.mistakeRecords = mistakeRecords;
     }
 
-    // TODO: refactoring
-    public void addMistakeNumbers(List<Integer> numbers) {
-        if (numbers.isEmpty()) {
-            throw new IllegalArgumentException("예외");
+    public void addMistakeNumbers(
+            NumberScopeCheckService numberScopeCheckService,
+            Workbook workbook,
+            List<Integer> numbers) {
+        numberScopeCheckService.numberScopeCheck(workbook, numbers);
+        checkMistakeNumbersSize(numbers);
+        updateWrongCount(numbers);
+    }
+
+    private void checkMistakeNumbersSize(List<Integer> numbers) {
+        if (numbers.isEmpty() || numbers.size() > 500) {
+            throw new IllegalArgumentException("틀린 문제 번호는 최소 1개 이상, 500개 이하로 입력할 수 있습니다.");
         }
-        for (int number : numbers) {
-            if (mistakeRecords.containsKey(number)) {
-                mistakeRecords.put(number, mistakeRecords.get(number) + 1);
-                continue;
-            }
-            mistakeRecords.put(number, 1);
-        }
+    }
+
+    private void updateWrongCount(List<Integer> numbers) {
+        numbers.forEach(
+                number -> {
+                    if (mistakeRecords.containsKey(number)) {
+                        mistakeRecords.put(number, mistakeRecords.get(number) + 1);
+                    } else {
+                        mistakeRecords.put(number, 1);
+                    }
+                });
     }
 }
