@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper">
+    <select id="findAllMistakeNoteInfo" parameterType="java.util.List" resultType="com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto$Response$AllMistakeNoteInfoDto">
+        select problem_number as "wrongNumber",
+            count(problem_number) as "wrongStudentsCount"
+        from MISTAKE_RECORD
+        where mistakenote_id in
+        <foreach collection="list" item="mistakenote_id" index="index" separator="," open="(" close=")">
+            #{mistakenote_id}
+        </foreach>
+        group by problem_number
+    </select>
+
+    <select id="findNumbersWrongNTimes" parameterType="com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto$Request" resultType="Integer">
+        select problem_number
+        from MISTAKE_RECORD
+        where mistakenote_id = #{mistakeNoteId}
+          and count >= #{count}
+          and problem_number between #{from} and #{to}
+        order by problem_number asc
+    </select>
+</mapper>

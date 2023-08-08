@@ -25,6 +25,83 @@ include::{snippets}/members/login/http-request.adoc[]
 
 ==== Response
 
+include::{snippets}/members/login/http-response.adoc
+
+=== 선생님 목록 조회
+
+==== Request
+
+include::{snippets}/members/teachers/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/teachers/http-response.adoc[]
+
+=== 선생님 추가
+
+==== Request
+
+include::{snippets}/members/teachers/enrollment/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/teachers/enrollment/http-response.adoc[]
+
+=== 선생님 삭제
+
+==== Request
+
+include::{snippets}/members/teachers/expulsion/{teacher-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/teachers/expulsion/{teacher-id}/http-response.adoc[]
+
+
+include::{snippets}/members/login/http-response.adoc[]
+
+== MistakeNote
+
+=== 교재 상세조회(전체 학생에 대한 오답노트 조회)
+
+==== Request
+
+include::{snippets}/mistake_note/getAllMistakeNoteInfo/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/mistake_note/getAllMistakeNoteInfo/http-response.adoc[]
+
+=== 학생별 N번 틀린 문제 문자열 출력
+
+==== Request
+
+include::{snippets}/mistake_note/getNumberWrongNTimes/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/mistake_note/getNumberWrongNTimes/http-response.adoc[]
+
+=== 학생별 오답노트 조회
+
+==== Request
+
+include::{snippets}/mistake_note/getMistakeNoteInfoByStudent/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/mistake_note/getMistakeNoteInfoByStudent/http-response.adoc[]
+
+=== 오답 기록하기
+
+==== Request
+
+include::{snippets}/mistake_note/saveMistakeNoteInfo/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/mistake_note/saveMistakeNoteInfo/http-response.adoc[]
+
 include::{snippets}/members/login/http-response.adoc[]
 
 == Classroom
