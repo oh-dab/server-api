@@ -2,11 +2,10 @@ package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
-import com.ohdab.classroom.domain.classroomInfo.Grade;
-import com.ohdab.classroom.exception.CannotFindGradeException;
 import com.ohdab.classroom.exception.CannotFindTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
+import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
@@ -31,7 +30,9 @@ public class AddAddClassroomService implements AddClassroomUsecase {
                 ClassroomInfo.builder()
                         .name(classroomReqDto.getInfo().getName())
                         .description(classroomReqDto.getInfo().getDescription())
-                        .grade(findGradeByString(classroomReqDto.getInfo().getGrade()))
+                        .grade(
+                                ClassroomServiceHelper.findGradeByString(
+                                        classroomReqDto.getInfo().getGrade()))
                         .build();
 
         Classroom classroom =
@@ -46,14 +47,6 @@ public class AddAddClassroomService implements AddClassroomUsecase {
     private void throwIfTeacherDoesNotExist(Long teacherId) {
         if (!memberRepository.existsById(teacherId)) {
             throw new CannotFindTeacherException("cannot find teacher by id : " + teacherId);
-        }
-    }
-
-    private Grade findGradeByString(String stringGrade) {
-        try {
-            return Grade.valueOfLabel(stringGrade);
-        } catch (Exception e) {
-            throw new CannotFindGradeException("Cannot find Grade : " + stringGrade, e);
         }
     }
 }

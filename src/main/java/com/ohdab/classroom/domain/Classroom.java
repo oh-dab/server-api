@@ -50,7 +50,7 @@ public class Classroom extends BaseEntity {
         setTeacher(teacher);
     }
 
-    private void setClassroomInfo(ClassroomInfo classroomInfo) {
+    public void setClassroomInfo(ClassroomInfo classroomInfo) {
         this.classroomInfo = classroomInfo;
     }
 
