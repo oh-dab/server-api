@@ -9,10 +9,7 @@ import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.response.*;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.*;
-<<<<<<< HEAD
-=======
 import com.ohdab.member.controller.response.DeleteStudentRes;
->>>>>>> bd1f59972b9f3dec87ca43573c0fd58fdb481e40
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -29,10 +26,7 @@ public class ClassroomController {
     private final FindClassroomDetailUsecase findClassroomDetailUsecase;
     private final UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     private final DeleteClassroomUsecase deleteClassroomUsecase;
-<<<<<<< HEAD
-=======
     private final DeleteStudentUsecase deleteStudentUsecase;
->>>>>>> bd1f59972b9f3dec87ca43573c0fd58fdb481e40
 
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
