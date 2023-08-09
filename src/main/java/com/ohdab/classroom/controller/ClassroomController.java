@@ -9,6 +9,7 @@ import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.response.*;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.*;
+import com.ohdab.member.controller.response.DeleteStudentRes;
 import java.util.List;
 import javax.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class ClassroomController {
     private final FindClassroomDetailUsecase findClassroomDetailUsecase;
     private final UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     private final DeleteClassroomUsecase deleteClassroomUsecase;
+    private final DeleteStudentUsecase deleteStudentUsecase;
 
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
@@ -69,5 +71,13 @@ public class ClassroomController {
             @PathVariable(name = "classroom-id") long classroomId) {
         deleteClassroomUsecase.deleteClassroomById(classroomId);
         return ResponseEntity.ok(DeleteClassroomRes.builder().message("반 삭제 성공").build());
+    }
+
+    @PatchMapping("/{classroom-id}/expulsion/students/{student-id}")
+    public ResponseEntity<DeleteStudentRes> deleteStudent(
+            @PathVariable("classroom-id") long classroomId,
+            @PathVariable("student-id") long studentId) {
+        deleteStudentUsecase.deleteStudent(classroomId, studentId);
+        return ResponseEntity.ok(DeleteStudentRes.builder().message("학생을 삭제하였습니다.").build());
     }
 }
