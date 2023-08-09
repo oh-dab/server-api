@@ -1,5 +1,6 @@
 package com.ohdab.classroom.service;
 
+import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.classroom.exception.CannotFindClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookListDto;
@@ -24,7 +25,8 @@ public class GetWorkbookListService implements GetWorkbookListUsecase {
     @Override
     public List<ClassroomWorkbookListDto.Response> getWorkbookListByClassroomId(long classroomId) {
         throwIfUnknownClassroomId(classroomId);
-        List<Workbook> workbookList = workbookRepository.findByClassroomId(classroomId);
+        List<Workbook> workbookList =
+                workbookRepository.findByClassroomId(new ClassroomId(classroomId));
         return workbookList.stream()
                 .map(
                         workbook ->

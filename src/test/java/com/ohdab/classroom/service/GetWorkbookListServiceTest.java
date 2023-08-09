@@ -44,7 +44,7 @@ public class GetWorkbookListServiceTest {
 
         // when
         when(classroomRepository.existsById(Mockito.anyLong())).thenReturn(true);
-        when(workbookRepository.findByClassroomId(Mockito.anyLong())).thenReturn(workbookList);
+        when(workbookRepository.findByClassroomId(Mockito.any())).thenReturn(workbookList);
         List<ClassroomWorkbookListDto.Response> results =
                 getWorkbookListUsecase.getWorkbookListByClassroomId(classroomId);
 
