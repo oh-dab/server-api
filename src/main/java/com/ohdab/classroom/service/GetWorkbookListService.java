@@ -3,7 +3,7 @@ package com.ohdab.classroom.service;
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.classroom.exception.CannotFindClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import com.ohdab.classroom.service.dto.ClassroomWorkbookListDto;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.GetWorkbookListUsecase;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.repository.WorkbookRepository;
@@ -22,7 +22,7 @@ public class GetWorkbookListService implements GetWorkbookListUsecase {
     private final WorkbookRepository workbookRepository;
 
     @Override
-    public List<ClassroomWorkbookListDto.Response> getWorkbookListByClassroomId(long classroomId) {
+    public List<ClassroomWorkbookDto.Response> getWorkbookListByClassroomId(long classroomId) {
         throwIfUnknownClassroomId(classroomId);
         List<Workbook> workbookList =
                 workbookRepository.findByClassroomId(new ClassroomId(classroomId));
@@ -36,12 +36,12 @@ public class GetWorkbookListService implements GetWorkbookListUsecase {
         }
     }
 
-    private List<ClassroomWorkbookListDto.Response> workbookDomainListToWorkbookDtoList(
+    private List<ClassroomWorkbookDto.Response> workbookDomainListToWorkbookDtoList(
             List<Workbook> workbookList) {
         return workbookList.stream()
                 .map(
                         workbook ->
-                                ClassroomWorkbookListDto.Response.builder()
+                                ClassroomWorkbookDto.Response.builder()
                                         .id(workbook.getId())
                                         .name(workbook.getWorkbookInfo().getName())
                                         .createdAt(workbook.getCreatedAt())

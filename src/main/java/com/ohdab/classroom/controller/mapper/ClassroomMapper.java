@@ -8,7 +8,9 @@ import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
 import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
+import com.ohdab.classroom.controller.response.ClassroomWorkbookListRes;
 import com.ohdab.classroom.service.dto.ClassroomDto;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookDto.Response;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -74,6 +76,22 @@ public class ClassroomMapper {
                 .name(request.getName())
                 .description(request.getDescription())
                 .grade(request.getGrade())
+                .build();
+    }
+
+    public static ClassroomWorkbookListRes classroomWorkbookDtoListToResponseList(
+            List<Response> classroomWorkbookDtoList) {
+        return ClassroomWorkbookListRes.builder()
+                .workbookList(
+                        classroomWorkbookDtoList.stream()
+                                .map(
+                                        w ->
+                                                ClassroomWorkbookListRes.WorkbookInfo.builder()
+                                                        .id(w.getId())
+                                                        .name(w.getName())
+                                                        .createdAt(w.getCreatedAt().toLocalDate())
+                                                        .build())
+                                .collect(Collectors.toList()))
                 .build();
     }
 }
