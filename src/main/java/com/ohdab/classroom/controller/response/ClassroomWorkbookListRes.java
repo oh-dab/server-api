@@ -18,8 +18,6 @@ public class ClassroomWorkbookListRes {
     public static class WorkbookInfo {
         long id;
         String name;
-
-        @JsonProperty("created_at")
         LocalDate createdAt;
     }
 }
