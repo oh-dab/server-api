@@ -116,7 +116,7 @@ class ClassroomControllerTest {
                         jsonPath("$.classroomInfoList[1].description").value(222),
                         jsonPath("$.classroomInfoList[1].grade").value("high2"))
                 .andDo(print())
-                .andDo(createDocument("classrooms?teacherId="));
+                .andDo(createDocument("classrooms"));
     }
 
     @Test
