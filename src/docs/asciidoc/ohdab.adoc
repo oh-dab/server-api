@@ -150,3 +150,15 @@ include::{snippets}/classrooms/expulsion/{classroom-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/expulsion/{classroom-id}/http-response.adoc[]
+
+=======
+
+=== 학생 삭제
+
+==== Request
+
+include::{snippets}/classrooms/deleteStudent/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/deleteStudent/http-response.adoc[]
