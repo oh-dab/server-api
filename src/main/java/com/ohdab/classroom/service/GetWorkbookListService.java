@@ -9,7 +9,6 @@ import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -18,13 +17,25 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class GetWorkbookListService implements GetWorkbookListUsecase {
 
-    @Autowired private final ClassroomRepository classroomRepository;
-    @Autowired private final WorkbookRepository workbookRepository;
+    private final ClassroomRepository classroomRepository;
+    private final WorkbookRepository workbookRepository;
 
     @Override
     public List<ClassroomWorkbookListDto.Response> getWorkbookListByClassroomId(long classroomId) {
         throwIfUnknownClassroomId(classroomId);
         List<Workbook> workbookList = workbookRepository.findByClassroomId(classroomId);
+        return workbookDomainListToWorkbookDtoList(workbookList);
+    }
+
+    private void throwIfUnknownClassroomId(long classroomId) {
+        if (!classroomRepository.existsById(classroomId)) {
+            throw new CannotFindClassroomException(
+                    "Cannot find classroom with id \"" + classroomId + "\"");
+        }
+    }
+
+    private List<ClassroomWorkbookListDto.Response> workbookDomainListToWorkbookDtoList(
+            List<Workbook> workbookList) {
         return workbookList.stream()
                 .map(
                         workbook ->
@@ -34,12 +45,5 @@ public class GetWorkbookListService implements GetWorkbookListUsecase {
                                         .createdAt(workbook.getCreatedAt())
                                         .build())
                 .collect(Collectors.toList());
-    }
-
-    private void throwIfUnknownClassroomId(long classroomId) {
-        if (!classroomRepository.existsById(classroomId)) {
-            throw new CannotFindClassroomException(
-                    "Cannot find classroom with id \"" + classroomId + "\"");
-        }
     }
 }
