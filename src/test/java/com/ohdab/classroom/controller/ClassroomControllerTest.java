@@ -41,6 +41,7 @@ class ClassroomControllerTest {
     @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     @MockBean private DeleteClassroomUsecase deleteClassroomUsecase;
     @MockBean private DeleteStudentUsecase deleteStudentUsecase;
+    @MockBean private GetWorkbookListUsecase getWorkbookListUsecase;
 
     @Test
     @WithMockUser

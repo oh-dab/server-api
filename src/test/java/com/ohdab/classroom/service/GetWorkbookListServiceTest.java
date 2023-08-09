@@ -5,7 +5,7 @@ import static org.mockito.Mockito.when;
 
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import com.ohdab.classroom.service.dto.ClassroomWorkbookListDto;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.GetWorkbookListUsecase;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
@@ -45,7 +45,7 @@ public class GetWorkbookListServiceTest {
         // when
         when(classroomRepository.existsById(Mockito.anyLong())).thenReturn(true);
         when(workbookRepository.findByClassroomId(Mockito.any())).thenReturn(workbookList);
-        List<ClassroomWorkbookListDto.Response> results =
+        List<ClassroomWorkbookDto.Response> results =
                 getWorkbookListUsecase.getWorkbookListByClassroomId(classroomId);
 
         // then

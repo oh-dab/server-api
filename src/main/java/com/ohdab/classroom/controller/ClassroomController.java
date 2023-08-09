@@ -8,6 +8,7 @@ import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.response.*;
 import com.ohdab.classroom.service.dto.ClassroomDto;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.*;
 import com.ohdab.member.controller.response.DeleteStudentRes;
 import java.util.List;
@@ -27,6 +28,7 @@ public class ClassroomController {
     private final UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     private final DeleteClassroomUsecase deleteClassroomUsecase;
     private final DeleteStudentUsecase deleteStudentUsecase;
+    private final GetWorkbookListUsecase getWorkbookListUsecase;
 
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
@@ -79,5 +81,14 @@ public class ClassroomController {
             @PathVariable("student-id") long studentId) {
         deleteStudentUsecase.deleteStudent(classroomId, studentId);
         return ResponseEntity.ok(DeleteStudentRes.builder().message("학생을 삭제하였습니다.").build());
+    }
+
+    @GetMapping("/{classroom-id}/workbooks")
+    public ResponseEntity<ClassroomWorkbookListRes> getWorkbookListByClassroomId(
+            @PathVariable(name = "classroom-id") long classroomId) {
+        List<ClassroomWorkbookDto.Response> classroomWorkbookDtoList =
+                getWorkbookListUsecase.getWorkbookListByClassroomId(classroomId);
+        return ResponseEntity.ok(
+                ClassroomMapper.classroomWorkbookDtoListToResponseList(classroomWorkbookDtoList));
     }
 }

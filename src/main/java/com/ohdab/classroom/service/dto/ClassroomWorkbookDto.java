@@ -6,7 +6,7 @@ import lombok.Getter;
 
 @Builder
 @Getter
-public class ClassroomWorkbookListDto {
+public class ClassroomWorkbookDto {
 
     @Getter
     @Builder
