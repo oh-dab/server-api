@@ -1,6 +1,7 @@
 package com.ohdab.classroom.domain;
 
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
+import com.ohdab.classroom.exception.NoStudentException;
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
@@ -70,5 +71,11 @@ public class Classroom extends BaseEntity {
             throw new IllegalStateException("Workbook cannot be null.");
         }
         this.workbooks.add(workbook);
+    }
+
+    public void deleteStudent(long studentId) {
+        if (!students.removeIf(student -> student.getId() == studentId)) {
+            throw new NoStudentException("교실에 존재하지 않는 학생입니다.");
+        }
     }
 }

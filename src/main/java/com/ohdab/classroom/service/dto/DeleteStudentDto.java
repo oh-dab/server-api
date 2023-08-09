@@ -3,10 +3,10 @@ package com.ohdab.classroom.service.dto;
 import lombok.Builder;
 import lombok.Getter;
 
-@Getter
-@Builder
 public class DeleteStudentDto {
 
+    @Getter
+    @Builder
     public static class Request {
 
         private long classroomId;
