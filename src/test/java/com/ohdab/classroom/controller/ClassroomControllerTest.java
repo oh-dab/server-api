@@ -262,7 +262,7 @@ class ClassroomControllerTest {
                         jsonPath("$.workbooks[2].created_at")
                                 .value(workbookDtoRes3.getCreatedAt().toLocalDate().toString()))
                 .andDo(print())
-                .andDo(createDocument("/classrooms/{classroom-id}/workbooks"));
+                .andDo(createDocument("classrooms/{classroom-id}/workbooks"));
     }
 
     private ClassroomWorkbookDto.Response createWorkbookDto(long id, String name) {
