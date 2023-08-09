@@ -89,7 +89,7 @@ public class ClassroomMapper {
                                                 ClassroomWorkbookListRes.WorkbookInfo.builder()
                                                         .id(w.getId())
                                                         .name(w.getName())
-                                                        .created_at(w.getCreatedAt())
+                                                        .createdAt(w.getCreatedAt().toLocalDate())
                                                         .build())
                                 .collect(Collectors.toList()))
                 .build();

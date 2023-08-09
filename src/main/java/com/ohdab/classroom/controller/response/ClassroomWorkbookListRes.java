@@ -1,7 +1,7 @@
 package com.ohdab.classroom.controller.response;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
 import lombok.Getter;
@@ -18,6 +18,8 @@ public class ClassroomWorkbookListRes {
     public static class WorkbookInfo {
         long id;
         String name;
-        LocalDateTime created_at;
+
+        @JsonProperty("created_at")
+        LocalDate createdAt;
     }
 }
