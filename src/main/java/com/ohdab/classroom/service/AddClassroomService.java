@@ -2,7 +2,7 @@ package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
-import com.ohdab.classroom.exception.CannotFindTeacherException;
+import com.ohdab.classroom.exception.NoTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
@@ -46,7 +46,7 @@ public class AddClassroomService implements AddClassroomUsecase {
 
     private void throwIfTeacherDoesNotExist(Long teacherId) {
         if (!memberRepository.existsById(teacherId)) {
-            throw new CannotFindTeacherException("cannot find teacher by id : " + teacherId);
+            throw new NoTeacherException("cannot find teacher by id : " + teacherId);
         }
     }
 }

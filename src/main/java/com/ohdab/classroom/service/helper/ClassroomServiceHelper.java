@@ -2,8 +2,8 @@ package com.ohdab.classroom.service.helper;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
-import com.ohdab.classroom.exception.CannotFindClassroomException;
-import com.ohdab.classroom.exception.CannotFindGradeException;
+import com.ohdab.classroom.exception.NoClassroomException;
+import com.ohdab.classroom.exception.NoGradeException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 
 public class ClassroomServiceHelper {
@@ -12,7 +12,7 @@ public class ClassroomServiceHelper {
         try {
             return Grade.valueOfLabel(stringGrade);
         } catch (Exception e) {
-            throw new CannotFindGradeException("Cannot find Grade : " + stringGrade, e);
+            throw new NoGradeException("Cannot find Grade : " + stringGrade, e);
         }
     }
 
@@ -20,7 +20,7 @@ public class ClassroomServiceHelper {
         try {
             return classroomRepository.findClassroomById(id);
         } catch (Exception e) {
-            throw new CannotFindClassroomException("반을 찾을 수 없습니다. id : " + id, e);
+            throw new NoClassroomException("반을 찾을 수 없습니다. id : " + id, e);
         }
     }
 }

@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
-import com.ohdab.classroom.exception.CannotFindClassroomException;
+import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.exception.NoStudentException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.DeleteStudentDto;
@@ -217,13 +217,13 @@ class DeleteStudentServiceTest {
 
                 // when
                 when(classroomRepository.findClassroomById(anyLong()))
-                        .thenThrow(CannotFindClassroomException.class);
+                        .thenThrow(NoClassroomException.class);
                 Throwable thrown =
                         catchException(
                                 () -> deleteStudentUsecase.deleteStudent(classroomId, studentId));
 
                 // then
-                assertThat(thrown).isInstanceOf(CannotFindClassroomException.class);
+                assertThat(thrown).isInstanceOf(NoClassroomException.class);
             }
         }
     }
