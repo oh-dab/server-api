@@ -39,7 +39,7 @@ class FindClassroomByIdRepositoryTest {
         long id = classroom.getId();
 
         // when
-        Classroom foundClassroom = classroomRepository.findClassroomById(id);
+        Classroom foundClassroom = classroomRepository.findById(id).get();
 
         // then
         assertThat(foundClassroom.getId()).isEqualTo(id);

@@ -5,24 +5,29 @@ import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.exception.NoGradeException;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import org.springframework.stereotype.Service;
+import lombok.AccessLevel;
+import lombok.NoArgsConstructor;
 
-@Service
-public class ClassroomHelperService {
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
+public final class ClassroomHelperService {
 
     public static Grade findGradeByString(String stringGrade) {
         try {
             return Grade.valueOfLabel(stringGrade);
-        } catch (Exception e) {
+        } catch (NullPointerException e) {
             throw new NoGradeException("Cannot find Grade : " + stringGrade, e);
+        } catch (ClassCastException e) {
+            throw new IllegalArgumentException("인자의 자료형이 잘못되었습니다.");
         }
     }
 
-    public static Classroom getClassroomById(long id, ClassroomRepository classroomRepository) {
-        try {
-            return classroomRepository.findClassroomById(id);
-        } catch (Exception e) {
-            throw new NoClassroomException("반을 찾을 수 없습니다. id : " + id, e);
-        }
+    public static Classroom findExistingClassroom(
+            long classroomId, ClassroomRepository classroomRepository) {
+        return classroomRepository
+                .findById(classroomId)
+                .orElseThrow(
+                        () ->
+                                new NoClassroomException(
+                                        "반을 찾을 수 없습니다. classroomId: " + classroomId));
     }
 }

@@ -9,9 +9,9 @@ import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomUpdateDto;
-import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -21,11 +21,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {UpdateClassroomInfoService.class, ClassroomHelperService.class})
+@ContextConfiguration(classes = {UpdateClassroomInfoService.class})
 class UpdateClassroomInfoServiceTest {
 
     @Autowired private UpdateClassroomInfoService updateClassroomInfoService;
-    @Autowired private ClassroomHelperService classroomHelperService;
     @MockBean private MemberRepository memberRepository;
     @MockBean private ClassroomRepository classroomRepository;
 
@@ -56,7 +55,7 @@ class UpdateClassroomInfoServiceTest {
 
         // when
         when(memberRepository.existsById(anyLong())).thenReturn(true);
-        when(classroomRepository.findClassroomById(anyLong())).thenReturn(classroom);
+        when(classroomRepository.findById(anyLong())).thenReturn(Optional.ofNullable(classroom));
 
         // then
         assertThatNoException()

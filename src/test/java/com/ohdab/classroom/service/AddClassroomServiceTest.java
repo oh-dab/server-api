@@ -6,7 +6,6 @@ import static org.mockito.Mockito.when;
 
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
-import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.member.repository.MemberRepository;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,11 +16,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AddClassroomService.class, ClassroomHelperService.class})
+@ContextConfiguration(classes = {AddClassroomService.class})
 class AddClassroomServiceTest {
 
     @Autowired private AddClassroomService addClassroomService;
-    @Autowired private ClassroomHelperService classroomHelperService;
     @MockBean private MemberRepository memberRepository;
     @MockBean private ClassroomRepository classroomRepository;
 
