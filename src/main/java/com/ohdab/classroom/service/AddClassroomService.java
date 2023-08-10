@@ -5,7 +5,7 @@ import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.exception.NoTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
-import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
+import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
@@ -18,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class AddClassroomService implements AddClassroomUsecase {
 
+    private final ClassroomHelperService classroomHelperService;
     private final MemberRepository memberRepository;
     private final ClassroomRepository classroomRepository;
 
@@ -31,7 +32,7 @@ public class AddClassroomService implements AddClassroomUsecase {
                         .name(classroomReqDto.getInfo().getName())
                         .description(classroomReqDto.getInfo().getDescription())
                         .grade(
-                                ClassroomServiceHelper.findGradeByString(
+                                classroomHelperService.findGradeByString(
                                         classroomReqDto.getInfo().getGrade()))
                         .build();
 

@@ -41,21 +41,21 @@ public class Classroom extends BaseEntity {
 
     @Builder
     public Classroom(ClassroomInfo classroomInfo, TeacherId teacher) {
-        if (classroomInfo == null) {
-            throw new IllegalStateException("ClassroomInfo cannot be null");
-        }
-        if (teacher == null) {
-            throw new IllegalStateException("Teacher cannot be null");
-        }
         setClassroomInfo(classroomInfo);
         setTeacher(teacher);
     }
 
-    public void setClassroomInfo(ClassroomInfo classroomInfo) {
+    private void setClassroomInfo(ClassroomInfo classroomInfo) {
+        if (classroomInfo == null) {
+            throw new IllegalStateException("ClassroomInfo cannot be null");
+        }
         this.classroomInfo = classroomInfo;
     }
 
     private void setTeacher(TeacherId teacher) {
+        if (teacher == null) {
+            throw new IllegalStateException("Teacher cannot be null");
+        }
         this.teacher = teacher;
     }
 
@@ -77,5 +77,12 @@ public class Classroom extends BaseEntity {
         if (!students.removeIf(student -> student.getId() == studentId)) {
             throw new NoStudentException("교실에 존재하지 않는 학생입니다.");
         }
+    }
+
+    public void updateClassroomInfo(ClassroomInfo classroomInfo) {
+        if (classroomInfo == null) {
+            throw new IllegalStateException("ClassroomInfo cannot be null");
+        }
+        this.classroomInfo = classroomInfo;
     }
 }

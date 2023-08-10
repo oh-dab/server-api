@@ -1,5 +1,9 @@
 package com.ohdab.classroom.service;
 
+import static org.assertj.core.api.Assertions.*;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
@@ -7,6 +11,7 @@ import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.exception.NoStudentException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.DeleteStudentDto;
+import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.classroom.service.usecase.DeleteStudentUsecase;
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
@@ -17,6 +22,8 @@ import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.exception.AlreadyWithdrawlException;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.helper.MemberHelperService;
+import java.util.List;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -26,18 +33,17 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.List;
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.*;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
-
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DeleteStudentService.class, MemberHelperService.class})
+@ContextConfiguration(
+        classes = {
+            DeleteStudentService.class,
+            ClassroomHelperService.class,
+            MemberHelperService.class
+        })
 class DeleteStudentServiceTest {
 
     @Autowired private DeleteStudentUsecase deleteStudentUsecase;
+    @Autowired private ClassroomHelperService classroomHelperService;
     @Autowired private MemberHelperService memberHelperService;
     @MockBean private ClassroomRepository classroomRepository;
     @MockBean private MemberRepository memberRepository;

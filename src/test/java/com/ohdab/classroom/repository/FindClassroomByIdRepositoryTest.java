@@ -23,7 +23,7 @@ class FindClassroomByIdRepositoryTest {
     void 반_상세조회() {
 
         // given
-        Classroom classroom1 =
+        Classroom classroom =
                 Classroom.builder()
                         .teacher(TeacherId.builder().id(2L).build())
                         .classroomInfo(
@@ -33,10 +33,11 @@ class FindClassroomByIdRepositoryTest {
                                         .grade(Grade.HIGH_1)
                                         .build())
                         .build();
-        classroom1.addStudent(StudentId.builder().id(3).build());
-        classroom1.addWorkbook(WorkbookId.builder().id(4).build());
-        classroomRepository.save(classroom1);
-        long id = classroom1.getId();
+        classroom.addStudent(StudentId.builder().id(3).build());
+        classroom.addWorkbook(WorkbookId.builder().id(4).build());
+        classroomRepository.save(classroom);
+        long id = classroom.getId();
+
         // when
         Classroom foundClassroom = classroomRepository.findClassroomById(id);
 

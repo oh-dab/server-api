@@ -18,7 +18,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AddTeacherService.class, MemberHelperService.class})
-public class AddTeacherServiceTest {
+class AddTeacherServiceTest {
 
     @Autowired private AddTeacherUsecase addTeacherUsecase;
     @MockBean private MemberRepository memberRepository;

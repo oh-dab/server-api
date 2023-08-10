@@ -2,7 +2,7 @@ package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
+import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.classroom.service.usecase.DeleteStudentUsecase;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.repository.MemberRepository;
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional
 public class DeleteStudentService implements DeleteStudentUsecase {
 
+    private final ClassroomHelperService classroomHelperService;
     private final MemberHelperService memberHelperService;
     private final ClassroomRepository classroomRepository;
     private final MemberRepository memberRepository;
@@ -23,7 +24,7 @@ public class DeleteStudentService implements DeleteStudentUsecase {
     @Override
     public void deleteStudent(long classroomId, long studentId) {
         Classroom classroom =
-                ClassroomServiceHelper.getClassroomById(classroomId, classroomRepository);
+                classroomHelperService.getClassroomById(classroomId, classroomRepository);
         Member student = memberHelperService.findExistingMemberById(memberRepository, studentId);
         student.withdrawal();
         classroom.deleteStudent(studentId);
