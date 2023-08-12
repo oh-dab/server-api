@@ -104,8 +104,8 @@ class WorkbookRepositoryTest {
     }
 
     @Test
-    @DisplayName("반 식별자와 교재 이름을 교재 존재 여부 확인 성공 테스트")
-    void 반_식별자와_교재_이름을_교재_존재_여부_확인_성공() {
+    @DisplayName("반 식별자와 교재 이름으로 교재 존재 여부 확인 성공 테스트")
+    void 반_식별자와_교재_이름으로_교재_존재_여부_확인_성공() {
         // given
         long classroomId = 1L;
         String name = "교재";
