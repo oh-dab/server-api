@@ -19,8 +19,6 @@ public class AddWorkbookReq {
     @NotNull(message = "교재 설명은 필수 입력값 입니다.")
     private String description;
 
-    private String grade;
-
     @NotNull(message = "교재 문제의 시작 번호는 필수 입력값 입니다.")
     private int startingNumber;
 

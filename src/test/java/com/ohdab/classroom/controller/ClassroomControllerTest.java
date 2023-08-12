@@ -14,6 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
@@ -264,6 +265,36 @@ class ClassroomControllerTest {
                                 .value(workbookDtoRes3.getCreatedAt().toLocalDate().toString()))
                 .andDo(print())
                 .andDo(createDocument("classrooms/{classroom-id}/workbooks"));
+    }
+
+    @Test
+    @WithMockUser
+    void 반_식별자로_반에_교재_추가() throws Exception {
+        // given
+        String url = "/classrooms/{classroom-id}/workbooks";
+        AddWorkbookReq addWorkbookReq =
+                AddWorkbookReq.builder()
+                        .name("교재")
+                        .description("교재에 대한 설명입니다.")
+                        .startingNumber(1)
+                        .endingNumber(2000)
+                        .build();
+        long classroomId = 1L;
+
+        // when
+
+        // then
+        mockMvc.perform(
+                        post(url, classroomId)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(addWorkbookReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("해당 반에 교재 및 오답노트가 추가되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("/classrooms/{classroom-id}/addWorkbooks"));
     }
 
     private ClassroomWorkbookDto.Response createWorkbookDto(long id, String name) {

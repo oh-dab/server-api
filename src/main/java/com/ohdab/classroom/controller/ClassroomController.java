@@ -102,6 +102,7 @@ public class ClassroomController {
         ClassroomAddWorkbookDto.Request addWorkbookDto =
                 ClassroomMapper.addWorkbookRequestToDto(addWorkbookReq);
         addWorkbookUsecase.addWorkbookByClassroomId(classroomId, addWorkbookDto);
-        return ResponseEntity.ok(AddWorkbookRes.builder().message("해당 반에 교재를 추가했습니다.").build());
+        return ResponseEntity.ok(
+                AddWorkbookRes.builder().message("해당 반에 교재 및 오답노트가 추가되었습니다.").build());
     }
 }
