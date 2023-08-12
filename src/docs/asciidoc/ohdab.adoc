@@ -175,8 +175,6 @@ include::{snippets}/classrooms/{classroom-id}/workbooks/http-request.adoc[]
 
 include::{snippets}/classrooms/{classroom-id}/workbooks/http-response.adoc[]
 
-=======
-
 === 교재 추가
 
 ==== Request
@@ -186,3 +184,15 @@ include::{snippets}/classrooms/{classroom-id}/addWorkbooks/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/{classroom-id}/addWorkbooks/http-response.adoc[]
+
+=== 교재 정보 수정
+
+==== Request
+
+include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-response.adoc[]
+
+
