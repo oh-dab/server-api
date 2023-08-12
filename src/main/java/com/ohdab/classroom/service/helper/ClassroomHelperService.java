@@ -2,9 +2,12 @@ package com.ohdab.classroom.service.helper;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
+import com.ohdab.classroom.domain.classroomid.ClassroomId;
+import com.ohdab.classroom.exception.DuplicatedWorkbookException;
 import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.exception.NoGradeException;
 import com.ohdab.classroom.repository.ClassroomRepository;
+import com.ohdab.workbook.repository.WorkbookRepository;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
@@ -29,5 +32,17 @@ public final class ClassroomHelperService {
                         () ->
                                 new NoClassroomException(
                                         "반을 찾을 수 없습니다. classroomId: " + classroomId));
+    }
+
+    public static void throwIfDuplicatedWorkbookName(
+            WorkbookRepository workbookRepository, ClassroomId classroomId, String name) {
+        if (workbookRepository.existsByClassroomIdAndWorkbookInfoName(classroomId, name)) {
+            throw new DuplicatedWorkbookException(
+                    "Duplicated workbook name \""
+                            + name
+                            + "\" in classroom with id \""
+                            + classroomId
+                            + "\"");
+        }
     }
 }

@@ -45,4 +45,11 @@ public class Workbook extends BaseEntity {
         }
         this.workbookInfo = workbookInfo;
     }
+
+    public void updateWorkbookInfo(WorkbookInfo workbookInfo) {
+        if (workbookInfo == null) {
+            throw new IllegalStateException("WorkbookInfo cannot be null");
+        }
+        this.workbookInfo = workbookInfo;
+    }
 }

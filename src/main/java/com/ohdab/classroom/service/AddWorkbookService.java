@@ -2,7 +2,6 @@ package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
-import com.ohdab.classroom.exception.DuplicatedWorkbookException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
@@ -34,22 +33,12 @@ public class AddWorkbookService implements AddWorkbookUsecase {
         Classroom classroom =
                 ClassroomHelperService.findExistingClassroom(classroomId, classroomRepository);
         ClassroomId classroomId1 = new ClassroomId(classroomId);
-        throwIfDuplicatedWorkbookName(classroomId1, addWorkbookDto.getName());
+        ClassroomHelperService.throwIfDuplicatedWorkbookName(
+                workbookRepository, classroomId1, addWorkbookDto.getName());
         Workbook workbook = saveWorkbook(classroomId1, addWorkbookDto);
         WorkbookId workbookId = new WorkbookId(workbook.getId());
         classroom.addWorkbook(workbookId);
         saveMistakeNote(classroomId, workbookId);
-    }
-
-    private void throwIfDuplicatedWorkbookName(ClassroomId classroomId, String name) {
-        if (workbookRepository.existsByClassroomIdAndWorkbookInfoName(classroomId, name)) {
-            throw new DuplicatedWorkbookException(
-                    "Duplicated workbook name \""
-                            + name
-                            + "\" in classroom with id \""
-                            + classroomId
-                            + "\"");
-        }
     }
 
     private Workbook saveWorkbook(
