@@ -61,8 +61,8 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                                 WorkbookInfo.builder()
                                         .name(addWorkbookDto.getName())
                                         .description(addWorkbookDto.getDescription())
-                                        .startingNumber(addWorkbookDto.getStartNumber())
-                                        .endingNumber(addWorkbookDto.getEndNumber())
+                                        .startingNumber(addWorkbookDto.getStartingNumber())
+                                        .endingNumber(addWorkbookDto.getEndingNumber())
                                         .build())
                         .classroomId(classroomId)
                         .build();

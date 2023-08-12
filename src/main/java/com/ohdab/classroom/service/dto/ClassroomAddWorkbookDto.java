@@ -13,7 +13,7 @@ public class ClassroomAddWorkbookDto {
     public static class Request {
         String name;
         String description;
-        int startNumber;
-        int endNumber;
+        int startingNumber;
+        int endingNumber;
     }
 }
