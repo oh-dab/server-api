@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetWorkbookListService.class})
-public class GetWorkbookListServiceTest {
+class GetWorkbookListServiceTest {
 
     @Autowired private GetWorkbookListUsecase getWorkbookListUsecase;
     @MockBean private ClassroomRepository classroomRepository;

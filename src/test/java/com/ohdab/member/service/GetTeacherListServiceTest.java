@@ -22,7 +22,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetTeacherListService.class})
-public class GetTeacherListServiceTest {
+class GetTeacherListServiceTest {
 
     @Autowired private GetTeacherListUsecase getTeacherListUsecase;
     @MockBean private MemberRepository memberRepository;
