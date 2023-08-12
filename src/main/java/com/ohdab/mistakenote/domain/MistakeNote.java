@@ -44,13 +44,12 @@ public class MistakeNote extends BaseEntity {
             WorkbookId workbookId, StudentId studentId, Map<Integer, Integer> mistakeRecords) {
         this.workbookId = workbookId;
         this.studentId = studentId;
-        this.mistakeRecords = mistakeRecords;
+        setMistakeRecords(mistakeRecords);
     }
 
-    @Builder
-    public MistakeNote(WorkbookId workbookId, StudentId studentId) {
-        this.workbookId = workbookId;
-        this.studentId = studentId;
+    private void setMistakeRecords(Map<Integer, Integer> mistakeRecords) {
+        if (mistakeRecords == null) mistakeRecords = new HashMap<>();
+        this.mistakeRecords = mistakeRecords;
     }
 
     public void addMistakeNumbers(
