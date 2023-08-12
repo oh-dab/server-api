@@ -3,7 +3,6 @@ package com.ohdab.classroom.service;
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.classroom.exception.DuplicatedWorkbookException;
-import com.ohdab.classroom.exception.InvalidWorkbookNumberRangeException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
@@ -36,12 +35,8 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                 ClassroomHelperService.findExistingClassroom(classroomId, classroomRepository);
         ClassroomId classroomId1 = new ClassroomId(classroomId);
         throwIfDuplicatedWorkbookName(classroomId1, addWorkbookDto.getName());
-        throwIfInvalidRange(addWorkbookDto.getStartNumber(), addWorkbookDto.getEndNumber());
-        saveWorkbook(classroomId1, addWorkbookDto);
-        WorkbookId workbookId =
-                new WorkbookId(
-                        workbookRepository.findIdByClassroomIdAndWorkbookInfoName(
-                                classroomId1, addWorkbookDto.getName()));
+        Workbook workbook = saveWorkbook(classroomId1, addWorkbookDto);
+        WorkbookId workbookId = new WorkbookId(workbook.getId());
         classroom.addWorkbook(workbookId);
         saveMistakeNote(classroomId, workbookId);
     }
@@ -57,18 +52,7 @@ public class AddWorkbookService implements AddWorkbookUsecase {
         }
     }
 
-    private void throwIfInvalidRange(int startNumber, int endNumber) {
-        if (startNumber > endNumber || 1 > endNumber || 5000 < endNumber) {
-            throw new InvalidWorkbookNumberRangeException(
-                    "Invalid range with starting number \""
-                            + startNumber
-                            + "\", ending number \""
-                            + endNumber
-                            + "\"");
-        }
-    }
-
-    private void saveWorkbook(
+    private Workbook saveWorkbook(
             ClassroomId classroomId, ClassroomAddWorkbookDto.Request addWorkbookDto) {
         Workbook workbook =
                 Workbook.builder()
@@ -81,20 +65,19 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                                         .build())
                         .classroomId(classroomId)
                         .build();
-        workbookRepository.save(workbook);
+        return workbookRepository.save(workbook);
     }
 
     private void saveMistakeNote(long classroomId, WorkbookId workbookId) {
         List<StudentId> studentIdList = classroomRepository.findStudentsById(classroomId);
-        studentIdList.stream()
-                .forEach(
-                        studentId -> {
-                            MistakeNote mistakeNote =
-                                    MistakeNote.builder()
-                                            .studentId(studentId)
-                                            .workbookId(workbookId)
-                                            .build();
-                            mistakeNoteRepository.save(mistakeNote);
-                        });
+        studentIdList.forEach(
+                studentId -> {
+                    MistakeNote mistakeNote =
+                            MistakeNote.builder()
+                                    .studentId(studentId)
+                                    .workbookId(workbookId)
+                                    .build();
+                    mistakeNoteRepository.save(mistakeNote);
+                });
     }
 }

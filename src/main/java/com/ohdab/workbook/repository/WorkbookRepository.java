@@ -10,6 +10,4 @@ public interface WorkbookRepository extends JpaRepository<Workbook, Long> {
     List<Workbook> findByClassroomId(ClassroomId id);
 
     boolean existsByClassroomIdAndWorkbookInfoName(ClassroomId classroomId, String name);
-
-    long findIdByClassroomIdAndWorkbookInfoName(ClassroomId classroomId, String name);
 }
