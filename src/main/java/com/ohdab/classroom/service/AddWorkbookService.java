@@ -9,10 +9,14 @@ import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
 import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.classroom.service.usecase.AddWorkbookUsecase;
+import com.ohdab.member.domain.student.studentid.StudentId;
+import com.ohdab.mistakenote.domain.MistakeNote;
+import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import com.ohdab.workbook.repository.WorkbookRepository;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,6 +28,7 @@ public class AddWorkbookService implements AddWorkbookUsecase {
 
     private final ClassroomRepository classroomRepository;
     private final WorkbookRepository workbookRepository;
+    private final MistakeNoteRepository mistakeNoteRepository;
 
     @Override
     public void addWorkbookByClassroomId(long classroomId, Request addWorkbookDto) {
@@ -38,6 +43,7 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                         workbookRepository.findIdByClassroomIdAndWorkbookInfoName(
                                 classroomId1, addWorkbookDto.getName()));
         classroom.addWorkbook(workbookId);
+        saveMistakeNote(classroomId, workbookId);
     }
 
     private void throwIfDuplicatedWorkbookName(ClassroomId classroomId, String name) {
@@ -76,5 +82,19 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                         .classroomId(classroomId)
                         .build();
         workbookRepository.save(workbook);
+    }
+
+    private void saveMistakeNote(long classroomId, WorkbookId workbookId) {
+        List<StudentId> studentIdList = classroomRepository.findStudentsById(classroomId);
+        studentIdList.stream()
+                .forEach(
+                        studentId -> {
+                            MistakeNote mistakeNote =
+                                    MistakeNote.builder()
+                                            .studentId(studentId)
+                                            .workbookId(workbookId)
+                                            .build();
+                            mistakeNoteRepository.save(mistakeNote);
+                        });
     }
 }

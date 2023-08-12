@@ -2,6 +2,7 @@ package com.ohdab.classroom.service;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
+import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import com.ohdab.classroom.domain.Classroom;
@@ -10,8 +11,12 @@ import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.usecase.AddWorkbookUsecase;
+import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
+import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.workbook.repository.WorkbookRepository;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -29,6 +34,7 @@ public class AddWorkbookServiceTest {
     @Autowired private AddWorkbookUsecase addWorkbookUsecase;
     @MockBean private WorkbookRepository workbookRepository;
     @MockBean private ClassroomRepository classroomRepository;
+    @MockBean private MistakeNoteRepository mistakeNoteRepository;
 
     @Test
     @DisplayName("교재 추가 성공 테스트")
@@ -53,6 +59,10 @@ public class AddWorkbookServiceTest {
                         .startNumber(1)
                         .endNumber(2000)
                         .build();
+        List<StudentId> studentIdList = new ArrayList<>();
+        studentIdList.add(new StudentId(1L));
+        studentIdList.add(new StudentId(2L));
+        studentIdList.add(new StudentId(3L));
 
         // when
         when(classroomRepository.findById(Mockito.anyLong()))
@@ -63,6 +73,7 @@ public class AddWorkbookServiceTest {
         when(workbookRepository.findIdByClassroomIdAndWorkbookInfoName(
                         Mockito.any(), Mockito.any()))
                 .thenReturn(workbookId);
+        when(classroomRepository.findStudentsById(Mockito.anyLong())).thenReturn(studentIdList);
 
         // then
         assertThatNoException()
@@ -72,5 +83,6 @@ public class AddWorkbookServiceTest {
                                         classroomId, addWorkbookDto));
         assertThat(classroom.getWorkbooks().size()).isEqualTo(workbookId);
         assertThat(classroom.getWorkbooks().get(0).getId()).isEqualTo(workbookId);
+        Mockito.verify(mistakeNoteRepository, times(studentIdList.size())).save(Mockito.any());
     }
 }
