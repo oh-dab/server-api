@@ -174,3 +174,4 @@ include::{snippets}/classrooms/{classroom-id}/workbooks/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/{classroom-id}/workbooks/http-response.adoc[]
+

@@ -1,6 +1,8 @@
 package com.ohdab.mistakenote.service;
 
+import static com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
 import static org.mockito.ArgumentMatchers.*;
 import static org.mockito.Mockito.when;
 
@@ -16,8 +18,7 @@ import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
-import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import java.util.*;
@@ -30,11 +31,10 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {GetMistakeNoteInfoService.class, MistakeNoteHelperService.class})
+@ContextConfiguration(classes = {GetMistakeNoteInfoService.class})
 class GetMistakeNoteInfoServiceTest {
 
     @Autowired private GetMistakeNoteInfoUsecase getMistakeNoteInfoUsecase;
-    @Autowired private MistakeNoteHelperService mistakeNoteHelperService;
     @MockBean private MistakeNoteRepository mistakeNoteRepository;
     @MockBean private MemberRepository memberRepository;
     @MockBean private MistakeRecordMapper mistakeRecordMapper;
@@ -73,16 +73,15 @@ class GetMistakeNoteInfoServiceTest {
         when(mistakeNoteRepository.findByWorkbookIdAndStudentId(
                         any(WorkbookId.class), any(StudentId.class)))
                 .thenReturn(Optional.of(mistakeNote));
-        GetMistakeNoteInfoOfStudentDto.Response result =
+        Response result =
                 getMistakeNoteInfoUsecase.getMistakeNoteInfoOfStudent(workbookId, studentId);
 
         // then
-        assertThat(result.getMistakeNoteInfo().get(0).getWrongNumber()).isEqualTo(1);
-        assertThat(result.getMistakeNoteInfo().get(0).getWrongCount()).isEqualTo(2);
-        assertThat(result.getMistakeNoteInfo().get(1).getWrongNumber()).isEqualTo(2);
-        assertThat(result.getMistakeNoteInfo().get(1).getWrongCount()).isEqualTo(4);
-        assertThat(result.getMistakeNoteInfo().get(2).getWrongNumber()).isEqualTo(4);
-        assertThat(result.getMistakeNoteInfo().get(2).getWrongCount()).isEqualTo(1);
+        assertThat(result.getMistakeNoteInfo())
+                .extracting(MistakeNoteInfoDto::getWrongNumber, MistakeNoteInfoDto::getWrongCount)
+                .contains(tuple(1, 2))
+                .contains(tuple(2, 4))
+                .contains(tuple(4, 1));
     }
 
     @DisplayName("교재 id를 통해 해당 교재에 대한 모든 학생들의 오답 기록을 조회한다.")
@@ -154,18 +153,20 @@ class GetMistakeNoteInfoServiceTest {
 
         // then
         assertThat(result.getAllMistakeNoteInfo()).hasSize(5);
+        assertThat(result.getAllMistakeNoteInfo())
+                .extracting(
+                        AllMistakeNoteInfoDto::getWrongNumber,
+                        AllMistakeNoteInfoDto::getWrongStudentsCount)
+                .contains(tuple(1, 1))
+                .contains(tuple(2, 2))
+                .contains(tuple(3, 3))
+                .contains(tuple(4, 2))
+                .contains(tuple(5, 1));
         assertThat(result.getStudents()).hasSize(3);
-        assertThat(result.getAllMistakeNoteInfo())
-                .extracting(AllMistakeNoteInfoDto::getWrongNumber)
-                .contains(1, 2, 3, 4, 5);
-        assertThat(result.getAllMistakeNoteInfo())
-                .extracting(AllMistakeNoteInfoDto::getWrongStudentsCount)
-                .contains(1, 2, 3, 2, 1);
         assertThat(result.getStudents())
-                .extracting(StudentInfoDto::getStudentId)
-                .contains(10L, 11L, 12L);
-        assertThat(result.getStudents())
-                .extracting(StudentInfoDto::getName)
-                .contains("갑", "을", "병");
+                .extracting(StudentInfoDto::getStudentId, StudentInfoDto::getName)
+                .contains(tuple(10L, "갑"))
+                .contains(tuple(11L, "을"))
+                .contains(tuple(12L, "병"));
     }
 }

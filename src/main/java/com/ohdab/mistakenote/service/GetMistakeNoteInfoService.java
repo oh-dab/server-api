@@ -1,5 +1,7 @@
 package com.ohdab.mistakenote.service;
 
+import static com.ohdab.mistakenote.service.helper.MistakeNoteHelperService.isNotExistingMember;
+
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
@@ -13,7 +15,6 @@ import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMi
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import java.util.ArrayList;
@@ -29,7 +30,6 @@ import org.springframework.transaction.annotation.Transactional;
 @Transactional(readOnly = true)
 public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
 
-    private final MistakeNoteHelperService mistakeNoteHelperService;
     private final MistakeNoteRepository mistakeNoteRepository;
     private final MemberRepository memberRepository;
     private final MistakeRecordMapper mistakeRecordMapper;
@@ -38,7 +38,7 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
     @Override
     public GetMistakeNoteInfoOfStudentDto.Response getMistakeNoteInfoOfStudent(
             long workbookId, long studentId) {
-        if (mistakeNoteHelperService.isNotExistingMember(memberRepository, studentId)) {
+        if (isNotExistingMember(memberRepository, studentId)) {
             throw new NoMemberException("존재하지 않는 회원입니다.");
         }
         MistakeNote mistakeNote =

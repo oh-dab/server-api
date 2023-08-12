@@ -82,7 +82,9 @@ class GetNumberWrongNTimesServiceTest {
                             getNumberWrongNTimesUsecase.getNumberWrongNTimes(requestDto);
 
                     // then
-                    assertThat(result).extracting("wrongNumber").isEqualTo("10,11,12,19,20");
+                    assertThat(result)
+                            .extracting(GetNumberWrongNTimesDto.Response::getWrongNumber)
+                            .isEqualTo("10,11,12,19,20");
                 }
             }
 

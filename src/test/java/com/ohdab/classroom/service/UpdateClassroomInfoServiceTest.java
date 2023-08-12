@@ -1,6 +1,8 @@
 package com.ohdab.classroom.service;
 
 import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.mockito.Mockito.anyLong;
+import static org.mockito.Mockito.when;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
@@ -9,10 +11,10 @@ import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomUpdateDto;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -52,11 +54,11 @@ class UpdateClassroomInfoServiceTest {
                         .build();
 
         // when
-        Mockito.when(memberRepository.existsById(Mockito.anyLong())).thenReturn(true);
-        Mockito.when(classroomRepository.findClassroomById(Mockito.anyLong()))
-                .thenReturn(classroom);
-        updateClassroomInfoService.updateClassroomInfo(request);
+        when(memberRepository.existsById(anyLong())).thenReturn(true);
+        when(classroomRepository.findById(anyLong())).thenReturn(Optional.ofNullable(classroom));
+
         // then
-        assertThatNoException().isThrownBy(() -> System.out.println("success"));
+        assertThatNoException()
+                .isThrownBy(() -> updateClassroomInfoService.updateClassroomInfo(request));
     }
 }
