@@ -9,7 +9,6 @@ import static org.mockito.Mockito.when;
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
-import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.usecase.AddWorkbookUsecase;
@@ -17,7 +16,6 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.workbook.domain.Workbook;
-import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.ArrayList;
 import java.util.List;
@@ -62,17 +60,6 @@ public class AddWorkbookServiceTest {
                         .description("교재 설명입니다.")
                         .startingNumber(1)
                         .endingNumber(2000)
-                        .build();
-        Workbook workbook =
-                Workbook.builder()
-                        .workbookInfo(
-                                WorkbookInfo.builder()
-                                        .name(addWorkbookDto.getName())
-                                        .description(addWorkbookDto.getDescription())
-                                        .startingNumber(addWorkbookDto.getStartingNumber())
-                                        .endingNumber(addWorkbookDto.getEndingNumber())
-                                        .build())
-                        .classroomId(new ClassroomId(classroomId))
                         .build();
         List<StudentId> studentIdList = new ArrayList<>();
         studentIdList.add(new StudentId(1L));
