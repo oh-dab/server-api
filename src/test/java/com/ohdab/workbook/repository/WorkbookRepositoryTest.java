@@ -75,6 +75,52 @@ class WorkbookRepositoryTest {
                                                         "uuuu-MM-dd'T'HH:mm:ss"))));
     }
 
+    @Test
+    @DisplayName("교재 저장 성공 테스트")
+    void 교재_저장_성공() {
+        // given
+        Workbook workbook = createAndSaveWorkbook("교재", 1L);
+
+        // when
+        workbook = workbookRepository.save(workbook);
+        Workbook result = workbookRepository.findById(workbook.getId()).get();
+
+        // then
+        assertThat(result)
+                .extracting(
+                        Workbook::getId,
+                        w -> w.getWorkbookInfo().getName(),
+                        w -> w.getWorkbookInfo().getDescription(),
+                        w -> w.getWorkbookInfo().getStartingNumber(),
+                        w -> w.getWorkbookInfo().getEndingNumber(),
+                        w -> w.getClassroomId().getId())
+                .containsExactly(
+                        workbook.getId(),
+                        workbook.getWorkbookInfo().getName(),
+                        workbook.getWorkbookInfo().getDescription(),
+                        workbook.getWorkbookInfo().getStartingNumber(),
+                        workbook.getWorkbookInfo().getEndingNumber(),
+                        workbook.getClassroomId().getId());
+    }
+
+    @Test
+    @DisplayName("반 식별자와 교재 이름으로 교재 존재 여부 확인 성공 테스트")
+    void 반_식별자와_교재_이름으로_교재_존재_여부_확인_성공() {
+        // given
+        long classroomId = 1L;
+        String name = "교재";
+        Workbook workbook = createAndSaveWorkbook(name, classroomId);
+
+        // when
+        workbook = workbookRepository.save(workbook);
+        boolean result =
+                workbookRepository.existsByClassroomIdAndWorkbookInfoName(
+                        new ClassroomId(classroomId), name);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
     private Workbook createAndSaveWorkbook(String name, long classroomId) {
         return workbookRepository.save(
                 Workbook.builder()
