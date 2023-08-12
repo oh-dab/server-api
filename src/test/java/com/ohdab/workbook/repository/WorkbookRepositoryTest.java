@@ -103,6 +103,24 @@ class WorkbookRepositoryTest {
                         workbook.getClassroomId().getId());
     }
 
+    @Test
+    @DisplayName("반 식별자와 교재 이름을 교재 존재 여부 확인 성공 테스트")
+    void 반_식별자와_교재_이름을_교재_존재_여부_확인_성공() {
+        // given
+        long classroomId = 1L;
+        String name = "교재";
+        Workbook workbook = createAndSaveWorkbook(name, classroomId);
+
+        // when
+        workbook = workbookRepository.save(workbook);
+        boolean result =
+                workbookRepository.existsByClassroomIdAndWorkbookInfoName(
+                        new ClassroomId(classroomId), name);
+
+        // then
+        assertThat(result).isTrue();
+    }
+
     private Workbook createAndSaveWorkbook(String name, long classroomId) {
         return workbookRepository.save(
                 Workbook.builder()
