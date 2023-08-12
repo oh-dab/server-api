@@ -14,7 +14,6 @@ import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.helper.MistakeNoteHelperService;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.service.NumberScopeCheckService;
@@ -31,12 +30,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(
-        classes = {
-            SaveMistakeNoteInfoService.class,
-            MistakeNoteHelperService.class,
-            NumberScopeCheckService.class
-        })
+@ContextConfiguration(classes = {SaveMistakeNoteInfoService.class, NumberScopeCheckService.class})
 class SaveMistakeNoteInfoServiceTest {
 
     @Autowired private SaveMistakeNoteInfoUsecase saveMistakeNoteInfoUsecase;
@@ -104,10 +98,11 @@ class SaveMistakeNoteInfoServiceTest {
         saveMistakeNoteInfoUsecase.saveMistakeNoteInfo(saveMistakeNoteInfoDto);
 
         // then
-        assertThat(mistakeNote.getMistakeRecords()).containsEntry(1, 3);
-        assertThat(mistakeNote.getMistakeRecords()).containsEntry(2, 5);
-        assertThat(mistakeNote.getMistakeRecords()).containsEntry(3, 1);
-        assertThat(mistakeNote.getMistakeRecords()).containsEntry(4, 1);
-        assertThat(mistakeNote.getMistakeRecords()).containsEntry(5, 1);
+        assertThat(mistakeNote.getMistakeRecords())
+                .containsEntry(1, 3)
+                .containsEntry(2, 5)
+                .containsEntry(3, 1)
+                .containsEntry(4, 1)
+                .containsEntry(5, 1);
     }
 }

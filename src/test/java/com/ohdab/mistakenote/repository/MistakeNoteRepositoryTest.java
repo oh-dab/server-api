@@ -104,4 +104,32 @@ class MistakeNoteRepositoryTest {
                 .containsEntry(4, 1)
                 .containsEntry(5, 1);
     }
+
+    @Test
+    @DisplayName("오답 노트 생성 성공 테스트")
+    void 오답_노트_생성_성공_테스트() {
+        // given
+        MistakeNote mistakeNote =
+                MistakeNote.builder()
+                        .studentId(new StudentId(1L))
+                        .workbookId(new WorkbookId(1L))
+                        .mistakeRecords(new HashMap<>())
+                        .build();
+
+        // when
+        mistakeNote = mistakeNoteRepository.save(mistakeNote);
+
+        // then
+        assertThat(mistakeNote)
+                .extracting(
+                        m -> m.getId(),
+                        m -> m.getWorkbookId().getId(),
+                        m -> m.getStudentId().getId(),
+                        m -> m.getMistakeRecords().size())
+                .containsExactly(
+                        mistakeNote.getId(),
+                        mistakeNote.getWorkbookId().getId(),
+                        mistakeNote.getStudentId().getId(),
+                        mistakeNote.getMistakeRecords().size());
+    }
 }

@@ -23,7 +23,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {DeleteTeacherService.class, MemberHelperService.class})
-public class DeleteTeacherServiceTest {
+class DeleteTeacherServiceTest {
 
     @Autowired private DeleteTeacherUsecase deleteTeacherUsecase;
     @MockBean private MemberRepository memberRepository;

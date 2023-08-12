@@ -1,18 +1,19 @@
 package com.ohdab.classroom.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import javax.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
-public class UpdateClassroomRepositoryTest {
+class UpdateClassroomRepositoryTest {
 
     @Autowired private ClassroomRepository classroomRepository;
     @Autowired private EntityManager em;
@@ -31,25 +32,17 @@ public class UpdateClassroomRepositoryTest {
 
         Classroom classroom =
                 Classroom.builder().classroomInfo(classroomInfo).teacher(teacherId).build();
-        classroomRepository.save(classroom);
-        em.flush();
-        em.clear();
-        Classroom saveClassroom = classroomRepository.findAllByTeacherId(1).get(0);
-
-        saveClassroom.setClassroomInfo(
-                ClassroomInfo.builder().name("2반").description("22").grade(Grade.HIGH_2).build());
-        classroomRepository.save(saveClassroom);
-        em.flush();
-        em.clear();
+        Classroom savedClassroom = classroomRepository.save(classroom);
 
         // when
-        Classroom foundClassrooom = classroomRepository.findClassroomById(saveClassroom.getId());
+        savedClassroom.updateClassroomInfo(
+                ClassroomInfo.builder().name("2반").description("22").grade(Grade.HIGH_2).build());
+        em.flush();
+        em.clear();
 
         // then
-        Assertions.assertThat(foundClassrooom.getId()).isEqualTo(saveClassroom.getId());
-        Assertions.assertThat(foundClassrooom.getClassroomInfo().getName()).isEqualTo("2반");
-        Assertions.assertThat(foundClassrooom.getClassroomInfo().getDescription()).isEqualTo("22");
-        Assertions.assertThat(foundClassrooom.getClassroomInfo().getGrade())
-                .isEqualTo(Grade.HIGH_2);
+        assertThat(savedClassroom.getClassroomInfo().getName()).isEqualTo("2반");
+        assertThat(savedClassroom.getClassroomInfo().getDescription()).isEqualTo("22");
+        assertThat(savedClassroom.getClassroomInfo().getGrade()).isEqualTo(Grade.HIGH_2);
     }
 }

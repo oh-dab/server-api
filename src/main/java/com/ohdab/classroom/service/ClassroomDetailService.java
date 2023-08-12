@@ -3,6 +3,7 @@ package com.ohdab.classroom.service;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
 
 import com.ohdab.classroom.domain.Classroom;
+import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.mapper.ClassroomDetailServiceMapper;
 import com.ohdab.classroom.service.usecase.ClassroomDetailUsecase;
@@ -19,7 +20,10 @@ public class ClassroomDetailService implements ClassroomDetailUsecase {
 
     @Override
     public ClassroomDetailDtoResponse getClassroomDetailById(long classroomId) {
-        Classroom classroom = classroomRepository.findClassroomById(classroomId);
+        Classroom classroom =
+                classroomRepository
+                        .findById(classroomId)
+                        .orElseThrow(() -> new NoClassroomException("교실이 존재하지 않습니다."));
         return ClassroomDetailServiceMapper.classroomToClassroomDetail(classroom);
     }
 }
