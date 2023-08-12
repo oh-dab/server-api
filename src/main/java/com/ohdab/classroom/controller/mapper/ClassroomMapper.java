@@ -4,11 +4,14 @@ import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetail
 import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdateDtoRequest;
 
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
 import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
 import com.ohdab.classroom.controller.response.ClassroomWorkbookListRes;
+import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
+import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto.Response;
 import java.util.List;
@@ -92,6 +95,15 @@ public class ClassroomMapper {
                                                         .createdAt(w.getCreatedAt().toLocalDate())
                                                         .build())
                                 .collect(Collectors.toList()))
+                .build();
+    }
+
+    public static Request addWorkbookRequestToDto(AddWorkbookReq addWorkbookReq) {
+        return ClassroomAddWorkbookDto.Request.builder()
+                .name(addWorkbookReq.getName())
+                .description(addWorkbookReq.getDescription())
+                .startingNumber(addWorkbookReq.getStartingNumber())
+                .endingNumber(addWorkbookReq.getEndingNumber())
                 .build();
     }
 }
