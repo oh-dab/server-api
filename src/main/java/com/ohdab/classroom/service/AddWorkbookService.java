@@ -15,7 +15,6 @@ import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import com.ohdab.workbook.repository.WorkbookRepository;
-import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -61,8 +60,8 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                                 WorkbookInfo.builder()
                                         .name(addWorkbookDto.getName())
                                         .description(addWorkbookDto.getDescription())
-                                        .startingNumber(addWorkbookDto.getStartNumber())
-                                        .endingNumber(addWorkbookDto.getEndNumber())
+                                        .startingNumber(addWorkbookDto.getStartingNumber())
+                                        .endingNumber(addWorkbookDto.getEndingNumber())
                                         .build())
                         .classroomId(classroomId)
                         .build();
@@ -77,7 +76,6 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                             MistakeNote.builder()
                                     .studentId(studentId)
                                     .workbookId(workbookId)
-                                    .mistakeRecords(new HashMap<>())
                                     .build();
                     mistakeNoteRepository.save(mistakeNote);
                 });

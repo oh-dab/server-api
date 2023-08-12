@@ -44,6 +44,11 @@ public class MistakeNote extends BaseEntity {
             WorkbookId workbookId, StudentId studentId, Map<Integer, Integer> mistakeRecords) {
         this.workbookId = workbookId;
         this.studentId = studentId;
+        setMistakeRecords(mistakeRecords);
+    }
+
+    private void setMistakeRecords(Map<Integer, Integer> mistakeRecords) {
+        if (mistakeRecords == null) mistakeRecords = new HashMap<>();
         this.mistakeRecords = mistakeRecords;
     }
 

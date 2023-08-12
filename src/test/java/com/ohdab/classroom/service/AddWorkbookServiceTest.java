@@ -60,8 +60,8 @@ public class AddWorkbookServiceTest {
                 ClassroomAddWorkbookDto.Request.builder()
                         .name("교재")
                         .description("교재 설명입니다.")
-                        .startNumber(1)
-                        .endNumber(2000)
+                        .startingNumber(1)
+                        .endingNumber(2000)
                         .build();
         Workbook workbook =
                 Workbook.builder()
@@ -69,8 +69,8 @@ public class AddWorkbookServiceTest {
                                 WorkbookInfo.builder()
                                         .name(addWorkbookDto.getName())
                                         .description(addWorkbookDto.getDescription())
-                                        .startingNumber(addWorkbookDto.getStartNumber())
-                                        .endingNumber(addWorkbookDto.getEndNumber())
+                                        .startingNumber(addWorkbookDto.getStartingNumber())
+                                        .endingNumber(addWorkbookDto.getEndingNumber())
                                         .build())
                         .classroomId(new ClassroomId(classroomId))
                         .build();
