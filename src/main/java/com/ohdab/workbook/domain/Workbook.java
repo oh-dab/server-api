@@ -1,7 +1,6 @@
 package com.ohdab.workbook.domain;
 
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
-import com.ohdab.classroom.exception.ContentOverflowException;
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import javax.persistence.*;
@@ -44,28 +43,6 @@ public class Workbook extends BaseEntity {
         if (workbookInfo == null) {
             throw new IllegalArgumentException("예외");
         }
-        throwIfContentOverflow(workbookInfo);
         this.workbookInfo = workbookInfo;
-    }
-
-    private void throwIfContentOverflow(WorkbookInfo workbookInfo) {
-        throwIfNameIsOverflowed(workbookInfo.getName());
-        throwIfDescriptionIsOverflowed(workbookInfo.getDescription());
-    }
-
-    private void throwIfNameIsOverflowed(String name) {
-        if (name.length() > 20) {
-            throw new ContentOverflowException(
-                    "Workbook name cannot exceed 20, current length \"" + name.length() + "\"");
-        }
-    }
-
-    private void throwIfDescriptionIsOverflowed(String description) {
-        if (description.length() > 30) {
-            throw new ContentOverflowException(
-                    "Workbook description cannot exceed 30, current length \""
-                            + description.length()
-                            + "\"");
-        }
     }
 }

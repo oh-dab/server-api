@@ -1,5 +1,7 @@
 package com.ohdab.workbook.domain.workbookInfo;
 
+import com.ohdab.classroom.exception.ContentOverflowException;
+import com.ohdab.classroom.exception.InvalidWorkbookNumberRangeException;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,7 +28,7 @@ public class WorkbookInfo {
 
     private void setName(String name) {
         if (name.length() > 20) {
-            throw new IllegalStateException(
+            throw new ContentOverflowException(
                     "Name length cannot exceed 20 : current length \"" + name.length() + "\"");
         }
         this.name = name;
@@ -34,7 +36,7 @@ public class WorkbookInfo {
 
     private void setDescription(String description) {
         if (description != null && description.length() > 30) {
-            throw new IllegalStateException(
+            throw new ContentOverflowException(
                     "Description length cannot exceed 30 : current length \""
                             + description.length()
                             + "\"");
@@ -47,10 +49,20 @@ public class WorkbookInfo {
                 || startingNumber > 5000
                 || endingNumber < 0
                 || endingNumber > 5000) {
-            throw new IllegalStateException("");
+            throw new InvalidWorkbookNumberRangeException(
+                    "Invalid range with starting number \""
+                            + startingNumber
+                            + "\", ending number \""
+                            + endingNumber
+                            + "\"");
         }
         if (startingNumber > endingNumber) {
-            throw new IllegalStateException("");
+            throw new InvalidWorkbookNumberRangeException(
+                    "Ending number \""
+                            + endingNumber
+                            + "\" cannot precede starting number \""
+                            + startingNumber
+                            + "\"");
         }
         this.startingNumber = startingNumber;
         this.endingNumber = endingNumber;
