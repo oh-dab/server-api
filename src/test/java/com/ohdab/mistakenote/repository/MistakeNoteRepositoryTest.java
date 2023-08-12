@@ -50,9 +50,10 @@ class MistakeNoteRepositoryTest {
         // then
         assertThat(result.getWorkbookId().getId()).isEqualTo(workbookId.getId());
         assertThat(result.getStudentId().getId()).isEqualTo(studentId.getId());
-        assertThat(result.getMistakeRecords()).containsEntry(1, 2);
-        assertThat(result.getMistakeRecords()).containsEntry(2, 4);
-        assertThat(result.getMistakeRecords()).containsEntry(4, 1);
+        assertThat(result.getMistakeRecords())
+                .containsEntry(1, 2)
+                .containsEntry(2, 4)
+                .containsEntry(4, 1);
     }
 
     @DisplayName("변경감지를 활용하여 틀린 문제 번호마다 틀린 횟수를 저장한다.")
@@ -112,8 +113,7 @@ class MistakeNoteRepositoryTest {
         MistakeNote mistakeNote =
                 MistakeNote.builder()
                         .studentId(new StudentId(1L))
-                        .workbookId(new WorkbookId(1L))
-                        .mistakeRecords(new HashMap<>())
+                        .workbookId(new WorkbookId(2L))
                         .build();
 
         // when
