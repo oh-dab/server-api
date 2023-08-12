@@ -1,10 +1,11 @@
 package com.ohdab.member.service;
 
+import static com.ohdab.member.service.helper.MemberHelperService.checkIfMemberExistByName;
+
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
-import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;
@@ -19,7 +20,6 @@ public class AddTeacherService implements AddTeacherUsecase {
 
     private final MemberRepository memberRepository;
     private final JoinUsecase joinUsecase;
-    private final MemberHelperService memberHelperService;
 
     @Override
     public void addTeacher(MemberDtoForAddTeacher.Request addTeacherReqDto) {
@@ -38,7 +38,7 @@ public class AddTeacherService implements AddTeacherUsecase {
     }
 
     private String changeNameIfDuplicated(String name) {
-        if (memberHelperService.checkIfMemberExistByName(memberRepository, name)) {
+        if (checkIfMemberExistByName(memberRepository, name)) {
             long sameNameCount = memberRepository.countByMemberInfoNameContaining(name);
             return name = name + sameNameCount;
         }
@@ -46,7 +46,7 @@ public class AddTeacherService implements AddTeacherUsecase {
     }
 
     private void throwIfJoinFailed(String name) {
-        if (!memberHelperService.checkIfMemberExistByName(memberRepository, name)) {
+        if (!checkIfMemberExistByName(memberRepository, name)) {
             throw new NoMemberException("Join Failed with teacher name \"" + name + "\"");
         }
     }

@@ -8,4 +8,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface WorkbookRepository extends JpaRepository<Workbook, Long> {
 
     List<Workbook> findByClassroomId(ClassroomId id);
+
+    boolean existsByClassroomIdAndWorkbookInfoName(ClassroomId classroomId, String name);
 }

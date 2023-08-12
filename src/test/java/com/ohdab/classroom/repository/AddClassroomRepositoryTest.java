@@ -1,12 +1,13 @@
 package com.ohdab.classroom.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import java.util.List;
 import javax.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -36,13 +37,11 @@ class AddClassroomRepositoryTest {
         // when
         classroomRepository.save(classroom);
         List<Classroom> foundClassrooms = classroomRepository.findAllByTeacherId(teacherId.getId());
+
         // then
-        Assertions.assertThat(foundClassrooms.get(0).getTeacher().getId())
-                .isEqualTo(teacherId.getId());
-        Assertions.assertThat(foundClassrooms.get(0).getClassroomInfo().getName()).isEqualTo(name);
-        Assertions.assertThat(foundClassrooms.get(0).getClassroomInfo().getDescription())
-                .isEqualTo(desc);
-        Assertions.assertThat(foundClassrooms.get(0).getClassroomInfo().getGrade())
-                .isEqualTo(Grade.HIGH_1);
+        assertThat(foundClassrooms.get(0).getTeacher().getId()).isEqualTo(teacherId.getId());
+        assertThat(foundClassrooms.get(0).getClassroomInfo().getName()).isEqualTo(name);
+        assertThat(foundClassrooms.get(0).getClassroomInfo().getDescription()).isEqualTo(desc);
+        assertThat(foundClassrooms.get(0).getClassroomInfo().getGrade()).isEqualTo(Grade.HIGH_1);
     }
 }
