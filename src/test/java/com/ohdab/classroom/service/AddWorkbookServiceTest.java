@@ -30,6 +30,7 @@ public class AddWorkbookServiceTest {
         // given
         ClassroomAddWorkbookDto.Request addWorkbookDto =
                 ClassroomAddWorkbookDto.Request.builder()
+                        .classroomId(1L)
                         .name("교재")
                         .description("교재 설명입니다.")
                         .startNumber(1)
@@ -37,6 +38,8 @@ public class AddWorkbookServiceTest {
                         .build();
 
         // when
+        when(classroomRepository.existsById(Mockito.anyLong())).thenReturn(true);
+        when(workbookRepository.findByClassroomId(Mockito.any())).thenReturn(null);
         when(workbookRepository.existsByWorkbookInfoName(Mockito.any())).thenReturn(false);
 
         // then
