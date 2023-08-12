@@ -294,7 +294,7 @@ class ClassroomControllerTest {
                         content().contentType(MediaType.APPLICATION_JSON),
                         jsonPath("$.message").value("해당 반에 교재 및 오답노트가 추가되었습니다."))
                 .andDo(print())
-                .andDo(createDocument("/classrooms/{classroom-id}/addWorkbooks"));
+                .andDo(createDocument("classrooms/{classroom-id}/addWorkbooks"));
     }
 
     private ClassroomWorkbookDto.Response createWorkbookDto(long id, String name) {
