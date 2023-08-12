@@ -121,6 +121,43 @@ class WorkbookRepositoryTest {
         assertThat(result).isTrue();
     }
 
+    @Test
+    @DisplayName("교재 정보 수정 성공 테스트")
+    void 교재_정보_수정_성공() {
+        // given
+        Workbook workbook = createAndSaveWorkbook("교재", 1L);
+        String name = "수정 교재명";
+        String description = "수정된 교재 정보입니다.";
+
+        // when
+        workbook = workbookRepository.save(workbook);
+        workbook.updateWorkbookInfo(
+                WorkbookInfo.builder()
+                        .name(name)
+                        .description(description)
+                        .startingNumber(workbook.getWorkbookInfo().getStartingNumber())
+                        .endingNumber(workbook.getWorkbookInfo().getEndingNumber())
+                        .build());
+        Workbook result = workbookRepository.findById(workbook.getId()).get();
+
+        // then
+        assertThat(result)
+                .extracting(
+                        Workbook::getId,
+                        w -> w.getWorkbookInfo().getName(),
+                        w -> w.getWorkbookInfo().getDescription(),
+                        w -> w.getWorkbookInfo().getStartingNumber(),
+                        w -> w.getWorkbookInfo().getEndingNumber(),
+                        w -> w.getClassroomId().getId())
+                .containsExactly(
+                        workbook.getId(),
+                        name,
+                        description,
+                        workbook.getWorkbookInfo().getStartingNumber(),
+                        workbook.getWorkbookInfo().getEndingNumber(),
+                        workbook.getClassroomId().getId());
+    }
+
     private Workbook createAndSaveWorkbook(String name, long classroomId) {
         return workbookRepository.save(
                 Workbook.builder()
