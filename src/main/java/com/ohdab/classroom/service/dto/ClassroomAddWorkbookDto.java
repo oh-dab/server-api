@@ -1,19 +1,19 @@
 package com.ohdab.classroom.service.dto;
 
-import java.time.LocalDateTime;
 import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClassroomWorkbookDto {
+public class ClassroomAddWorkbookDto {
 
     @Getter
     @Builder
-    public static class Response {
-        Long id;
+    public static class Request {
         String name;
-        LocalDateTime createdAt;
+        String description;
+        int startNumber;
+        int endNumber;
     }
 }
