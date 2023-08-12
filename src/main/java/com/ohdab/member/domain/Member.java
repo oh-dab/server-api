@@ -2,6 +2,7 @@ package com.ohdab.member.domain;
 
 import com.ohdab.core.baseentity.BaseEntity;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
+import com.ohdab.member.exception.AlreadyWithdrawlException;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AccessLevel;
@@ -66,7 +67,7 @@ public class Member extends BaseEntity {
 
     public void withdrawal() {
         if (this.status == MemberStatus.INACTIVE) {
-            throw new IllegalStateException("예외");
+            throw new AlreadyWithdrawlException("이미 탈퇴한 회원입니다.");
         }
         this.status = MemberStatus.INACTIVE;
     }
