@@ -75,6 +75,34 @@ class WorkbookRepositoryTest {
                                                         "uuuu-MM-dd'T'HH:mm:ss"))));
     }
 
+    @Test
+    @DisplayName("교재 저장 성공 테스트")
+    void 교재_저장_성공() {
+        // given
+        Workbook workbook = createAndSaveWorkbook("교재", 1L);
+
+        // when
+        workbook = workbookRepository.save(workbook);
+        Workbook result = workbookRepository.findById(workbook.getId()).get();
+
+        // then
+        assertThat(result)
+                .extracting(
+                        Workbook::getId,
+                        w -> w.getWorkbookInfo().getName(),
+                        w -> w.getWorkbookInfo().getDescription(),
+                        w -> w.getWorkbookInfo().getStartingNumber(),
+                        w -> w.getWorkbookInfo().getEndingNumber(),
+                        w -> w.getClassroomId().getId())
+                .containsExactly(
+                        workbook.getId(),
+                        workbook.getWorkbookInfo().getName(),
+                        workbook.getWorkbookInfo().getDescription(),
+                        workbook.getWorkbookInfo().getStartingNumber(),
+                        workbook.getWorkbookInfo().getEndingNumber(),
+                        workbook.getClassroomId().getId());
+    }
+
     private Workbook createAndSaveWorkbook(String name, long classroomId) {
         return workbookRepository.save(
                 Workbook.builder()
