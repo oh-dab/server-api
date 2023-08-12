@@ -7,7 +7,7 @@ import static org.mockito.Mockito.when;
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
-import com.ohdab.classroom.exception.CannotFindClassroomException;
+import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.exception.NoStudentException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.DeleteStudentDto;
@@ -20,7 +20,6 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.exception.AlreadyWithdrawlException;
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.helper.MemberHelperService;
 import java.util.List;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
@@ -33,11 +32,13 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {DeleteStudentService.class, MemberHelperService.class})
+@ContextConfiguration(
+        classes = {
+            DeleteStudentService.class,
+        })
 class DeleteStudentServiceTest {
 
     @Autowired private DeleteStudentUsecase deleteStudentUsecase;
-    @Autowired private MemberHelperService memberHelperService;
     @MockBean private ClassroomRepository classroomRepository;
     @MockBean private MemberRepository memberRepository;
 
@@ -85,7 +86,8 @@ class DeleteStudentServiceTest {
                                     .build();
 
                     // when
-                    when(classroomRepository.findClassroomById(anyLong())).thenReturn(classroom);
+                    when(classroomRepository.findById(anyLong()))
+                            .thenReturn(Optional.ofNullable(classroom));
                     when(memberRepository.findById(anyLong()))
                             .thenReturn(Optional.ofNullable(student));
 
@@ -133,7 +135,8 @@ class DeleteStudentServiceTest {
                                     .build();
 
                     // when
-                    when(classroomRepository.findClassroomById(anyLong())).thenReturn(classroom);
+                    when(classroomRepository.findById(anyLong()))
+                            .thenReturn(Optional.ofNullable(classroom));
                     when(memberRepository.findById(anyLong()))
                             .thenReturn(Optional.ofNullable(student));
                     Throwable thrown =
@@ -184,7 +187,8 @@ class DeleteStudentServiceTest {
                     student.withdrawal();
 
                     // when
-                    when(classroomRepository.findClassroomById(anyLong())).thenReturn(classroom);
+                    when(classroomRepository.findById(anyLong()))
+                            .thenReturn(Optional.ofNullable(classroom));
                     when(memberRepository.findById(anyLong()))
                             .thenReturn(Optional.ofNullable(student));
                     Throwable thrown =
@@ -203,9 +207,9 @@ class DeleteStudentServiceTest {
         @Nested
         class ifClassroomDoesNotExist {
 
-            @DisplayName("CannotFindClassroomException 예외를 던진다.")
+            @DisplayName("NoClassroomException 예외를 던진다.")
             @Test
-            void throwCannotFindClassroomException() {
+            void throwNoClassroomException() {
                 // given
                 final long classroomId = 1L;
                 final long studentId = 2L;
@@ -216,14 +220,13 @@ class DeleteStudentServiceTest {
                                 .build();
 
                 // when
-                when(classroomRepository.findClassroomById(anyLong()))
-                        .thenThrow(CannotFindClassroomException.class);
+                when(classroomRepository.findById(anyLong())).thenThrow(NoClassroomException.class);
                 Throwable thrown =
                         catchException(
                                 () -> deleteStudentUsecase.deleteStudent(classroomId, studentId));
 
                 // then
-                assertThat(thrown).isInstanceOf(CannotFindClassroomException.class);
+                assertThat(thrown).isInstanceOf(NoClassroomException.class);
             }
         }
     }

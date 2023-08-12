@@ -1,7 +1,7 @@
 package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
-import com.ohdab.classroom.exception.CannotFindClassroomException;
+import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.GetWorkbookListUsecase;
@@ -31,8 +31,7 @@ public class GetWorkbookListService implements GetWorkbookListUsecase {
 
     private void throwIfUnknownClassroomId(long classroomId) {
         if (!classroomRepository.existsById(classroomId)) {
-            throw new CannotFindClassroomException(
-                    "Cannot find classroom with id \"" + classroomId + "\"");
+            throw new NoClassroomException("Cannot find classroom with id \"" + classroomId + "\"");
         }
     }
 
