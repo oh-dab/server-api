@@ -1,5 +1,11 @@
 package com.ohdab.member.controller.mistakenote.service;
 
+import static com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.AssertionsForClassTypes.tuple;
+import static org.mockito.ArgumentMatchers.*;
+import static org.mockito.Mockito.when;
+
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
@@ -16,6 +22,7 @@ import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.Stude
 import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response;
 import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import java.util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,14 +30,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.*;
-
-import static com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.AssertionsForClassTypes.tuple;
-import static org.mockito.ArgumentMatchers.*;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetMistakeNoteInfoService.class})

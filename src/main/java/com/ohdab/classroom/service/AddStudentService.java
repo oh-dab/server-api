@@ -1,7 +1,7 @@
 package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.Classroom;
-import com.ohdab.classroom.event.AddedStudentEvent;
+import com.ohdab.classroom.event.StudentAddedEvent;
 import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.AddStudentDto;
@@ -28,9 +28,8 @@ public class AddStudentService implements AddStudentUsecase {
                 classroomRepository
                         .findById(addStudentReq.getClassroomId())
                         .orElseThrow(() -> new NoClassroomException("존재하지 않는 반입니다."));
-        publisher.publishEvent(AddedStudentEvent.builder()
-                .studentName(addStudentReq.getStudentName())
-                .build());
+        publisher.publishEvent(
+                StudentAddedEvent.builder().studentName(addStudentReq.getStudentName()).build());
         Member member =
                 memberRepository
                         .findByMemberInfoName(addStudentReq.getStudentName())

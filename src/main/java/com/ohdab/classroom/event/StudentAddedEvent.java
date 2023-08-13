@@ -7,13 +7,13 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class AddedStudentEvent {
+public class StudentAddedEvent {
 
     private String studentName;
     private String password;
 
     @Builder
-    public AddedStudentEvent(String studentName) {
+    public StudentAddedEvent(String studentName) {
         this.studentName = studentName;
         this.password = "1234";
     }

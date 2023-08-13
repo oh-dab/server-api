@@ -1,5 +1,12 @@
 package com.ohdab.classroom.service;
 
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatThrownBy;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
@@ -10,6 +17,7 @@ import com.ohdab.classroom.service.usecase.AddStudentUsecase;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
+import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -19,15 +27,6 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-
-import java.util.Optional;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatThrownBy;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {AddStudentService.class})
@@ -50,18 +49,19 @@ class AddStudentServiceTest {
             @Test
             void joinStudentAndAddStudent() {
                 // given
-                final AddStudentDto.Request addStudentReq = AddStudentDto.Request.builder()
-                        .classroomId(1L)
-                        .studentName("갑").build();
+                final AddStudentDto.Request addStudentReq =
+                        AddStudentDto.Request.builder().classroomId(1L).studentName("갑").build();
 
-                final Classroom classroom = Classroom.builder()
-                        .teacher(new TeacherId(10L))
-                        .classroomInfo(ClassroomInfo.builder()
-                                .name("1반")
-                                .description("설명")
-                                .grade(Grade.HIGH_1)
-                                .build())
-                        .build();
+                final Classroom classroom =
+                        Classroom.builder()
+                                .teacher(new TeacherId(10L))
+                                .classroomInfo(
+                                        ClassroomInfo.builder()
+                                                .name("1반")
+                                                .description("설명")
+                                                .grade(Grade.HIGH_1)
+                                                .build())
+                                .build();
 
                 // when
                 when(classroomRepository.findById(anyLong()))
@@ -83,16 +83,15 @@ class AddStudentServiceTest {
             @Test
             void throwNoClassroomException() {
                 // given
-                final AddStudentDto.Request addStudentReq = AddStudentDto.Request.builder()
-                        .classroomId(1L)
-                        .studentName("갑").build();
+                final AddStudentDto.Request addStudentReq =
+                        AddStudentDto.Request.builder().classroomId(1L).studentName("갑").build();
 
                 // when
-                when(classroomRepository.findById(anyLong()))
-                        .thenReturn(Optional.empty());
+                when(classroomRepository.findById(anyLong())).thenReturn(Optional.empty());
 
                 // then
-                assertThatThrownBy(() -> addStudentUsecase.addStudent(addStudentReq)).isInstanceOf(NoClassroomException.class);
+                assertThatThrownBy(() -> addStudentUsecase.addStudent(addStudentReq))
+                        .isInstanceOf(NoClassroomException.class);
             }
         }
     }
