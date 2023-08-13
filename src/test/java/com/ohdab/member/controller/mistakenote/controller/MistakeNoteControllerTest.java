@@ -1,4 +1,29 @@
-package com.ohdab.mistakenote.controller;
+package com.ohdab.member.controller.mistakenote.controller;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.mistakenote.controller.MistakeNoteController;
+import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
+import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
+import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
+import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
+import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
+import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
+import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -11,29 +36,6 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto;
-import com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
-import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
-import com.ohdab.mistakenote.service.usecase.GetMistakeNoteInfoUsecase;
-import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
-import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MistakeNoteController.class)

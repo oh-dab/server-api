@@ -1,22 +1,15 @@
-package com.ohdab.mistakenote.service;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.catchException;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+package com.ohdab.member.controller.mistakenote.service;
 
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.exception.NumberIsOutOfRangeException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
+import com.ohdab.mistakenote.service.GetNumberWrongNTimesService;
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.repository.WorkbookRepository;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;
@@ -25,6 +18,15 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.catchException;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {GetNumberWrongNTimesService.class})

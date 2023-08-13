@@ -1,23 +1,25 @@
-package com.ohdab.mistakenote.repository.mapper;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.tuple;
+package com.ohdab.member.controller.mistakenote.repository.mapper;
 
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
+import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import javax.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mybatis.spring.boot.test.autoconfigure.AutoConfigureMybatis;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+
+import javax.persistence.EntityManager;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.tuple;
 
 @DataJpaTest
 @AutoConfigureMybatis

@@ -1,9 +1,4 @@
-package com.ohdab.mistakenote.service;
-
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.when;
+package com.ohdab.member.controller.mistakenote.service;
 
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.member.domain.Authority;
@@ -13,6 +8,7 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
+import com.ohdab.mistakenote.service.SaveMistakeNoteInfoService;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.Workbook;
@@ -20,7 +16,6 @@ import com.ohdab.workbook.domain.service.NumberScopeCheckService;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import com.ohdab.workbook.repository.WorkbookRepository;
-import java.util.*;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -28,6 +23,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.*;
+
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {SaveMistakeNoteInfoService.class, NumberScopeCheckService.class})
