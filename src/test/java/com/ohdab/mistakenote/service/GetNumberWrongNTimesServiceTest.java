@@ -1,4 +1,4 @@
-package com.ohdab.member.controller.mistakenote.service;
+package com.ohdab.mistakenote.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.catchException;
@@ -9,7 +9,6 @@ import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.exception.NumberIsOutOfRangeException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
-import com.ohdab.mistakenote.service.GetNumberWrongNTimesService;
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.mistakenote.service.usecase.GetNumberWrongNTimesUsecase;
 import com.ohdab.workbook.domain.Workbook;

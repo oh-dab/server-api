@@ -1,4 +1,4 @@
-package com.ohdab.member.controller.mistakenote.controller;
+package com.ohdab.mistakenote.controller;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -13,7 +13,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.mistakenote.controller.MistakeNoteController;
 import com.ohdab.mistakenote.controller.request.SaveMistakeNoteInfoReq;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;

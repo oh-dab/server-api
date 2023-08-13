@@ -1,4 +1,4 @@
-package com.ohdab.member.controller.mistakenote.repository.mapper;
+package com.ohdab.mistakenote.repository.mapper;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.tuple;
@@ -6,7 +6,6 @@ import static org.assertj.core.api.Assertions.tuple;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
-import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetNumberWrongNTimesDto;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;

@@ -1,4 +1,4 @@
-package com.ohdab.member.controller.mistakenote.service;
+package com.ohdab.mistakenote.service;
 
 import static com.ohdab.mistakenote.service.dto.GetMistakeNoteInfoOfStudentDto.Response.MistakeNoteInfoDto;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,7 +15,6 @@ import com.ohdab.member.repository.mapper.MemberMapper;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
-import com.ohdab.mistakenote.service.GetMistakeNoteInfoService;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.AllMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.dto.GetAllMistakeNoteInfoDto.Response.StudentInfoDto;

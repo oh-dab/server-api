@@ -1,4 +1,4 @@
-package com.ohdab.member.controller.mistakenote.service;
+package com.ohdab.mistakenote.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.ArgumentMatchers.any;
@@ -13,7 +13,6 @@ import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
-import com.ohdab.mistakenote.service.SaveMistakeNoteInfoService;
 import com.ohdab.mistakenote.service.dto.SaveMistakeNoteInfoDto;
 import com.ohdab.mistakenote.service.usecase.SaveMistakeNoteInfoUsecase;
 import com.ohdab.workbook.domain.Workbook;
