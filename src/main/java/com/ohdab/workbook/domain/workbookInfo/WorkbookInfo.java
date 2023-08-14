@@ -1,8 +1,8 @@
 package com.ohdab.workbook.domain.workbookInfo;
 
 import com.ohdab.core.exception.ExceptionEnum;
-import com.ohdab.workbook.exception.ContentOverflowException;
 import com.ohdab.workbook.exception.InvalidWorkbookNumberRangeException;
+import com.ohdab.workbook.exception.WorkbookContentOverflowException;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -29,14 +29,16 @@ public class WorkbookInfo {
 
     private void setName(String name) {
         if (name.length() > 20) {
-            throw new ContentOverflowException(ExceptionEnum.CONTENT_OVERFLOW.getMessage());
+            throw new WorkbookContentOverflowException(
+                    ExceptionEnum.WORKBOOK_CONTENT_OVERFLOW.getMessage());
         }
         this.name = name;
     }
 
     private void setDescription(String description) {
         if (description != null && description.length() > 30) {
-            throw new ContentOverflowException(ExceptionEnum.CONTENT_OVERFLOW.getMessage());
+            throw new WorkbookContentOverflowException(
+                    ExceptionEnum.WORKBOOK_CONTENT_OVERFLOW.getMessage());
         }
         this.description = description;
     }

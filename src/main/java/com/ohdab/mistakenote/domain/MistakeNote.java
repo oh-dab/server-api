@@ -1,10 +1,13 @@
 package com.ohdab.mistakenote.domain;
 
 import com.ohdab.core.baseentity.BaseEntity;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.student.studentid.StudentId;
+import com.ohdab.mistakenote.exception.MistakeNumbersSizeException;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.service.NumberScopeCheckService;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import io.jsonwebtoken.lang.Assert;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +45,8 @@ public class MistakeNote extends BaseEntity {
     @Builder
     public MistakeNote(
             WorkbookId workbookId, StudentId studentId, Map<Integer, Integer> mistakeRecords) {
+        Assert.notNull(workbookId, ExceptionEnum.IS_NULL.getMessage());
+        Assert.notNull(studentId, ExceptionEnum.IS_NULL.getMessage());
         this.workbookId = workbookId;
         this.studentId = studentId;
         setMistakeRecords(mistakeRecords);
@@ -69,7 +74,7 @@ public class MistakeNote extends BaseEntity {
 
     private void checkMistakeNumbersSize(List<Integer> numbers) {
         if (numbers.isEmpty() || numbers.size() > 500) {
-            throw new IllegalArgumentException("틀린 문제 번호는 최소 1개 이상, 500개 이하로 입력할 수 있습니다.");
+            throw new MistakeNumbersSizeException(ExceptionEnum.MISTAKE_NUMBERS_SIZE.getMessage());
         }
     }
 
