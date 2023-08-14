@@ -17,6 +17,7 @@ import com.ohdab.classroom.service.usecase.AddStudentUsecase;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
+import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import java.util.Optional;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Nested;
@@ -36,6 +37,7 @@ class AddStudentServiceTest {
     @Autowired private ApplicationEventPublisher publisher;
     @MockBean private ClassroomRepository classroomRepository;
     @MockBean private MemberRepository memberRepository;
+    @MockBean private MistakeNoteRepository mistakeNoteRepository;
 
     @DisplayName("addStudent 메서드는")
     @Nested
@@ -45,7 +47,7 @@ class AddStudentServiceTest {
         @Nested
         class ExistClassroom {
 
-            @DisplayName("회원가입 이벤트를 발생시키고 해당 반 학생 목록에 학생 id를 추가한다.")
+            @DisplayName("회원가입 이벤트 발생, 해당 반 학생 목록에 학생 id를 추가 및 해당 반의 교재에 대한 모든 오답노트를 생성한다.")
             @Test
             void joinStudentAndAddStudent() {
                 // given
