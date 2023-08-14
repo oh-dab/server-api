@@ -2,7 +2,6 @@ package com.ohdab.classroom.service;
 
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
-import com.ohdab.classroom.exception.DuplicatedWorkbookException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
@@ -15,7 +14,6 @@ import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import com.ohdab.workbook.repository.WorkbookRepository;
-import java.util.HashMap;
 import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -35,22 +33,12 @@ public class AddWorkbookService implements AddWorkbookUsecase {
         Classroom classroom =
                 ClassroomHelperService.findExistingClassroom(classroomId, classroomRepository);
         ClassroomId classroomId1 = new ClassroomId(classroomId);
-        throwIfDuplicatedWorkbookName(classroomId1, addWorkbookDto.getName());
+        ClassroomHelperService.throwIfDuplicatedWorkbookName(
+                workbookRepository, classroomId1, addWorkbookDto.getName());
         Workbook workbook = saveWorkbook(classroomId1, addWorkbookDto);
         WorkbookId workbookId = new WorkbookId(workbook.getId());
         classroom.addWorkbook(workbookId);
         saveMistakeNote(classroomId, workbookId);
-    }
-
-    private void throwIfDuplicatedWorkbookName(ClassroomId classroomId, String name) {
-        if (workbookRepository.existsByClassroomIdAndWorkbookInfoName(classroomId, name)) {
-            throw new DuplicatedWorkbookException(
-                    "Duplicated workbook name \""
-                            + name
-                            + "\" in classroom with id \""
-                            + classroomId
-                            + "\"");
-        }
     }
 
     private Workbook saveWorkbook(
@@ -61,8 +49,8 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                                 WorkbookInfo.builder()
                                         .name(addWorkbookDto.getName())
                                         .description(addWorkbookDto.getDescription())
-                                        .startingNumber(addWorkbookDto.getStartNumber())
-                                        .endingNumber(addWorkbookDto.getEndNumber())
+                                        .startingNumber(addWorkbookDto.getStartingNumber())
+                                        .endingNumber(addWorkbookDto.getEndingNumber())
                                         .build())
                         .classroomId(classroomId)
                         .build();
@@ -77,7 +65,6 @@ public class AddWorkbookService implements AddWorkbookUsecase {
                             MistakeNote.builder()
                                     .studentId(studentId)
                                     .workbookId(workbookId)
-                                    .mistakeRecords(new HashMap<>())
                                     .build();
                     mistakeNoteRepository.save(mistakeNote);
                 });

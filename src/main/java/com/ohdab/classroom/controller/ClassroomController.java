@@ -5,8 +5,11 @@ import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdate
 
 import com.ohdab.classroom.controller.mapper.ClassroomMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.AddStudentReq;
+import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.response.*;
+import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.*;
@@ -29,6 +32,8 @@ public class ClassroomController {
     private final DeleteClassroomUsecase deleteClassroomUsecase;
     private final DeleteStudentUsecase deleteStudentUsecase;
     private final GetWorkbookListUsecase getWorkbookListUsecase;
+    private final AddWorkbookUsecase addWorkbookUsecase;
+    private final AddStudentUsecase addStudentUsecase;
 
     @PostMapping("/enrollment")
     public ResponseEntity<AddClassroomRes> addClassroom(
@@ -90,5 +95,25 @@ public class ClassroomController {
                 getWorkbookListUsecase.getWorkbookListByClassroomId(classroomId);
         return ResponseEntity.ok(
                 ClassroomMapper.classroomWorkbookDtoListToResponseList(classroomWorkbookDtoList));
+    }
+
+    @PostMapping("/{classroom-id}/workbooks")
+    public ResponseEntity<AddWorkbookRes> getWorkbookListByClassroomId(
+            @PathVariable(name = "classroom-id") long classroomId,
+            @RequestBody @Valid AddWorkbookReq addWorkbookReq) {
+        ClassroomAddWorkbookDto.Request addWorkbookDto =
+                ClassroomMapper.addWorkbookRequestToDto(addWorkbookReq);
+        addWorkbookUsecase.addWorkbookByClassroomId(classroomId, addWorkbookDto);
+        return ResponseEntity.ok(
+                AddWorkbookRes.builder().message("해당 반에 교재 및 오답노트가 추가되었습니다.").build());
+    }
+
+    @PostMapping("/{classroom-id}/students/enrollment")
+    public ResponseEntity<AddStudentRes> addStudent(
+            @PathVariable(name = "classroom-id") long classroomId,
+            @RequestBody @Valid AddStudentReq addStudentReq) {
+        addStudentUsecase.addStudent(
+                ClassroomMapper.toAddStudentDtoRequest(classroomId, addStudentReq));
+        return ResponseEntity.ok(AddStudentRes.builder().message("해당 반에 학생이 추가되었습니다.").build());
     }
 }

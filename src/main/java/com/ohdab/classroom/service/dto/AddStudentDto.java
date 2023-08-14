@@ -6,14 +6,13 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class ClassroomAddWorkbookDto {
+public class AddStudentDto {
 
     @Getter
     @Builder
     public static class Request {
-        String name;
-        String description;
-        int startingNumber;
-        int endingNumber;
+
+        private long classroomId;
+        private String studentName;
     }
 }
