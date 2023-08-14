@@ -139,6 +139,7 @@ class WorkbookRepositoryTest {
                         .endingNumber(workbook.getWorkbookInfo().getEndingNumber())
                         .build());
         entityManager.flush();
+        entityManager.clear();
         Workbook result = workbookRepository.findById(workbook.getId()).get();
 
         // then
