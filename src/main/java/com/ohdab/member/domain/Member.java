@@ -7,6 +7,7 @@ import com.ohdab.member.exception.AlreadyWithdrawlException;
 import com.ohdab.member.exception.MemberContentOverflowException;
 import com.ohdab.member.exception.NoAuthorityException;
 import io.jsonwebtoken.lang.Assert;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AccessLevel;
@@ -35,7 +36,7 @@ public class Member extends BaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "MEMBER_AUTHORITY", joinColumns = @JoinColumn(name = "member_id"))
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
