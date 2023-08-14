@@ -7,6 +7,7 @@ import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.request.AddStudentReq;
 import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
+import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
 import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
@@ -16,6 +17,7 @@ import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto.Response;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookUpdateDto;
 import java.util.List;
 import java.util.stream.Collectors;
 import lombok.AccessLevel;
@@ -106,6 +108,15 @@ public class ClassroomMapper {
                 .description(addWorkbookReq.getDescription())
                 .startingNumber(addWorkbookReq.getStartingNumber())
                 .endingNumber(addWorkbookReq.getEndingNumber())
+                .build();
+    }
+
+    public static ClassroomWorkbookUpdateDto.Request updateWorkbookRequestToDto(
+            long workbookId, UpdateWorkbookInfoReq updateWorkbookInfoReq) {
+        return ClassroomWorkbookUpdateDto.Request.builder()
+                .id(workbookId)
+                .name(updateWorkbookInfoReq.getName())
+                .description(updateWorkbookInfoReq.getDescription())
                 .build();
     }
 
