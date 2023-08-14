@@ -52,6 +52,12 @@ public class MistakeNote extends BaseEntity {
         this.mistakeRecords = mistakeRecords;
     }
 
+    @Builder
+    public MistakeNote(WorkbookId workbookId, StudentId studentId) {
+        this.workbookId = workbookId;
+        this.studentId = studentId;
+    }
+
     public void addMistakeNumbers(
             NumberScopeCheckService numberScopeCheckService,
             Workbook workbook,
