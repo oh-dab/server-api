@@ -4,6 +4,7 @@ import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetail
 import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdateDtoRequest;
 
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.AddStudentReq;
 import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
@@ -11,6 +12,7 @@ import com.ohdab.classroom.controller.response.AddClassroomRes;
 import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
 import com.ohdab.classroom.controller.response.ClassroomWorkbookListRes;
+import com.ohdab.classroom.service.dto.AddStudentDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto.Request;
 import com.ohdab.classroom.service.dto.ClassroomDto;
@@ -115,6 +117,14 @@ public class ClassroomMapper {
                 .id(workbookId)
                 .name(updateWorkbookInfoReq.getName())
                 .description(updateWorkbookInfoReq.getDescription())
+                .build();
+    }
+
+    public static AddStudentDto.Request toAddStudentDtoRequest(
+            long classroomId, AddStudentReq addStudentReq) {
+        return AddStudentDto.Request.builder()
+                .classroomId(classroomId)
+                .studentName(addStudentReq.getStudentName())
                 .build();
     }
 }

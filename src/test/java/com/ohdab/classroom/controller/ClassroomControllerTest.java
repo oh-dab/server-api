@@ -2,6 +2,7 @@ package com.ohdab.classroom.controller;
 
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoInfo;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
@@ -14,9 +15,11 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.AddStudentReq;
 import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
 import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
+import com.ohdab.classroom.service.dto.AddStudentDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.*;
@@ -49,6 +52,7 @@ class ClassroomControllerTest {
     @MockBean private GetWorkbookListUsecase getWorkbookListUsecase;
     @MockBean private AddWorkbookUsecase addWorkbookUsecase;
     @MockBean private UpdateWorkbookInfoUsecase updateWorkbookInfoUsecase;
+    @MockBean private AddStudentUsecase addStudentUsecase;
 
     @Test
     @WithMockUser
@@ -325,6 +329,28 @@ class ClassroomControllerTest {
                         jsonPath("$.message").value("교재 정보가 수정 되었습니다."))
                 .andDo(print())
                 .andDo(createDocument("classrooms/workbooks/info/{workbook-id}"));
+    }
+
+    void 학생_추가() throws Exception {
+        // given
+        final String ADD_STUDENT_URL = "/classrooms/{classroom-id}/students/enrollment";
+        final AddStudentReq addStudentReq = AddStudentReq.builder().studentName("갑").build();
+
+        // when
+        doNothing().when(addStudentUsecase).addStudent(any(AddStudentDto.Request.class));
+
+        // then
+        mockMvc.perform(
+                        post(ADD_STUDENT_URL, 1)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(addStudentReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("해당 반에 학생이 추가되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("classrooms/addStudent"));
     }
 
     private ClassroomWorkbookDto.Response createWorkbookDto(long id, String name) {

@@ -151,9 +151,15 @@ include::{snippets}/classrooms/expulsion/{classroom-id}/http-request.adoc[]
 
 include::{snippets}/classrooms/expulsion/{classroom-id}/http-response.adoc[]
 
-=======
+=== 학생 추가
 
-=======
+==== Request
+
+include::{snippets}/classrooms/addStudent/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/addStudent/http-response.adoc[]
 
 === 학생 삭제
 
@@ -174,6 +180,8 @@ include::{snippets}/classrooms/{classroom-id}/workbooks/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/{classroom-id}/workbooks/http-response.adoc[]
+
+=======
 
 === 교재 추가
 
