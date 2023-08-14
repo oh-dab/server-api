@@ -3,7 +3,6 @@ package com.ohdab.classroom.service;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static org.mockito.Mockito.mock;
-import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.when;
 
 import com.ohdab.classroom.domain.Classroom;
@@ -83,6 +82,6 @@ public class AddWorkbookServiceTest {
                                 addWorkbookUsecase.addWorkbookByClassroomId(
                                         classroomId, addWorkbookDto));
         assertThat(classroom.getWorkbooks().size()).isEqualTo(workbookId);
-        Mockito.verify(mistakeNoteRepository, times(studentIdList.size())).save(Mockito.any());
+        Mockito.verify(mistakeNoteRepository).saveAll(Mockito.any());
     }
 }

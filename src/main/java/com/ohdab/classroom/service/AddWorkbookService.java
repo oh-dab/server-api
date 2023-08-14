@@ -15,6 +15,7 @@ import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
 import com.ohdab.workbook.repository.WorkbookRepository;
 import java.util.List;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -59,14 +60,15 @@ public class AddWorkbookService implements AddWorkbookUsecase {
 
     private void saveMistakeNote(long classroomId, WorkbookId workbookId) {
         List<StudentId> studentIdList = classroomRepository.findStudentsById(classroomId);
-        studentIdList.forEach(
-                studentId -> {
-                    MistakeNote mistakeNote =
-                            MistakeNote.builder()
-                                    .studentId(studentId)
-                                    .workbookId(workbookId)
-                                    .build();
-                    mistakeNoteRepository.save(mistakeNote);
-                });
+        List<MistakeNote> mistakeNoteList =
+                studentIdList.stream()
+                        .map(
+                                studentId ->
+                                        MistakeNote.builder()
+                                                .studentId(studentId)
+                                                .workbookId(workbookId)
+                                                .build())
+                        .collect(Collectors.toList());
+        mistakeNoteRepository.saveAll(mistakeNoteList);
     }
 }
