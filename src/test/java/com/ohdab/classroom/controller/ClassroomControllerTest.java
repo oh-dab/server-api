@@ -321,7 +321,8 @@ class ClassroomControllerTest {
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
                         jsonPath("$.message").value("해당 반에 학생이 추가되었습니다."))
-                .andDo(print());
+                .andDo(print())
+                .andDo(createDocument("classrooms/addStudent"));
     }
 
     private ClassroomWorkbookDto.Response createWorkbookDto(long id, String name) {
