@@ -1,5 +1,6 @@
 package com.ohdab.member.service;
 
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
@@ -34,7 +35,7 @@ public class JoinService implements JoinUsecase {
     private void checkDuplicatedMember(String name) {
         Optional<Member> member = memberRepository.findByMemberInfoName(name);
         if (member.isPresent()) {
-            throw new DuplicatedMemberException("이미 존재하는 회원입니다.");
+            throw new DuplicatedMemberException(ExceptionEnum.DUPLICATED_WORKBOOK.getMessage());
         }
     }
 

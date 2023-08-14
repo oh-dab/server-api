@@ -3,6 +3,7 @@ package com.ohdab.classroom.domain;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.exception.NoStudentException;
 import com.ohdab.core.baseentity.BaseEntity;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
@@ -75,7 +76,7 @@ public class Classroom extends BaseEntity {
 
     public void deleteStudent(long studentId) {
         if (!students.removeIf(student -> student.getId() == studentId)) {
-            throw new NoStudentException("교실에 존재하지 않는 학생입니다.");
+            throw new NoStudentException(ExceptionEnum.NO_STUDENT.getMessage());
         }
     }
 

@@ -2,6 +2,7 @@ package com.ohdab.mistakenote.service;
 
 import static com.ohdab.mistakenote.service.helper.MistakeNoteHelperService.isNotExistingMember;
 
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
@@ -39,13 +40,16 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
     public GetMistakeNoteInfoOfStudentDto.Response getMistakeNoteInfoOfStudent(
             long workbookId, long studentId) {
         if (isNotExistingMember(memberRepository, studentId)) {
-            throw new NoMemberException("존재하지 않는 회원입니다.");
+            throw new NoMemberException(ExceptionEnum.NO_MEMBER.getMessage());
         }
         MistakeNote mistakeNote =
                 mistakeNoteRepository
                         .findByWorkbookIdAndStudentId(
                                 new WorkbookId(workbookId), new StudentId(studentId))
-                        .orElseThrow(() -> new NoMistakeNoteException("존재하지 않는 오답노트입니다."));
+                        .orElseThrow(
+                                () ->
+                                        new NoMistakeNoteException(
+                                                ExceptionEnum.NO_MISTAKE_NOTE.getMessage()));
         return mapToMistakeNoteInfo(mistakeNote);
     }
 

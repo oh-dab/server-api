@@ -8,6 +8,7 @@ import com.ohdab.classroom.exception.NoTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -45,7 +46,7 @@ public class AddClassroomService implements AddClassroomUsecase {
 
     private void throwIfTeacherDoesNotExist(long teacherId) {
         if (!memberRepository.existsById(teacherId)) {
-            throw new NoTeacherException("cannot find teacher by id : " + teacherId);
+            throw new NoTeacherException(ExceptionEnum.NO_TEACHER.getMessage());
         }
     }
 }

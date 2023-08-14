@@ -1,4 +1,4 @@
-package com.ohdab.classroom.exception;
+package com.ohdab.workbook.exception;
 
 public class InvalidWorkbookNumberRangeException extends RuntimeException {
 

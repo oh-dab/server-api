@@ -3,10 +3,11 @@ package com.ohdab.classroom.service.helper;
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
-import com.ohdab.classroom.exception.DuplicatedWorkbookException;
 import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.exception.NoGradeException;
 import com.ohdab.classroom.repository.ClassroomRepository;
+import com.ohdab.core.exception.ExceptionEnum;
+import com.ohdab.workbook.exception.DuplicatedWorkbookException;
 import com.ohdab.workbook.repository.WorkbookRepository;
 import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
@@ -18,7 +19,7 @@ public final class ClassroomHelperService {
         try {
             return Grade.valueOfLabel(stringGrade);
         } catch (NullPointerException e) {
-            throw new NoGradeException("Cannot find Grade : " + stringGrade, e);
+            throw new NoGradeException(ExceptionEnum.NO_GRADE.getMessage());
         } catch (ClassCastException e) {
             throw new IllegalArgumentException("인자의 자료형이 잘못되었습니다.");
         }
@@ -29,20 +30,13 @@ public final class ClassroomHelperService {
         return classroomRepository
                 .findById(classroomId)
                 .orElseThrow(
-                        () ->
-                                new NoClassroomException(
-                                        "반을 찾을 수 없습니다. classroomId: " + classroomId));
+                        () -> new NoClassroomException(ExceptionEnum.NO_CLASSROOM.getMessage()));
     }
 
     public static void throwIfDuplicatedWorkbookName(
             WorkbookRepository workbookRepository, ClassroomId classroomId, String name) {
         if (workbookRepository.existsByClassroomIdAndWorkbookInfoName(classroomId, name)) {
-            throw new DuplicatedWorkbookException(
-                    "Duplicated workbook name \""
-                            + name
-                            + "\" in classroom with id \""
-                            + classroomId
-                            + "\"");
+            throw new DuplicatedWorkbookException(ExceptionEnum.DUPLICATED_WORKBOOK.getMessage());
         }
     }
 }
