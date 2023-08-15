@@ -25,6 +25,7 @@ public class MemberController {
     private final GetTeacherListUsecase getTeacherListUsecase;
     private final AddTeacherUsecase addTeacherUsecase;
     private final DeleteTeacherUsecase deleteTeacherUsecase;
+    private final WithdrawlUsecase withdrawlUsecase;
 
     @PostMapping("/join")
     public ResponseEntity<JoinRes> join(@Valid @RequestBody JoinReq joinReq) {
@@ -39,9 +40,10 @@ public class MemberController {
         return ResponseEntity.ok(MemberWebMapper.toLoginRes(loginResDto));
     }
 
-    @GetMapping("/test")
-    public String adminAndTokenTest() {
-        return "hohoho";
+    @PatchMapping("/withdrawl/{member-id}")
+    public ResponseEntity<WithdrawlRes> withdrawl(@PathVariable(name = "member-id") long memberId) {
+        withdrawlUsecase.withdrawl(memberId);
+        return ResponseEntity.ok(MemberWebMapper.createWithdrawlRes());
     }
 
     @GetMapping("/teachers")
