@@ -8,7 +8,7 @@ import lombok.Getter;
 @Getter
 public class ClassroomResList {
 
-    List<ClassroomInfo> classroomInfoList;
+    private List<ClassroomInfo> classroomInfoList;
 
     @Getter
     @Builder

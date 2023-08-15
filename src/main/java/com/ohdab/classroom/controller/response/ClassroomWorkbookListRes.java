@@ -1,6 +1,5 @@
 package com.ohdab.classroom.controller.response;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import java.time.LocalDate;
 import java.util.List;
 import lombok.Builder;
@@ -10,8 +9,7 @@ import lombok.Getter;
 @Getter
 public class ClassroomWorkbookListRes {
 
-    @JsonProperty("workbooks")
-    List<WorkbookInfo> workbookList;
+    private List<WorkbookInfo> workbookList;
 
     @Getter
     @Builder

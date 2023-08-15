@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UpdateWorkbookInfoRes {
-    String message;
+
+    private String message;
 }

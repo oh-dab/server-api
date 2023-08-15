@@ -253,17 +253,17 @@ class ClassroomControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.workbooks[0].id").value(workbookDtoRes1.getId()),
-                        jsonPath("$.workbooks[0].name").value(workbookDtoRes1.getName()),
-                        jsonPath("$.workbooks[0].createdAt")
+                        jsonPath("$.workbookList[0].id").value(workbookDtoRes1.getId()),
+                        jsonPath("$.workbookList[0].name").value(workbookDtoRes1.getName()),
+                        jsonPath("$.workbookList[0].createdAt")
                                 .value(workbookDtoRes1.getCreatedAt().toLocalDate().toString()),
-                        jsonPath("$.workbooks[1].id").value(workbookDtoRes2.getId()),
-                        jsonPath("$.workbooks[1].name").value(workbookDtoRes2.getName()),
-                        jsonPath("$.workbooks[1].createdAt")
+                        jsonPath("$.workbookList[1].id").value(workbookDtoRes2.getId()),
+                        jsonPath("$.workbookList[1].name").value(workbookDtoRes2.getName()),
+                        jsonPath("$.workbookList[1].createdAt")
                                 .value(workbookDtoRes2.getCreatedAt().toLocalDate().toString()),
-                        jsonPath("$.workbooks[2].id").value(workbookDtoRes3.getId()),
-                        jsonPath("$.workbooks[2].name").value(workbookDtoRes3.getName()),
-                        jsonPath("$.workbooks[2].createdAt")
+                        jsonPath("$.workbookList[2].id").value(workbookDtoRes3.getId()),
+                        jsonPath("$.workbookList[2].name").value(workbookDtoRes3.getName()),
+                        jsonPath("$.workbookList[2].createdAt")
                                 .value(workbookDtoRes3.getCreatedAt().toLocalDate().toString()))
                 .andDo(print())
                 .andDo(createDocument("classrooms/{classroom-id}/workbooks"));
