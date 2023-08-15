@@ -8,10 +8,12 @@ import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.request.AddStudentReq;
 import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
+import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
 import com.ohdab.classroom.controller.response.*;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookUpdateDto;
 import com.ohdab.classroom.service.usecase.*;
 import com.ohdab.member.controller.response.DeleteStudentRes;
 import java.util.List;
@@ -33,6 +35,7 @@ public class ClassroomController {
     private final DeleteStudentUsecase deleteStudentUsecase;
     private final GetWorkbookListUsecase getWorkbookListUsecase;
     private final AddWorkbookUsecase addWorkbookUsecase;
+    private final UpdateWorkbookInfoUsecase updateWorkbookInfoUsecase;
     private final AddStudentUsecase addStudentUsecase;
 
     @PostMapping("/enrollment")
@@ -106,6 +109,17 @@ public class ClassroomController {
         addWorkbookUsecase.addWorkbookByClassroomId(classroomId, addWorkbookDto);
         return ResponseEntity.ok(
                 AddWorkbookRes.builder().message("해당 반에 교재 및 오답노트가 추가되었습니다.").build());
+    }
+
+    @PatchMapping("/workbooks/info/{workbook-id}")
+    public ResponseEntity<UpdateWorkbookInfoRes> updateWorkInfobook(
+            @PathVariable(name = "workbook-id") long workbookId,
+            UpdateWorkbookInfoReq updateWorkbookInfoReq) {
+        ClassroomWorkbookUpdateDto.Request workbookUpdateDtoReq =
+                ClassroomMapper.updateWorkbookRequestToDto(workbookId, updateWorkbookInfoReq);
+        updateWorkbookInfoUsecase.updateWorkbookInfo(workbookUpdateDtoReq);
+        return ResponseEntity.ok(
+                UpdateWorkbookInfoRes.builder().message("교재 정보가 수정 되었습니다.").build());
     }
 
     @PostMapping("/{classroom-id}/students/enrollment")

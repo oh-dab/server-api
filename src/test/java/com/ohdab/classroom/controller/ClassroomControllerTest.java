@@ -18,6 +18,7 @@ import com.ohdab.classroom.controller.request.AddClassroomReq;
 import com.ohdab.classroom.controller.request.AddStudentReq;
 import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
+import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
 import com.ohdab.classroom.service.dto.AddStudentDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
@@ -50,6 +51,7 @@ class ClassroomControllerTest {
     @MockBean private DeleteStudentUsecase deleteStudentUsecase;
     @MockBean private GetWorkbookListUsecase getWorkbookListUsecase;
     @MockBean private AddWorkbookUsecase addWorkbookUsecase;
+    @MockBean private UpdateWorkbookInfoUsecase updateWorkbookInfoUsecase;
     @MockBean private AddStudentUsecase addStudentUsecase;
 
     @Test
@@ -303,6 +305,32 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
+    void 교재_식별자로_교재_정보_수정() throws Exception {
+        // given
+        String url = "/classrooms/workbooks/info/{workbook-id}";
+        UpdateWorkbookInfoReq updateWorkbookInfoReq =
+                UpdateWorkbookInfoReq.builder()
+                        .name("수정할 교재명")
+                        .description("수정할 교재에 대한 설명입니다.")
+                        .build();
+        long workbookId = 1L;
+
+        // when
+
+        // then
+        mockMvc.perform(
+                        patch(url, workbookId)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(updateWorkbookInfoReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("교재 정보가 수정 되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("classrooms/workbooks/info/{workbook-id}"));
+    }
+
     void 학생_추가() throws Exception {
         // given
         final String ADD_STUDENT_URL = "/classrooms/{classroom-id}/students/enrollment";

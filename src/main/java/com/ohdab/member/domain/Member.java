@@ -1,8 +1,13 @@
 package com.ohdab.member.domain;
 
 import com.ohdab.core.baseentity.BaseEntity;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.exception.AlreadyWithdrawlException;
+import com.ohdab.member.exception.MemberContentOverflowException;
+import com.ohdab.member.exception.NoAuthorityException;
+import io.jsonwebtoken.lang.Assert;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
 import lombok.AccessLevel;
@@ -31,13 +36,15 @@ public class Member extends BaseEntity {
 
     @ElementCollection
     @CollectionTable(name = "MEMBER_AUTHORITY", joinColumns = @JoinColumn(name = "member_id"))
-    private List<Authority> authorities;
+    private List<Authority> authorities = new ArrayList<>();
 
     @Enumerated(EnumType.STRING)
     private MemberStatus status;
 
     @Builder
     public Member(MemberInfo memberInfo, List<Authority> authorities) {
+        Assert.notNull(memberInfo, ExceptionEnum.IS_NULL.getMessage());
+        Assert.notNull(authorities, ExceptionEnum.IS_NULL.getMessage());
         setMemberInfo(memberInfo);
         setAuthorities(authorities);
         this.status = MemberStatus.ACTIVE;
@@ -45,17 +52,15 @@ public class Member extends BaseEntity {
 
     private void setAuthorities(List<Authority> authorities) {
         if (authorities.isEmpty()) {
-            throw new IllegalArgumentException("권한은 반드시 추가해야함");
+            throw new NoAuthorityException(ExceptionEnum.NO_AUTHORITY.getMessage());
         }
         this.authorities = authorities;
     }
 
     private void setMemberInfo(MemberInfo memberInfo) {
         if (memberInfo.getName().length() > 20) {
-            throw new IllegalStateException(
-                    "Name length cannot exceed 20 : current length \""
-                            + memberInfo.getName().length()
-                            + "\"");
+            throw new MemberContentOverflowException(
+                    ExceptionEnum.MEMBER_CONTENT_OVERFLOW.getMessage());
         }
         this.memberInfo = memberInfo;
     }
@@ -67,7 +72,7 @@ public class Member extends BaseEntity {
 
     public void withdrawal() {
         if (this.status == MemberStatus.INACTIVE) {
-            throw new AlreadyWithdrawlException("이미 탈퇴한 회원입니다.");
+            throw new AlreadyWithdrawlException(ExceptionEnum.ALREADY_WITHDRAWL.getMessage());
         }
         this.status = MemberStatus.INACTIVE;
     }

@@ -1,5 +1,6 @@
 package com.ohdab.member.service.helper;
 
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
@@ -12,13 +13,13 @@ public final class MemberHelperService {
     public static Member findExistingMemberByName(MemberRepository memberRepository, String name) {
         return memberRepository
                 .findByMemberInfoName(name)
-                .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new NoMemberException(ExceptionEnum.NO_MEMBER.getMessage()));
     }
 
     public static Member findExistingMemberById(MemberRepository memberRepository, long id) {
         return memberRepository
                 .findById(id)
-                .orElseThrow(() -> new NoMemberException("Unknown member with id \"" + id + "\""));
+                .orElseThrow(() -> new NoMemberException(ExceptionEnum.NO_MEMBER.getMessage()));
     }
 
     public static boolean checkIfMemberExistByName(MemberRepository memberRepository, String name) {

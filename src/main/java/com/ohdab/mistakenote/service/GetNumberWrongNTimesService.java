@@ -1,5 +1,6 @@
 package com.ohdab.mistakenote.service;
 
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.mistakenote.exception.NoNumbersWrongNTimesException;
 import com.ohdab.mistakenote.exception.NumberIsOutOfRangeException;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
@@ -28,7 +29,10 @@ public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase 
         Workbook workbook =
                 workbookRepository
                         .findById(getNumberWrongNTimeDto.getWorkbookId())
-                        .orElseThrow(() -> new NoWorkbookException("존재하지 않는 교재입니다."));
+                        .orElseThrow(
+                                () ->
+                                        new NoWorkbookException(
+                                                ExceptionEnum.NO_WORKBOOK.getMessage()));
         checkNumberIsInRange(getNumberWrongNTimeDto, workbook);
         List<Integer> numberWrongNTimes =
                 mistakeRecordMapper.findNumbersWrongNTimes(getNumberWrongNTimeDto);
@@ -45,7 +49,8 @@ public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase 
         int to = getTo(getNumberWrongNTimeDto);
         if (isNotInRange(from, startingNumber, endingNumber)
                 || isNotInRange(to, startingNumber, endingNumber)) {
-            throw new NumberIsOutOfRangeException("교재에 존재하지 않는 번호를 요청했습니다.");
+            throw new NumberIsOutOfRangeException(
+                    ExceptionEnum.NUMBER_IS_OUT_OF_RANGE.getMessage());
         }
     }
 
@@ -71,7 +76,8 @@ public class GetNumberWrongNTimesService implements GetNumberWrongNTimesUsecase 
 
     private String wrongNumbersToString(List<Integer> numberWrongNTimes) {
         if (numberWrongNTimes.isEmpty()) {
-            throw new NoNumbersWrongNTimesException("틀린 문제가 없습니다.");
+            throw new NoNumbersWrongNTimesException(
+                    ExceptionEnum.NO_NUMBERS_WRONG_N_TIMES.getMessage());
         }
         return numberWrongNTimes.stream().map(String::valueOf).collect(Collectors.joining(","));
     }

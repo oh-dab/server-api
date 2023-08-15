@@ -7,6 +7,7 @@ import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.mapper.ClassroomDetailServiceMapper;
 import com.ohdab.classroom.service.usecase.ClassroomDetailUsecase;
+import com.ohdab.core.exception.ExceptionEnum;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -23,7 +24,10 @@ public class ClassroomDetailService implements ClassroomDetailUsecase {
         Classroom classroom =
                 classroomRepository
                         .findById(classroomId)
-                        .orElseThrow(() -> new NoClassroomException("교실이 존재하지 않습니다."));
+                        .orElseThrow(
+                                () ->
+                                        new NoClassroomException(
+                                                ExceptionEnum.NO_CLASSROOM.getMessage()));
         return ClassroomDetailServiceMapper.classroomToClassroomDetail(classroom);
     }
 }
