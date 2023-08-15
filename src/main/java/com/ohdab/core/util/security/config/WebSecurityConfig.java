@@ -52,19 +52,19 @@ public class WebSecurityConfig {
                     .antMatchers("/members/login")
                     .permitAll()
                     .antMatchers("/members/**")
-                    .hasRole(TEACHER)
+                    .hasAuthority(TEACHER)
                     // classroom
                     .antMatchers(HttpMethod.GET, "/classrooms/{classroom-id}/workbooks")
-                    .hasAnyRole(STUDENT, TEACHER)
+                    .hasAnyAuthority(STUDENT, TEACHER)
                     .antMatchers("/classrooms/**")
-                    .hasRole(TEACHER)
+                    .hasAuthority(TEACHER)
                     // mistakeNote
                     .antMatchers(
                             HttpMethod.GET,
                             "/mistake-notes/workbooks/{workbook-id}/students/{student-id}")
-                    .hasAnyRole(STUDENT, TEACHER)
+                    .hasAnyAuthority(STUDENT, TEACHER)
                     .antMatchers(HttpMethod.GET, "/mistake-notes/**")
-                    .hasRole(TEACHER)
+                    .hasAuthority(TEACHER)
                     .anyRequest()
                     .authenticated()
                     .and()
