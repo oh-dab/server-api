@@ -108,7 +108,7 @@ public class ClassroomController {
     }
 
     @PatchMapping("/workbooks/info/{workbook-id}")
-    public ResponseEntity<UpdateWorkbookInfoRes> updateWorkInfobook(
+    public ResponseEntity<UpdateWorkbookInfoRes> updateWorkbookInfo(
             @PathVariable(name = "workbook-id") long workbookId,
             UpdateWorkbookInfoReq updateWorkbookInfoReq) {
         ClassroomWorkbookUpdateDto.Request workbookUpdateDtoReq =
