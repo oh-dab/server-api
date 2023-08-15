@@ -2,7 +2,9 @@ package com.ohdab.workbook.domain;
 
 import com.ohdab.classroom.domain.classroomid.ClassroomId;
 import com.ohdab.core.baseentity.BaseEntity;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
+import io.jsonwebtoken.lang.Assert;
 import javax.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -35,21 +37,14 @@ public class Workbook extends BaseEntity {
 
     @Builder
     public Workbook(WorkbookInfo workbookInfo, ClassroomId classroomId) {
-        setWorkbookInfo(workbookInfo);
+        Assert.notNull(workbookInfo, ExceptionEnum.IS_NULL.getMessage());
+        Assert.notNull(classroomId, ExceptionEnum.IS_NULL.getMessage());
+        this.workbookInfo = workbookInfo;
         this.classroomId = classroomId;
     }
 
-    private void setWorkbookInfo(WorkbookInfo workbookInfo) {
-        if (workbookInfo == null) {
-            throw new IllegalArgumentException("예외");
-        }
-        this.workbookInfo = workbookInfo;
-    }
-
     public void updateWorkbookInfo(WorkbookInfo workbookInfo) {
-        if (workbookInfo == null) {
-            throw new IllegalStateException("WorkbookInfo cannot be null");
-        }
+        Assert.notNull(workbookInfo, ExceptionEnum.IS_NULL.getMessage());
         this.workbookInfo = workbookInfo;
     }
 }

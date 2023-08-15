@@ -3,6 +3,7 @@ package com.ohdab.classroom.service;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookUpdateDto.Request;
 import com.ohdab.classroom.service.helper.ClassroomHelperService;
 import com.ohdab.classroom.service.usecase.UpdateWorkbookInfoUsecase;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.workbook.domain.Workbook;
 import com.ohdab.workbook.domain.workbookInfo.WorkbookInfo;
 import com.ohdab.workbook.exception.NoWorkbookException;
@@ -30,7 +31,7 @@ public class UpdateWorkbookInfoService implements UpdateWorkbookInfoUsecase {
 
     private void throwIfUnknownWorkbookId(long id) {
         if (!workbookRepository.existsById(id)) {
-            throw new NoWorkbookException("No Workbook with id \"" + id + "\"");
+            throw new NoWorkbookException(ExceptionEnum.NO_WORKBOOK.getMessage());
         }
     }
 

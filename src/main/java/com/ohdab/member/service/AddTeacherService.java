@@ -2,6 +2,7 @@ package com.ohdab.member.service;
 
 import static com.ohdab.member.service.helper.MemberHelperService.checkIfMemberExistByName;
 
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
@@ -47,7 +48,7 @@ public class AddTeacherService implements AddTeacherUsecase {
 
     private void throwIfJoinFailed(String name) {
         if (!checkIfMemberExistByName(memberRepository, name)) {
-            throw new NoMemberException("Join Failed with teacher name \"" + name + "\"");
+            throw new NoMemberException(ExceptionEnum.NO_MEMBER.getMessage());
         }
     }
 }
