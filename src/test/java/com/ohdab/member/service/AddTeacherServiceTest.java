@@ -4,7 +4,6 @@ import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
-import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import org.junit.jupiter.api.DisplayName;
@@ -17,8 +16,8 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = {AddTeacherService.class, MemberHelperService.class})
-public class AddTeacherServiceTest {
+@ContextConfiguration(classes = {AddTeacherService.class})
+class AddTeacherServiceTest {
 
     @Autowired private AddTeacherUsecase addTeacherUsecase;
     @MockBean private MemberRepository memberRepository;

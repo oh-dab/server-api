@@ -1,8 +1,9 @@
 package com.ohdab.classroom.service;
 
+import static com.ohdab.classroom.service.helper.ClassroomHelperService.findExistingClassroom;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.repository.ClassroomRepository;
-import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
 import com.ohdab.classroom.service.usecase.DeleteClassroomUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,8 +18,7 @@ public class DeleteClassroomService implements DeleteClassroomUsecase {
 
     @Override
     public void deleteClassroomById(long classroomId) {
-        Classroom classroom =
-                ClassroomServiceHelper.getClassroomById(classroomId, classroomRepository);
+        Classroom classroom = findExistingClassroom(classroomId, classroomRepository);
         classroomRepository.delete(classroom);
     }
 }

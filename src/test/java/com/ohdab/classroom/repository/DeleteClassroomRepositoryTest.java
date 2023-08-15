@@ -1,19 +1,20 @@
 package com.ohdab.classroom.repository;
 
+import static org.assertj.core.api.Assertions.assertThat;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
 import com.ohdab.classroom.domain.classroomInfo.Grade;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import java.util.List;
 import javax.persistence.EntityManager;
-import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 
 @DataJpaTest
-public class DeleteClassroomRepositoryTest {
+class DeleteClassroomRepositoryTest {
 
     @Autowired private ClassroomRepository classroomRepository;
     @Autowired private EntityManager em;
@@ -32,18 +33,17 @@ public class DeleteClassroomRepositoryTest {
 
         Classroom classroom =
                 Classroom.builder().classroomInfo(classroomInfo).teacher(teacherId).build();
-        classroomRepository.save(classroom);
-        long classroomId = classroomRepository.findAllByTeacherId(1).get(0).getId();
-        em.clear();
 
-        Classroom foundClassroom = classroomRepository.findClassroomById(classroomId);
+        Classroom savedClassroom = classroomRepository.save(classroom);
+
         // when
-        classroomRepository.delete(foundClassroom);
+        classroomRepository.delete(savedClassroom);
         em.flush();
         em.clear();
 
         List<Classroom> classrooms = classroomRepository.findAllByTeacherId(1);
+
         // then
-        Assertions.assertThat(classrooms.size()).isEqualTo(0);
+        assertThat(classrooms).isEmpty();
     }
 }

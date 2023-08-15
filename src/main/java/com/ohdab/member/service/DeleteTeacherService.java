@@ -1,9 +1,10 @@
 package com.ohdab.member.service;
 
+import static com.ohdab.member.service.helper.MemberHelperService.findExistingMemberById;
+
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.MemberStatus;
 import com.ohdab.member.repository.MemberRepository;
-import com.ohdab.member.service.helper.MemberHelperService;
 import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -15,11 +16,10 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeleteTeacherService implements DeleteTeacherUsecase {
 
     private final MemberRepository memberRepository;
-    private final MemberHelperService memberHelperService;
 
     @Override
     public void deleteTeacherById(long id) {
-        Member member = memberHelperService.findExistingMemberById(memberRepository, id);
+        Member member = findExistingMemberById(memberRepository, id);
         throwIfInactiveMember(member);
         member.withdrawal();
     }
