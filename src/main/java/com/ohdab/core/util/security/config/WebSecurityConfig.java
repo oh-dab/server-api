@@ -5,6 +5,7 @@ import com.ohdab.core.util.security.filter.JwtAuthFilter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -26,6 +27,8 @@ public class WebSecurityConfig {
     private final JwtTokenProvider jwtTokenProvider;
     private final AuthenticationEntryPoint authenticationEntryPoint;
     private final AccessDeniedHandler accessDeniedHandler;
+    private final String TEACHER = "TEACHER";
+    private final String STUDENT = "STUDENT";
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) {
@@ -43,10 +46,23 @@ public class WebSecurityConfig {
                     .sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                     .and()
                     .authorizeRequests()
-                    .antMatchers("/user/login", "/user/join")
-                    .permitAll()
-                    .antMatchers("/user/test")
-                    .hasRole("ADMIN")
+                    // member
+                    .antMatchers("/members/login")
+                    .hasAnyRole(STUDENT, TEACHER)
+                    .antMatchers("/members/**")
+                    .hasRole(TEACHER)
+                    // classroom
+                    .antMatchers(HttpMethod.GET, "/classrooms/{classroom-id}/workbooks")
+                    .hasAnyRole(STUDENT, TEACHER)
+                    .antMatchers("/classrooms/**")
+                    .hasRole(TEACHER)
+                    // mistakeNote
+                    .antMatchers(
+                            HttpMethod.GET,
+                            "/mistake-notes/workbooks/{workbook-id}/students/{student-id}")
+                    .hasAnyRole(STUDENT, TEACHER)
+                    .antMatchers(HttpMethod.GET, "/mistake-notes/**")
+                    .hasRole(TEACHER)
                     .anyRequest()
                     .authenticated()
                     .and()
