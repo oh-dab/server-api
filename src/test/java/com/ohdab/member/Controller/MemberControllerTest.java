@@ -1,5 +1,28 @@
 package com.ohdab.member.Controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.member.controller.MemberController;
+import com.ohdab.member.controller.request.AddTeacherReq;
+import com.ohdab.member.controller.request.JoinReq;
+import com.ohdab.member.controller.request.LoginReq;
+import com.ohdab.member.controller.response.JoinRes;
+import com.ohdab.member.controller.response.LoginRes;
+import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
+import com.ohdab.member.service.dto.MemberDtoForLogin;
+import com.ohdab.member.service.usecase.*;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
+
+import java.util.ArrayList;
+import java.util.List;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -10,32 +33,6 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
-
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.member.controller.MemberController;
-import com.ohdab.member.controller.request.AddTeacherReq;
-import com.ohdab.member.controller.request.JoinReq;
-import com.ohdab.member.controller.request.LoginReq;
-import com.ohdab.member.controller.response.JoinRes;
-import com.ohdab.member.controller.response.LoginRes;
-import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
-import com.ohdab.member.service.dto.MemberDtoForLogin;
-import com.ohdab.member.service.usecase.AddTeacherUsecase;
-import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
-import com.ohdab.member.service.usecase.GetTeacherListUsecase;
-import com.ohdab.member.service.usecase.JoinUsecase;
-import com.ohdab.member.service.usecase.LoginUsecase;
-import java.util.ArrayList;
-import java.util.List;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MemberController.class)
@@ -48,6 +45,7 @@ class MemberControllerTest {
     @MockBean private GetTeacherListUsecase getTeacherListUsecase;
     @MockBean private AddTeacherUsecase addTeacherUsecase;
     @MockBean private DeleteTeacherUsecase deleteTeacherUsecase;
+    @MockBean private WithdrawlUsecase withdrawlUsecase;
 
     @Test
     @WithMockUser
@@ -107,6 +105,28 @@ class MemberControllerTest {
                 .andDo(print())
                 .andDo(createDocument("members/login"));
     }
+
+    @Test
+    @WithMockUser
+    void 회원탈퇴() throws Exception {
+        // given
+        final String WITHDRAWL_URL = "/members/withdrawal/{member-id}";
+
+        // when
+
+        // then
+        mockMvc.perform(
+                    patch(WITHDRAWL_URL, 1)
+                    .with(csrf())
+                    .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("탈퇴되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("members/withdrawl"));
+    }
+
 
     @Test
     @WithMockUser
