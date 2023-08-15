@@ -57,8 +57,6 @@ include::{snippets}/members/teachers/expulsion/{teacher-id}/http-request.adoc[]
 
 include::{snippets}/members/teachers/expulsion/{teacher-id}/http-response.adoc[]
 
-== MistakeNote
-
 === 교재 상세조회(전체 학생에 대한 오답노트 조회)
 
 ==== Request
@@ -115,11 +113,11 @@ include::{snippets}/classrooms/enrollment/http-response.adoc[]
 
 ==== Request
 
-include::{snippets}/classrooms?teacherId=/http-request.adoc[]
+include::{snippets}/classrooms/http-request.adoc[]
 
 ==== Response
 
-include::{snippets}/classrooms?teacherId=/http-response.adoc[]
+include::{snippets}/classrooms/http-response.adoc[]
 
 === 반 상세 조회
 
@@ -150,3 +148,5 @@ include::{snippets}/classrooms/expulsion/{classroom-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/expulsion/{classroom-id}/http-response.adoc[]
+
+=======
