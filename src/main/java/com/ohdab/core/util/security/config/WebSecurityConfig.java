@@ -47,6 +47,8 @@ public class WebSecurityConfig {
                     .and()
                     .authorizeRequests()
                     // member
+                    .antMatchers("/members/join")
+                    .permitAll()
                     .antMatchers("/members/login")
                     .hasAnyRole(STUDENT, TEACHER)
                     .antMatchers("/members/**")
