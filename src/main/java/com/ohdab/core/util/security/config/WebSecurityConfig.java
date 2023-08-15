@@ -50,7 +50,7 @@ public class WebSecurityConfig {
                     .antMatchers("/members/join")
                     .permitAll()
                     .antMatchers("/members/login")
-                    .hasAnyRole(STUDENT, TEACHER)
+                    .permitAll()
                     .antMatchers("/members/**")
                     .hasRole(TEACHER)
                     // classroom
