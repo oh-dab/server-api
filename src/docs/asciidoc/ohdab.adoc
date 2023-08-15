@@ -17,6 +17,16 @@ include::{snippets}/members/join/http-request.adoc[]
 
 include::{snippets}/members/join/http-response.adoc[]
 
+=== 회원탈퇴
+
+==== Request
+
+include::{snippets}/members/withdrawl/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/withdrawl/http-response.adoc[]
+
 === 로그인
 
 ==== Request
