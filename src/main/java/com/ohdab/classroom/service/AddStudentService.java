@@ -14,12 +14,13 @@ import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.mistakenote.domain.MistakeNote;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
-import java.util.List;
-import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+
+import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -54,7 +55,7 @@ public class AddStudentService implements AddStudentUsecase {
     private Member findMemberByName(String studentName) {
         return memberRepository
                 .findByMemberInfoName(studentName)
-                .orElseThrow(() -> new NoMemberException(ExceptionEnum.NO_CLASSROOM.getMessage()));
+                .orElseThrow(() -> new NoMemberException(ExceptionEnum.NO_MEMBER.getMessage()));
     }
 
     private void createMistakeNoteForAddedStudent(Classroom classroom, Member student) {
