@@ -35,7 +35,7 @@ public class JoinService implements JoinUsecase {
     private void checkDuplicatedMember(String name) {
         Optional<Member> member = memberRepository.findByMemberInfoName(name);
         if (member.isPresent()) {
-            throw new DuplicatedMemberException(ExceptionEnum.DUPLICATED_WORKBOOK.getMessage());
+            throw new DuplicatedMemberException(ExceptionEnum.DUPLICATED_MEMBER.getMessage());
         }
     }
 
