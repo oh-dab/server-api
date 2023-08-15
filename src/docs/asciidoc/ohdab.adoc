@@ -27,6 +27,16 @@ include::{snippets}/members/login/http-request.adoc[]
 
 include::{snippets}/members/login/http-response.adoc
 
+=== 회원탈퇴
+
+==== Request
+
+include::{snippets}/members/withdrawl/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/members/withdrawl/http-response.adoc[]
+
 === 선생님 목록 조회
 
 ==== Request
