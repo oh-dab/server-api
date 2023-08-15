@@ -14,11 +14,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.classroom.controller.request.AddClassroomReq;
-import com.ohdab.classroom.controller.request.AddStudentReq;
-import com.ohdab.classroom.controller.request.AddWorkbookReq;
-import com.ohdab.classroom.controller.request.UpdateClassroomReq;
-import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
+import com.ohdab.classroom.controller.request.*;
 import com.ohdab.classroom.service.dto.AddStudentDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
@@ -56,7 +52,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 반추가() throws Exception {
+    void 반_추가() throws Exception {
         // given
         final String url = "/classrooms/enrollment";
         final AddClassroomReq addClassroomReq =
@@ -85,7 +81,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 선생님_아이디로_반목록_조회() throws Exception {
+    void 반_목록_조회() throws Exception {
         // given
         final String url = "/classrooms";
 
@@ -117,7 +113,7 @@ class ClassroomControllerTest {
         // when
         when(findClassroomListUsecase.findClassroomListByTeacherId(1L)).thenReturn(responseList);
         // then
-        mockMvc.perform(get(url).with(csrf()).param("teacherId", "1"))
+        mockMvc.perform(get(url).with(csrf()).param("teacher-id", "1"))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -179,7 +175,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 반정보수정() throws Exception {
+    void 반_정보_수정() throws Exception {
         // given
         final String url = "/classrooms/info/";
         UpdateClassroomReq request =
@@ -203,7 +199,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 반삭제() throws Exception {
+    void 반_삭제() throws Exception {
         // given
         final String url = "/classrooms/expulsion/";
 
@@ -331,6 +327,8 @@ class ClassroomControllerTest {
                 .andDo(createDocument("classrooms/workbooks/info/{workbook-id}"));
     }
 
+    @Test
+    @WithMockUser
     void 학생_추가() throws Exception {
         // given
         final String ADD_STUDENT_URL = "/classrooms/{classroom-id}/students/enrollment";
