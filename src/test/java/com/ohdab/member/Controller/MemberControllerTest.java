@@ -1,28 +1,5 @@
 package com.ohdab.member.Controller;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.ohdab.member.controller.MemberController;
-import com.ohdab.member.controller.request.AddTeacherReq;
-import com.ohdab.member.controller.request.JoinReq;
-import com.ohdab.member.controller.request.LoginReq;
-import com.ohdab.member.controller.response.JoinRes;
-import com.ohdab.member.controller.response.LoginRes;
-import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
-import com.ohdab.member.service.dto.MemberDtoForLogin;
-import com.ohdab.member.service.usecase.*;
-import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
-import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.http.MediaType;
-import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
-import org.springframework.security.test.context.support.WithMockUser;
-import org.springframework.test.web.servlet.MockMvc;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
@@ -33,6 +10,28 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.ohdab.member.controller.MemberController;
+import com.ohdab.member.controller.request.AddTeacherReq;
+import com.ohdab.member.controller.request.JoinReq;
+import com.ohdab.member.controller.request.LoginReq;
+import com.ohdab.member.controller.response.JoinRes;
+import com.ohdab.member.controller.response.LoginRes;
+import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
+import com.ohdab.member.service.dto.MemberDtoForLogin;
+import com.ohdab.member.service.usecase.*;
+import java.util.ArrayList;
+import java.util.List;
+import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
+import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.http.MediaType;
+import org.springframework.restdocs.mockmvc.RestDocumentationResultHandler;
+import org.springframework.security.test.context.support.WithMockUser;
+import org.springframework.test.web.servlet.MockMvc;
 
 @AutoConfigureRestDocs
 @WebMvcTest(controllers = MemberController.class)
@@ -116,9 +115,9 @@ class MemberControllerTest {
 
         // then
         mockMvc.perform(
-                    patch(WITHDRAWL_URL, 1)
-                    .with(csrf())
-                    .contentType(MediaType.APPLICATION_JSON))
+                        patch(WITHDRAWL_URL, 1)
+                                .with(csrf())
+                                .contentType(MediaType.APPLICATION_JSON))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -126,7 +125,6 @@ class MemberControllerTest {
                 .andDo(print())
                 .andDo(createDocument("members/withdrawl"));
     }
-
 
     @Test
     @WithMockUser
