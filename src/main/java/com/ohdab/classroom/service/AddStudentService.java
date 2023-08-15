@@ -6,6 +6,7 @@ import com.ohdab.classroom.exception.NoClassroomException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.AddStudentDto;
 import com.ohdab.classroom.service.usecase.AddStudentUsecase;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.exception.NoMemberException;
@@ -42,7 +43,8 @@ public class AddStudentService implements AddStudentUsecase {
     private Classroom findClassroomById(long classroomId) {
         return classroomRepository
                 .findById(classroomId)
-                .orElseThrow(() -> new NoClassroomException("존재하지 않는 반입니다."));
+                .orElseThrow(
+                        () -> new NoClassroomException(ExceptionEnum.NO_CLASSROOM.getMessage()));
     }
 
     private void publishStudentAddedEvent(String studentName) {
@@ -52,7 +54,7 @@ public class AddStudentService implements AddStudentUsecase {
     private Member findMemberByName(String studentName) {
         return memberRepository
                 .findByMemberInfoName(studentName)
-                .orElseThrow(() -> new NoMemberException("존재하지 않는 회원입니다."));
+                .orElseThrow(() -> new NoMemberException(ExceptionEnum.NO_CLASSROOM.getMessage()));
     }
 
     private void createMistakeNoteForAddedStudent(Classroom classroom, Member student) {
