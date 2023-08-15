@@ -1,5 +1,8 @@
 package com.ohdab.workbook.domain.workbookInfo;
 
+import com.ohdab.core.exception.ExceptionEnum;
+import com.ohdab.workbook.exception.InvalidWorkbookNumberRangeException;
+import com.ohdab.workbook.exception.WorkbookContentOverflowException;
 import javax.persistence.Embeddable;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,18 +29,16 @@ public class WorkbookInfo {
 
     private void setName(String name) {
         if (name.length() > 20) {
-            throw new IllegalStateException(
-                    "Name length cannot exceed 20 : current length \"" + name.length() + "\"");
+            throw new WorkbookContentOverflowException(
+                    ExceptionEnum.WORKBOOK_CONTENT_OVERFLOW.getMessage());
         }
         this.name = name;
     }
 
     private void setDescription(String description) {
         if (description != null && description.length() > 30) {
-            throw new IllegalStateException(
-                    "Description length cannot exceed 30 : current length \""
-                            + description.length()
-                            + "\"");
+            throw new WorkbookContentOverflowException(
+                    ExceptionEnum.WORKBOOK_CONTENT_OVERFLOW.getMessage());
         }
         this.description = description;
     }
@@ -47,10 +48,12 @@ public class WorkbookInfo {
                 || startingNumber > 5000
                 || endingNumber < 0
                 || endingNumber > 5000) {
-            throw new IllegalStateException("");
+            throw new InvalidWorkbookNumberRangeException(
+                    ExceptionEnum.INVALID_WORKBOOK_NUMBER_RANGE.getMessage());
         }
         if (startingNumber > endingNumber) {
-            throw new IllegalStateException("");
+            throw new InvalidWorkbookNumberRangeException(
+                    ExceptionEnum.INVALID_WORKBOOK_NUMBER_RANGE.getMessage());
         }
         this.startingNumber = startingNumber;
         this.endingNumber = endingNumber;
