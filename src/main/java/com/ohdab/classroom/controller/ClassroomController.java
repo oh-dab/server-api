@@ -25,7 +25,7 @@ public class ClassroomController {
 
     private final AddClassroomUsecase addClassroomUsecase;
     private final FindClassroomListUsecase findClassroomListUsecase;
-    private final FindClassroomDetailUsecase findClassroomDetailUsecase;
+    private final GetClassroomDetailInfoUsecase getClassroomDetailInfoUsecase;
     private final UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     private final DeleteClassroomUsecase deleteClassroomUsecase;
     private final DeleteStudentUsecase deleteStudentUsecase;
@@ -55,7 +55,7 @@ public class ClassroomController {
     public ResponseEntity<ClassroomDetailRes> getClassroomDetailById(
             @PathVariable("classroom-id") long id) {
         ClassroomDetailDtoResponse classroomDetail =
-                findClassroomDetailUsecase.getClassroomDetailById(id);
+                getClassroomDetailInfoUsecase.getClassroomDetailById(id);
         ClassroomDetailRes classroomDetailRes =
                 ClassroomMapper.classroomDetailToClassroomDetailRes(classroomDetail);
         return ResponseEntity.ok(classroomDetailRes);
