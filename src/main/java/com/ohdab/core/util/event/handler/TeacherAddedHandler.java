@@ -1,6 +1,5 @@
 package com.ohdab.core.util.event.handler;
 
-import com.ohdab.classroom.event.StudentAddedEvent;
 import com.ohdab.member.event.TeacherAddedEvent;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.usecase.JoinUsecase;
@@ -16,10 +15,10 @@ public class TeacherAddedHandler {
     private final JoinUsecase joinUsecase;
 
     @EventListener(TeacherAddedEvent.class)
-    public void join(StudentAddedEvent event) {
+    public void join(TeacherAddedEvent event) {
         joinUsecase.join(
                 MemberDtoForJoin.Request.builder()
-                        .name(event.getStudentName())
+                        .name(event.getName())
                         .password(event.getPassword())
                         .role(List.of("TEACHER"))
                         .build());
