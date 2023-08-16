@@ -76,7 +76,8 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
         if (mistakeNotesIsEmpty(mistakeNotes)) {
             throw new MistakeNoteIsEmptyException(ExceptionEnum.MISTAKE_NOTE_IS_EMPTY.getMessage());
         }
-        List<StudentInfoDto> students = memberMapper.findAllStudent(getStudentIdList(mistakeNotes));
+        List<StudentInfoDto> students =
+                memberMapper.findAllStudentForMistakeNoteInfo(getStudentIdList(mistakeNotes));
         List<AllMistakeNoteInfoDto> allMistakeNoteInfoDto =
                 mistakeRecordMapper.findAllMistakeNoteInfo(getMistakeNoteIdList(mistakeNotes));
         return GetAllMistakeNoteInfoDto.Response.builder()
