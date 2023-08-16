@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.*;
 import com.ohdab.classroom.service.dto.AddStudentDto;
+import com.ohdab.classroom.service.dto.ClassroomDetailDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.*;
@@ -41,7 +42,7 @@ class ClassroomControllerTest {
     @Autowired private ObjectMapper objectMapper;
     @MockBean private AddClassroomUsecase addClassroomUsecase;
     @MockBean private FindClassroomListUsecase findClassroomListUsecase;
-    @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
+    @MockBean private GetClassroomDetailInfoUsecase getClassroomDetailInfoUsecase;
     @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     @MockBean private DeleteClassroomUsecase deleteClassroomUsecase;
     @MockBean private DeleteStudentUsecase deleteStudentUsecase;
@@ -133,11 +134,23 @@ class ClassroomControllerTest {
         // given
         final String url = "/classrooms/";
 
-        List<Long> studentIds = new ArrayList<>();
-        studentIds.add(3L);
+        List<ClassroomDetailDto.StudentInfo> studentInfoList = new ArrayList<>();
+        studentInfoList.add(
+                ClassroomDetailDto.StudentInfo.builder().studentId(1L).studentName("갑").build());
+        studentInfoList.add(
+                ClassroomDetailDto.StudentInfo.builder().studentId(2L).studentName("을").build());
 
-        List<Long> workbookIds = new ArrayList<>();
-        workbookIds.add(4L);
+        List<ClassroomDetailDto.WorkbookInfo> workbookInfoList = new ArrayList<>();
+        workbookInfoList.add(
+                ClassroomDetailDto.WorkbookInfo.builder()
+                        .workbookId(10L)
+                        .workbookName("책10")
+                        .build());
+        workbookInfoList.add(
+                ClassroomDetailDto.WorkbookInfo.builder()
+                        .workbookId(11L)
+                        .workbookName("책11")
+                        .build());
 
         ClassroomDetailDtoResponse classroomDetailDtoResponse =
                 ClassroomDetailDtoResponse.builder()
@@ -149,12 +162,12 @@ class ClassroomControllerTest {
                                         .description("1반 설명")
                                         .grade("high1")
                                         .build())
-                        .studentIds(studentIds)
-                        .workbookIds(workbookIds)
+                        .studentInfoList(studentInfoList)
+                        .workbookInfoList(workbookInfoList)
                         .build();
 
         // when
-        when(findClassroomDetailUsecase.getClassroomDetailById(1L))
+        when(getClassroomDetailInfoUsecase.getClassroomDetailById(1L))
                 .thenReturn(classroomDetailDtoResponse);
 
         // then
@@ -167,8 +180,14 @@ class ClassroomControllerTest {
                         jsonPath("$.name").value("1반"),
                         jsonPath("$.description").value("1반 설명"),
                         jsonPath("$.grade").value("high1"),
-                        jsonPath("$.studentIds[0]").value(3),
-                        jsonPath("$.workbookIds[0]").value(4))
+                        jsonPath("$.studentInfoList[0].studentId").value("1"),
+                        jsonPath("$.studentInfoList[0].studentName").value("갑"),
+                        jsonPath("$.studentInfoList[1].studentId").value("2"),
+                        jsonPath("$.studentInfoList[1].studentName").value("을"),
+                        jsonPath("$.workbookInfoList[0].workbookId").value("10"),
+                        jsonPath("$.workbookInfoList[0].workbookName").value("책10"),
+                        jsonPath("$.workbookInfoList[1].workbookId").value("11"),
+                        jsonPath("$.workbookInfoList[1].workbookName").value("책11"))
                 .andDo(print())
                 .andDo(createDocument("classrooms/{classroom-id}"));
     }
