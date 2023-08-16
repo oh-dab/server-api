@@ -134,20 +134,20 @@ class ClassroomControllerTest {
         // given
         final String url = "/classrooms/";
 
-        List<ClassroomDetailDto.StudentInfo> studentInfoList = new ArrayList<>();
-        studentInfoList.add(
-                ClassroomDetailDto.StudentInfo.builder().studentId(1L).studentName("갑").build());
-        studentInfoList.add(
-                ClassroomDetailDto.StudentInfo.builder().studentId(2L).studentName("을").build());
+        List<ClassroomDetailDto.StudentInfoDto> studentInfoDtoList = new ArrayList<>();
+        studentInfoDtoList.add(
+                ClassroomDetailDto.StudentInfoDto.builder().studentId(1L).studentName("갑").build());
+        studentInfoDtoList.add(
+                ClassroomDetailDto.StudentInfoDto.builder().studentId(2L).studentName("을").build());
 
-        List<ClassroomDetailDto.WorkbookInfo> workbookInfoList = new ArrayList<>();
-        workbookInfoList.add(
-                ClassroomDetailDto.WorkbookInfo.builder()
+        List<ClassroomDetailDto.WorkbookInfoDto> workbookInfoDtoList = new ArrayList<>();
+        workbookInfoDtoList.add(
+                ClassroomDetailDto.WorkbookInfoDto.builder()
                         .workbookId(10L)
                         .workbookName("책10")
                         .build());
-        workbookInfoList.add(
-                ClassroomDetailDto.WorkbookInfo.builder()
+        workbookInfoDtoList.add(
+                ClassroomDetailDto.WorkbookInfoDto.builder()
                         .workbookId(11L)
                         .workbookName("책11")
                         .build());
@@ -162,8 +162,8 @@ class ClassroomControllerTest {
                                         .description("1반 설명")
                                         .grade("high1")
                                         .build())
-                        .studentInfoList(studentInfoList)
-                        .workbookInfoList(workbookInfoList)
+                        .studentInfoDtoList(studentInfoDtoList)
+                        .workbookInfoDtoList(workbookInfoDtoList)
                         .build();
 
         // when

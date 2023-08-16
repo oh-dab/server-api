@@ -13,7 +13,7 @@
         order by member_id asc
     </select>
 
-    <select id="findAllStudentForClassroomInfo" parameterType="java.util.List" resultType="com.ohdab.classroom.service.dto.ClassroomDetailDto$StudentInfo">
+    <select id="findAllStudentForClassroomInfo" parameterType="java.util.List" resultType="com.ohdab.classroom.service.dto.ClassroomDetailDto$StudentInfoDto">
         select member_id   as "studentId",
         member_name as "name"
         from MEMBER

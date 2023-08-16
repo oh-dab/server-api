@@ -1,11 +1,12 @@
 package com.ohdab.classroom.service.dto;
 
 import java.util.List;
+import lombok.AccessLevel;
 import lombok.Builder;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
-@Getter
-@Builder
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 public class ClassroomDetailDto {
 
     @Getter
@@ -31,14 +32,14 @@ public class ClassroomDetailDto {
 
         private ClassroomDetailInfo info;
 
-        private List<StudentInfo> studentInfoList;
+        private List<StudentInfoDto> studentInfoDtoList;
 
-        private List<WorkbookInfo> workbookInfoList;
+        private List<WorkbookInfoDto> workbookInfoDtoList;
     }
 
     @Getter
     @Builder
-    public static class StudentInfo {
+    public static class StudentInfoDto {
 
         private long studentId;
         private String studentName;
@@ -46,7 +47,7 @@ public class ClassroomDetailDto {
 
     @Getter
     @Builder
-    public static class WorkbookInfo {
+    public static class WorkbookInfoDto {
 
         private long workbookId;
         private String workbookName;

@@ -11,5 +11,6 @@ public interface MemberMapper {
 
     List<StudentInfoDto> findAllStudentForMistakeNoteInfo(List<Long> studentIdList);
 
-    List<ClassroomDetailDto.StudentInfo> findAllStudentForClassroomInfo(List<Long> studentIdList);
+    List<ClassroomDetailDto.StudentInfoDto> findAllStudentForClassroomInfo(
+            List<Long> studentIdList);
 }

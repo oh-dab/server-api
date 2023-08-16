@@ -68,7 +68,7 @@ public class ClassroomMapper {
                 .description(detailDto.getInfo().getDescription())
                 .grade(detailDto.getInfo().getGrade())
                 .studentInfoList(
-                        detailDto.getStudentInfoList().stream()
+                        detailDto.getStudentInfoDtoList().stream()
                                 .map(
                                         studentInfo ->
                                                 ClassroomDetailRes.StudentInfo.builder()
@@ -77,7 +77,7 @@ public class ClassroomMapper {
                                                         .build())
                                 .collect(Collectors.toList()))
                 .workbookInfoList(
-                        detailDto.getWorkbookInfoList().stream()
+                        detailDto.getWorkbookInfoDtoList().stream()
                                 .map(
                                         workbookInfo ->
                                                 ClassroomDetailRes.WorkbookInfo.builder()

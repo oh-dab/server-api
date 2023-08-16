@@ -29,10 +29,10 @@ public class GetClassroomDetailInfoService implements GetClassroomDetailInfoUsec
     @Override
     public ClassroomDetailDtoResponse getClassroomDetailById(long classroomId) {
         Classroom classroom = findExistingClassroom(classroomId, classroomRepository);
-        List<ClassroomDetailDto.StudentInfo> students =
+        List<ClassroomDetailDto.StudentInfoDto> students =
                 memberMapper.findAllStudentForClassroomInfo(
                         getStudentIdList(classroom.getStudents()));
-        List<ClassroomDetailDto.WorkbookInfo> workbooks =
+        List<ClassroomDetailDto.WorkbookInfoDto> workbooks =
                 workbookMapper.findAllWorkbookForClassroomInfo(
                         getWorkbookIdList(classroom.getWorkbooks()));
         return mapToClassroomDetailDtoResponse(classroom, students, workbooks);
@@ -48,14 +48,14 @@ public class GetClassroomDetailInfoService implements GetClassroomDetailInfoUsec
 
     private ClassroomDetailDtoResponse mapToClassroomDetailDtoResponse(
             Classroom classroom,
-            List<ClassroomDetailDto.StudentInfo> students,
-            List<ClassroomDetailDto.WorkbookInfo> workbooks) {
+            List<ClassroomDetailDto.StudentInfoDto> students,
+            List<ClassroomDetailDto.WorkbookInfoDto> workbooks) {
         return ClassroomDetailDtoResponse.builder()
                 .classroomId(classroom.getId())
                 .teacherId(classroom.getTeacher().getId())
                 .info(mapToClassRoomDetailInfo(classroom))
-                .studentInfoList(students)
-                .workbookInfoList(workbooks)
+                .studentInfoDtoList(students)
+                .workbookInfoDtoList(workbooks)
                 .build();
     }
 

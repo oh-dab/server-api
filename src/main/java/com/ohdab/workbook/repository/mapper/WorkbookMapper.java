@@ -7,6 +7,6 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface WorkbookMapper {
 
-    List<ClassroomDetailDto.WorkbookInfo> findAllWorkbookForClassroomInfo(
+    List<ClassroomDetailDto.WorkbookInfoDto> findAllWorkbookForClassroomInfo(
             List<Long> workbookIdList);
 }
