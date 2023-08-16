@@ -34,7 +34,6 @@ class AddTeacherServiceTest {
         // when
         Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString()))
                 .thenReturn(false);
-        Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString())).thenReturn(true);
 
         // then
         assertThatNoException()

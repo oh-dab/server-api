@@ -25,4 +25,9 @@ public final class MemberHelperService {
     public static boolean checkIfMemberExistByName(MemberRepository memberRepository, String name) {
         return memberRepository.existsByMemberInfoName(name);
     }
+
+    public static Long countMemberNumberContainingName(
+            MemberRepository memberRepository, String name) {
+        return memberRepository.countByMemberInfoNameContaining(name);
+    }
 }

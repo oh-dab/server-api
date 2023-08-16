@@ -1,6 +1,7 @@
 package com.ohdab.member.service;
 
 import static com.ohdab.member.service.helper.MemberHelperService.checkIfMemberExistByName;
+import static com.ohdab.member.service.helper.MemberHelperService.countMemberNumberContainingName;
 
 import com.ohdab.member.event.TeacherAddedEvent;
 import com.ohdab.member.repository.MemberRepository;
@@ -30,7 +31,7 @@ public class AddTeacherService implements AddTeacherUsecase {
 
     private String changeNameIfDuplicated(String name) {
         if (checkIfMemberExistByName(memberRepository, name)) {
-            long sameNameCount = memberRepository.countByMemberInfoNameContaining(name);
+            long sameNameCount = countMemberNumberContainingName(memberRepository, name);
             return name = name + sameNameCount;
         }
         return name;
