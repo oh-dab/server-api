@@ -1,8 +1,5 @@
 package com.ohdab.member.service;
 
-import static com.ohdab.member.service.helper.MemberHelperService.checkIfMemberExistByName;
-import static com.ohdab.member.service.helper.MemberHelperService.countMemberNumberContainingName;
-
 import com.ohdab.member.event.TeacherAddedEvent;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
@@ -25,16 +22,7 @@ public class AddTeacherService implements AddTeacherUsecase {
     @Override
     public void addTeacher(MemberDtoForAddTeacher.Request addTeacherReqDto) {
         String name = addTeacherReqDto.getName();
-        name = changeNameIfDuplicated(name);
         publishTeacherAddedEvent(name);
-    }
-
-    private String changeNameIfDuplicated(String name) {
-        if (checkIfMemberExistByName(memberRepository, name)) {
-            long sameNameCount = countMemberNumberContainingName(memberRepository, name);
-            return name = name + sameNameCount;
-        }
-        return name;
     }
 
     private void publishTeacherAddedEvent(String name) {

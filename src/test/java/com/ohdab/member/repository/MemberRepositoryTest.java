@@ -95,26 +95,6 @@ class MemberRepositoryTest {
     }
 
     @Test
-    @DisplayName("이름 겹치는 회원 수 조회 성공 테스트")
-    void 이름_겹치는_회원_수_조회_성공() {
-        // given
-        Authority teacher = new Authority("TEACHER");
-        Member member = createMember("선생님", "tjstodsla", teacher);
-        Member member2 = createMember("선생님2", "tjstodsla2", teacher);
-        Member member3 = createMember("선생님인줄알았지이름다르지롱", "tjstodsla3", teacher);
-
-        // when
-        memberRepository.save(member);
-        memberRepository.save(member2);
-        memberRepository.save(member3);
-        Long result = memberRepository.countByMemberInfoNameContaining("선생님");
-
-        // then
-        // TODO : member3은 결과에 포함되지 않도록 countByMemberInfoNameLike("선생님\\d") 형식의 메서드로 수정하기
-        assertThat(result).isEqualTo(3);
-    }
-
-    @Test
     @DisplayName("선생님 삭제(탈퇴) 성공 테스트")
     void 선생님_삭제_및_탈퇴_성공() {
         // given
