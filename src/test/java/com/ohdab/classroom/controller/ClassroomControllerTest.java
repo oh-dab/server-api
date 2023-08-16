@@ -2,6 +2,9 @@ package com.ohdab.classroom.controller;
 
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoInfo;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
 import static org.mockito.Mockito.when;
 import static org.springframework.restdocs.mockmvc.MockMvcRestDocumentation.document;
 import static org.springframework.restdocs.operation.preprocess.Preprocessors.*;
@@ -12,12 +15,19 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.AddClassroomReq;
+import com.ohdab.classroom.controller.request.AddStudentReq;
+import com.ohdab.classroom.controller.request.AddWorkbookReq;
 import com.ohdab.classroom.controller.request.UpdateClassroomReq;
+import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
+import com.ohdab.classroom.service.dto.AddStudentDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
+import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.*;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
+import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.restdocs.AutoConfigureRestDocs;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -38,6 +48,11 @@ class ClassroomControllerTest {
     @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
     @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     @MockBean private DeleteClassroomUsecase deleteClassroomUsecase;
+    @MockBean private DeleteStudentUsecase deleteStudentUsecase;
+    @MockBean private GetWorkbookListUsecase getWorkbookListUsecase;
+    @MockBean private AddWorkbookUsecase addWorkbookUsecase;
+    @MockBean private UpdateWorkbookInfoUsecase updateWorkbookInfoUsecase;
+    @MockBean private AddStudentUsecase addStudentUsecase;
 
     @Test
     @WithMockUser
@@ -202,6 +217,148 @@ class ClassroomControllerTest {
                         jsonPath("$.message").value("반 삭제 성공"))
                 .andDo(print())
                 .andDo(createDocument("classrooms/expulsion/{classroom-id}"));
+    }
+
+    @Test
+    @WithMockUser
+    void 학생_삭제() throws Exception {
+        // given
+        final String url = "/classrooms/{classroom-id}/expulsion/students/{student-id}";
+
+        // when
+        doNothing().when(deleteStudentUsecase).deleteStudent(anyLong(), anyLong());
+
+        // then
+        mockMvc.perform(patch(url, 1L, 2L).with(csrf()).contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(status().isOk(), content().contentType(MediaType.APPLICATION_JSON))
+                .andDo(print())
+                .andDo(createDocument("classrooms/deleteStudent"));
+    }
+
+    @Test
+    @WithMockUser
+    void 반_식별자로_교재_목록_조회() throws Exception {
+        // given
+        final String url = "/classrooms/{classroom-id}/workbooks";
+        List<ClassroomWorkbookDto.Response> workbookDtoList = new ArrayList<>();
+        ClassroomWorkbookDto.Response workbookDtoRes1 = createWorkbookDto(1L, "교재");
+        ClassroomWorkbookDto.Response workbookDtoRes2 = createWorkbookDto(2L, "교재2");
+        ClassroomWorkbookDto.Response workbookDtoRes3 = createWorkbookDto(3L, "교재3");
+        workbookDtoList.add(workbookDtoRes1);
+        workbookDtoList.add(workbookDtoRes2);
+        workbookDtoList.add(workbookDtoRes3);
+
+        // when
+        when(getWorkbookListUsecase.getWorkbookListByClassroomId(Mockito.anyLong()))
+                .thenReturn(workbookDtoList);
+
+        // then
+        mockMvc.perform(get(url, 1L).with(csrf()))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.workbooks[0].id").value(workbookDtoRes1.getId()),
+                        jsonPath("$.workbooks[0].name").value(workbookDtoRes1.getName()),
+                        jsonPath("$.workbooks[0].createdAt")
+                                .value(workbookDtoRes1.getCreatedAt().toLocalDate().toString()),
+                        jsonPath("$.workbooks[1].id").value(workbookDtoRes2.getId()),
+                        jsonPath("$.workbooks[1].name").value(workbookDtoRes2.getName()),
+                        jsonPath("$.workbooks[1].createdAt")
+                                .value(workbookDtoRes2.getCreatedAt().toLocalDate().toString()),
+                        jsonPath("$.workbooks[2].id").value(workbookDtoRes3.getId()),
+                        jsonPath("$.workbooks[2].name").value(workbookDtoRes3.getName()),
+                        jsonPath("$.workbooks[2].createdAt")
+                                .value(workbookDtoRes3.getCreatedAt().toLocalDate().toString()))
+                .andDo(print())
+                .andDo(createDocument("classrooms/{classroom-id}/workbooks"));
+    }
+
+    @Test
+    @WithMockUser
+    void 반_식별자로_반에_교재_추가() throws Exception {
+        // given
+        String url = "/classrooms/{classroom-id}/workbooks";
+        AddWorkbookReq addWorkbookReq =
+                AddWorkbookReq.builder()
+                        .name("교재")
+                        .description("교재에 대한 설명입니다.")
+                        .startingNumber(1)
+                        .endingNumber(2000)
+                        .build();
+        long classroomId = 1L;
+
+        // when
+
+        // then
+        mockMvc.perform(
+                        post(url, classroomId)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(addWorkbookReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("해당 반에 교재 및 오답노트가 추가되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("classrooms/{classroom-id}/addWorkbooks"));
+    }
+
+    @Test
+    @WithMockUser
+    void 교재_식별자로_교재_정보_수정() throws Exception {
+        // given
+        String url = "/classrooms/workbooks/info/{workbook-id}";
+        UpdateWorkbookInfoReq updateWorkbookInfoReq =
+                UpdateWorkbookInfoReq.builder()
+                        .name("수정할 교재명")
+                        .description("수정할 교재에 대한 설명입니다.")
+                        .build();
+        long workbookId = 1L;
+
+        // when
+
+        // then
+        mockMvc.perform(
+                        patch(url, workbookId)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(updateWorkbookInfoReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("교재 정보가 수정 되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("classrooms/workbooks/info/{workbook-id}"));
+    }
+
+    void 학생_추가() throws Exception {
+        // given
+        final String ADD_STUDENT_URL = "/classrooms/{classroom-id}/students/enrollment";
+        final AddStudentReq addStudentReq = AddStudentReq.builder().studentName("갑").build();
+
+        // when
+        doNothing().when(addStudentUsecase).addStudent(any(AddStudentDto.Request.class));
+
+        // then
+        mockMvc.perform(
+                        post(ADD_STUDENT_URL, 1)
+                                .with(csrf())
+                                .content(objectMapper.writeValueAsString(addStudentReq))
+                                .contentType(MediaType.APPLICATION_JSON))
+                .andExpectAll(
+                        status().isOk(),
+                        content().contentType(MediaType.APPLICATION_JSON),
+                        jsonPath("$.message").value("해당 반에 학생이 추가되었습니다."))
+                .andDo(print())
+                .andDo(createDocument("classrooms/addStudent"));
+    }
+
+    private ClassroomWorkbookDto.Response createWorkbookDto(long id, String name) {
+        return ClassroomWorkbookDto.Response.builder()
+                .id(id)
+                .name(name)
+                .createdAt(LocalDateTime.now())
+                .build();
     }
 
     private RestDocumentationResultHandler createDocument(String identifier) {

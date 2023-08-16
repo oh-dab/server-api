@@ -149,4 +149,52 @@ include::{snippets}/classrooms/expulsion/{classroom-id}/http-request.adoc[]
 
 include::{snippets}/classrooms/expulsion/{classroom-id}/http-response.adoc[]
 
-=======
+=== 학생 추가
+
+==== Request
+
+include::{snippets}/classrooms/addStudent/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/addStudent/http-response.adoc[]
+
+=== 학생 삭제
+
+==== Request
+
+include::{snippets}/classrooms/deleteStudent/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/deleteStudent/http-response.adoc[]
+
+=== 교재 목록 조회
+
+==== Request
+
+include::{snippets}/classrooms/{classroom-id}/workbooks/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/{classroom-id}/workbooks/http-response.adoc[]
+
+=== 교재 추가
+
+==== Request
+
+include::{snippets}/classrooms/{classroom-id}/addWorkbooks/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/{classroom-id}/addWorkbooks/http-response.adoc[]
+
+=== 교재 정보 수정
+
+==== Request
+
+include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-request.adoc[]
+
+==== Response
+
+include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-response.adoc[]

@@ -86,7 +86,9 @@ class MistakeRecordMapperTest {
 
         // then
         assertThat(result)
-                .extracting("wrongNumber", "wrongStudentsCount")
+                .extracting(
+                        AllMistakeNoteInfoDto::getWrongNumber,
+                        AllMistakeNoteInfoDto::getWrongStudentsCount)
                 .contains(tuple(1, 2))
                 .contains(tuple(2, 1))
                 .contains(tuple(3, 2))

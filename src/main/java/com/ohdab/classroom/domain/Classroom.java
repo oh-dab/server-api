@@ -1,10 +1,13 @@
 package com.ohdab.classroom.domain;
 
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
+import com.ohdab.classroom.exception.NoStudentException;
 import com.ohdab.core.baseentity.BaseEntity;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.student.studentid.StudentId;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.workbook.domain.workbookid.WorkbookId;
+import io.jsonwebtoken.lang.Assert;
 import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.*;
@@ -40,35 +43,30 @@ public class Classroom extends BaseEntity {
 
     @Builder
     public Classroom(ClassroomInfo classroomInfo, TeacherId teacher) {
-        if (classroomInfo == null) {
-            throw new IllegalStateException("ClassroomInfo cannot be null");
-        }
-        if (teacher == null) {
-            throw new IllegalStateException("Teacher cannot be null");
-        }
-        setClassroomInfo(classroomInfo);
-        setTeacher(teacher);
-    }
-
-    public void setClassroomInfo(ClassroomInfo classroomInfo) {
+        Assert.notNull(classroomInfo, ExceptionEnum.IS_NULL.getMessage());
+        Assert.notNull(teacher, ExceptionEnum.IS_NULL.getMessage());
         this.classroomInfo = classroomInfo;
-    }
-
-    private void setTeacher(TeacherId teacher) {
         this.teacher = teacher;
     }
 
     public void addStudent(StudentId student) {
-        if (student == null) {
-            throw new IllegalStateException("Student cannot be null.");
-        }
+        Assert.notNull(student, ExceptionEnum.IS_NULL.getMessage());
         this.students.add(student);
     }
 
     public void addWorkbook(WorkbookId workbook) {
-        if (workbook == null) {
-            throw new IllegalStateException("Workbook cannot be null.");
-        }
+        Assert.notNull(workbook, ExceptionEnum.IS_NULL.getMessage());
         this.workbooks.add(workbook);
+    }
+
+    public void deleteStudent(long studentId) {
+        if (!students.removeIf(student -> student.getId() == studentId)) {
+            throw new NoStudentException(ExceptionEnum.NO_STUDENT.getMessage());
+        }
+    }
+
+    public void updateClassroomInfo(ClassroomInfo classroomInfo) {
+        Assert.notNull(classroomInfo, ExceptionEnum.IS_NULL.getMessage());
+        this.classroomInfo = classroomInfo;
     }
 }

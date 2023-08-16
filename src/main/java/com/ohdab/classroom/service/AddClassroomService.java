@@ -1,12 +1,14 @@
 package com.ohdab.classroom.service;
 
+import static com.ohdab.classroom.service.helper.ClassroomHelperService.findGradeByString;
+
 import com.ohdab.classroom.domain.Classroom;
 import com.ohdab.classroom.domain.classroomInfo.ClassroomInfo;
-import com.ohdab.classroom.exception.CannotFindTeacherException;
+import com.ohdab.classroom.exception.NoTeacherException;
 import com.ohdab.classroom.repository.ClassroomRepository;
 import com.ohdab.classroom.service.dto.ClassroomDto;
-import com.ohdab.classroom.service.helper.ClassroomServiceHelper;
 import com.ohdab.classroom.service.usecase.AddClassroomUsecase;
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.member.domain.teacher.teacherid.TeacherId;
 import com.ohdab.member.repository.MemberRepository;
 import lombok.RequiredArgsConstructor;
@@ -30,9 +32,7 @@ public class AddClassroomService implements AddClassroomUsecase {
                 ClassroomInfo.builder()
                         .name(classroomReqDto.getInfo().getName())
                         .description(classroomReqDto.getInfo().getDescription())
-                        .grade(
-                                ClassroomServiceHelper.findGradeByString(
-                                        classroomReqDto.getInfo().getGrade()))
+                        .grade(findGradeByString(classroomReqDto.getInfo().getGrade()))
                         .build();
 
         Classroom classroom =
@@ -44,9 +44,9 @@ public class AddClassroomService implements AddClassroomUsecase {
         classroomRepository.save(classroom);
     }
 
-    private void throwIfTeacherDoesNotExist(Long teacherId) {
+    private void throwIfTeacherDoesNotExist(long teacherId) {
         if (!memberRepository.existsById(teacherId)) {
-            throw new CannotFindTeacherException("cannot find teacher by id : " + teacherId);
+            throw new NoTeacherException(ExceptionEnum.NO_TEACHER.getMessage());
         }
     }
 }
