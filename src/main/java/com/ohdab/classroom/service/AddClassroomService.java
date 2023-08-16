@@ -17,7 +17,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class AddClassroomService implements AddClassroomUsecase {
 
     private final MemberRepository memberRepository;
