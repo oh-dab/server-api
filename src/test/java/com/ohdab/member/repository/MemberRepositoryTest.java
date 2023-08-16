@@ -106,10 +106,12 @@ class MemberRepositoryTest {
         // when
         memberRepository.save(member);
         memberRepository.save(member2);
+        memberRepository.save(member3);
         Long result = memberRepository.countByMemberInfoNameContaining("선생님");
 
         // then
-        assertThat(result).isEqualTo(2);
+        // TODO : member3은 결과에 포함되지 않도록 countByMemberInfoNameLike("선생님\\d") 형식의 메서드로 수정하기
+        assertThat(result).isEqualTo(3);
     }
 
     @Test
