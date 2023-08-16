@@ -53,7 +53,7 @@ class MemberMapperTest {
 
         // when
         List<StudentInfoDto> result =
-                memberMapper.findAllStudent(
+                memberMapper.findAllStudentForMistakeNoteInfo(
                         List.of(
                                 savedStudent1.getId(),
                                 savedStudent2.getId(),
