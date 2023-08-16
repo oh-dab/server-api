@@ -1,7 +1,7 @@
 package com.ohdab.classroom.controller;
 
-import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoInfo;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailInfo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -157,7 +157,7 @@ class ClassroomControllerTest {
                         .classroomId(1)
                         .teacherId(2)
                         .info(
-                                ClassroomDetailDtoInfo.builder()
+                                ClassroomDetailInfo.builder()
                                         .name("1반")
                                         .description("1반 설명")
                                         .grade("high1")

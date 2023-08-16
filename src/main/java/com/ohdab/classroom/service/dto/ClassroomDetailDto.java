@@ -10,7 +10,7 @@ public class ClassroomDetailDto {
 
     @Getter
     @Builder
-    public static class ClassroomDetailDtoInfo {
+    public static class ClassroomDetailInfo {
         private String name;
         private String description;
         private String grade;
@@ -29,10 +29,26 @@ public class ClassroomDetailDto {
 
         private long teacherId;
 
-        private ClassroomDetailDtoInfo info;
+        private ClassroomDetailInfo info;
 
-        private List<Long> studentIds;
+        private List<StudentInfo> studentInfoList;
 
-        private List<Long> workbookIds;
+        private List<WorkbookInfo> workbookInfoList;
+    }
+
+    @Getter
+    @Builder
+    public static class StudentInfo {
+
+        private long studentId;
+        private String studentName;
+    }
+
+    @Getter
+    @Builder
+    public static class WorkbookInfo {
+
+        private long workbookId;
+        private String workbookName;
     }
 }
