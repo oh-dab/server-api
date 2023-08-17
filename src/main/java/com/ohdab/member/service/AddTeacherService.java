@@ -16,8 +16,6 @@ import org.springframework.transaction.annotation.Transactional;
 public class AddTeacherService implements AddTeacherUsecase {
 
     private final ApplicationEventPublisher publisher;
-    private final MemberRepository memberRepository;
-    private final JoinUsecase joinUsecase;
 
     @Override
     public void addTeacher(MemberDtoForAddTeacher.Request addTeacherReqDto) {

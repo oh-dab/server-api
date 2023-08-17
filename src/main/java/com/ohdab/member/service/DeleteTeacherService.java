@@ -4,9 +4,11 @@ import static com.ohdab.member.service.helper.MemberHelperService.findExistingMe
 
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.MemberStatus;
+import com.ohdab.member.event.TeacherDeletedEvent;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
 import lombok.RequiredArgsConstructor;
+import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -16,18 +18,15 @@ import org.springframework.transaction.annotation.Transactional;
 public class DeleteTeacherService implements DeleteTeacherUsecase {
 
     private final MemberRepository memberRepository;
+    private final ApplicationEventPublisher publisher;
 
     @Override
     public void deleteTeacherById(long id) {
         Member member = findExistingMemberById(memberRepository, id);
-        throwIfInactiveMember(member);
-        member.withdrawal();
+        publishTeacherDeletedEvent(member);
     }
 
-    private void throwIfInactiveMember(Member member) {
-        if (member.getStatus() == MemberStatus.INACTIVE) {
-            throw new IllegalStateException(
-                    "Already withdrawal Member with id \"" + member.getId() + "\"");
-        }
+    private void publishTeacherDeletedEvent(Member member){
+        publisher.publishEvent(TeacherDeletedEvent.builder().member(member).build());
     }
 }
