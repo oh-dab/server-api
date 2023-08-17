@@ -14,7 +14,6 @@ import org.springframework.stereotype.Component;
 public class TeacherAddedHandler {
 
     private final JoinUsecase joinUsecase;
-    private final MemberRepository memberRepository;
 
     @EventListener(TeacherAddedEvent.class)
     public void join(TeacherAddedEvent event) {
