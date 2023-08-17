@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
-public class TeacherDeletedEvent{
+public class TeacherDeletedEvent {
 
     private Member member;
 

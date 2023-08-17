@@ -1,10 +1,8 @@
 package com.ohdab.member.service;
 
 import com.ohdab.member.event.TeacherAddedEvent;
-import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 import com.ohdab.member.service.usecase.AddTeacherUsecase;
-import com.ohdab.member.service.usecase.JoinUsecase;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Service;

@@ -1,7 +1,6 @@
 package com.ohdab.core.util.event.handler;
 
 import com.ohdab.member.event.TeacherAddedEvent;
-import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;

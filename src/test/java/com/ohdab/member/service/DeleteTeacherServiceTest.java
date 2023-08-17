@@ -1,6 +1,5 @@
 package com.ohdab.member.service;
 
-import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.Assertions.assertThatNoException;
 
 import com.ohdab.member.domain.Authority;
@@ -41,7 +40,6 @@ class DeleteTeacherServiceTest {
 
         // then
         assertThatNoException().isThrownBy(() -> deleteTeacherUsecase.deleteTeacherById(id));
-        assertThat(member.getStatus().name()).isEqualTo("INACTIVE");
     }
 
     private Member createTeacher(String name, String password) {

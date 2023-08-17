@@ -3,7 +3,6 @@ package com.ohdab.member.service;
 import static com.ohdab.member.service.helper.MemberHelperService.findExistingMemberById;
 
 import com.ohdab.member.domain.Member;
-import com.ohdab.member.domain.MemberStatus;
 import com.ohdab.member.event.TeacherDeletedEvent;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
@@ -26,7 +25,7 @@ public class DeleteTeacherService implements DeleteTeacherUsecase {
         publishTeacherDeletedEvent(member);
     }
 
-    private void publishTeacherDeletedEvent(Member member){
+    private void publishTeacherDeletedEvent(Member member) {
         publisher.publishEvent(TeacherDeletedEvent.builder().member(member).build());
     }
 }
