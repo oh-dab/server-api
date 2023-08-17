@@ -1,6 +1,6 @@
 package com.ohdab.classroom.service;
 
-import static org.assertj.core.api.Assertions.assertThatNoException;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -56,9 +56,14 @@ class UpdateClassroomInfoServiceTest {
         // when
         when(memberRepository.existsById(anyLong())).thenReturn(true);
         when(classroomRepository.findById(anyLong())).thenReturn(Optional.ofNullable(classroom));
+        updateClassroomInfoService.updateClassroomInfo(request);
 
         // then
-        assertThatNoException()
-                .isThrownBy(() -> updateClassroomInfoService.updateClassroomInfo(request));
+        assertThat(classroom.getClassroomInfo())
+                .extracting(
+                        ClassroomInfo::getName,
+                        ClassroomInfo::getDescription,
+                        ClassroomInfo::getGrade)
+                .containsExactly("2반", "22", Grade.HIGH_2);
     }
 }

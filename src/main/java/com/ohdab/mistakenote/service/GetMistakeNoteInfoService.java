@@ -8,6 +8,7 @@ import com.ohdab.member.exception.NoMemberException;
 import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.repository.mapper.MemberMapper;
 import com.ohdab.mistakenote.domain.MistakeNote;
+import com.ohdab.mistakenote.exception.MistakeNoteIsEmptyException;
 import com.ohdab.mistakenote.exception.NoMistakeNoteException;
 import com.ohdab.mistakenote.repository.MistakeNoteRepository;
 import com.ohdab.mistakenote.repository.mapper.MistakeRecordMapper;
@@ -72,6 +73,9 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
     public GetAllMistakeNoteInfoDto.Response getAllMistakeNoteInfo(long workbookId) {
         List<MistakeNote> mistakeNotes =
                 mistakeNoteRepository.findByWorkbookId(new WorkbookId(workbookId));
+        if (mistakeNotesIsEmpty(mistakeNotes)) {
+            throw new MistakeNoteIsEmptyException(ExceptionEnum.MISTAKE_NOTE_IS_EMPTY.getMessage());
+        }
         List<StudentInfoDto> students = memberMapper.findAllStudent(getStudentIdList(mistakeNotes));
         List<AllMistakeNoteInfoDto> allMistakeNoteInfoDto =
                 mistakeRecordMapper.findAllMistakeNoteInfo(getMistakeNoteIdList(mistakeNotes));
@@ -79,6 +83,10 @@ public class GetMistakeNoteInfoService implements GetMistakeNoteInfoUsecase {
                 .students(students)
                 .allMistakeNoteInfo(allMistakeNoteInfoDto)
                 .build();
+    }
+
+    private boolean mistakeNotesIsEmpty(List<MistakeNote> mistakeNotes) {
+        return mistakeNotes.isEmpty();
     }
 
     private List<Long> getStudentIdList(List<MistakeNote> mistakeNotes) {

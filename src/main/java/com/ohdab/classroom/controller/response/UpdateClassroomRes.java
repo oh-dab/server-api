@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class UpdateClassroomRes {
-    String message;
+
+    private String message;
 }

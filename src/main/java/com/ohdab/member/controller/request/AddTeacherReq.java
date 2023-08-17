@@ -1,12 +1,7 @@
 package com.ohdab.member.controller.request;
 
-import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.validation.constraints.NotBlank;
-import lombok.AccessLevel;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 @Getter
 @Builder
@@ -15,6 +10,5 @@ import lombok.NoArgsConstructor;
 public class AddTeacherReq {
 
     @NotBlank(message = "Teacher name cannot be blank")
-    @JsonProperty("teacher_name")
-    String name;
+    private String teacherName;
 }

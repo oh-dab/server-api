@@ -22,7 +22,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class AddWorkbookService implements AddWorkbookUsecase {
 
     private final ClassroomRepository classroomRepository;
@@ -33,10 +33,10 @@ public class AddWorkbookService implements AddWorkbookUsecase {
     public void addWorkbookByClassroomId(long classroomId, Request addWorkbookDto) {
         Classroom classroom =
                 ClassroomHelperService.findExistingClassroom(classroomId, classroomRepository);
-        ClassroomId classroomId1 = new ClassroomId(classroomId);
+        ClassroomId classroomIdVo = new ClassroomId(classroomId);
         ClassroomHelperService.throwIfDuplicatedWorkbookName(
-                workbookRepository, classroomId1, addWorkbookDto.getName());
-        Workbook workbook = saveWorkbook(classroomId1, addWorkbookDto);
+                workbookRepository, classroomIdVo, addWorkbookDto.getName());
+        Workbook workbook = saveWorkbook(classroomIdVo, addWorkbookDto);
         WorkbookId workbookId = new WorkbookId(workbook.getId());
         classroom.addWorkbook(workbookId);
         saveMistakeNote(classroomId, workbookId);
