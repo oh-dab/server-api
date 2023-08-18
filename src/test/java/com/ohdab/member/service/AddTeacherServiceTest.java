@@ -9,7 +9,6 @@ import com.ohdab.member.service.usecase.JoinUsecase;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.Mockito;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.test.context.ContextConfiguration;
@@ -32,9 +31,6 @@ class AddTeacherServiceTest {
                 MemberDtoForAddTeacher.Request.builder().name(name).build();
 
         // when
-        Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString()))
-                .thenReturn(false);
-        Mockito.when(memberRepository.existsByMemberInfoName(Mockito.anyString())).thenReturn(true);
 
         // then
         assertThatNoException()

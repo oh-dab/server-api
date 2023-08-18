@@ -57,8 +57,6 @@ include::{snippets}/members/teachers/expulsion/{teacher-id}/http-request.adoc[]
 
 include::{snippets}/members/teachers/expulsion/{teacher-id}/http-response.adoc[]
 
-== MistakeNote
-
 === 교재 상세조회(전체 학생에 대한 오답노트 조회)
 
 ==== Request
@@ -200,5 +198,3 @@ include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-response.adoc[]
-
-
