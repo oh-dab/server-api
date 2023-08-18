@@ -6,5 +6,6 @@ import lombok.Getter;
 @Getter
 @Builder
 public class AddWorkbookRes {
-    String message;
+
+    private String message;
 }

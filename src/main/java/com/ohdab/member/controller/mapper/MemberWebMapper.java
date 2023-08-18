@@ -3,11 +3,7 @@ package com.ohdab.member.controller.mapper;
 import com.ohdab.member.controller.request.AddTeacherReq;
 import com.ohdab.member.controller.request.JoinReq;
 import com.ohdab.member.controller.request.LoginReq;
-import com.ohdab.member.controller.response.AddTeacherRes;
-import com.ohdab.member.controller.response.DeleteTeacherRes;
-import com.ohdab.member.controller.response.GetTeacherListRes;
-import com.ohdab.member.controller.response.JoinRes;
-import com.ohdab.member.controller.response.LoginRes;
+import com.ohdab.member.controller.response.*;
 import com.ohdab.member.service.dto.MemberDtoForAddTeacher;
 import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
@@ -66,7 +62,9 @@ public class MemberWebMapper {
 
     public static MemberDtoForAddTeacher.Request addTeacherRequestToDto(
             AddTeacherReq addTeacherReq) {
-        return MemberDtoForAddTeacher.Request.builder().name(addTeacherReq.getName()).build();
+        return MemberDtoForAddTeacher.Request.builder()
+                .name(addTeacherReq.getTeacherName())
+                .build();
     }
 
     public static AddTeacherRes createAddTeacherRes() {

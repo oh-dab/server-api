@@ -19,11 +19,7 @@ import com.ohdab.member.controller.response.JoinRes;
 import com.ohdab.member.controller.response.LoginRes;
 import com.ohdab.member.service.dto.MemberDtoForGetTeacherList;
 import com.ohdab.member.service.dto.MemberDtoForLogin;
-import com.ohdab.member.service.usecase.AddTeacherUsecase;
-import com.ohdab.member.service.usecase.DeleteTeacherUsecase;
-import com.ohdab.member.service.usecase.GetTeacherListUsecase;
-import com.ohdab.member.service.usecase.JoinUsecase;
-import com.ohdab.member.service.usecase.LoginUsecase;
+import com.ohdab.member.service.usecase.*;
 import java.util.ArrayList;
 import java.util.List;
 import org.junit.jupiter.api.Test;
@@ -157,7 +153,7 @@ class MemberControllerTest {
     void 선생님_추가() throws Exception {
         // given
         final String url = "/members/teachers/enrollment";
-        final AddTeacherReq addTeacherReq = AddTeacherReq.builder().name("선생님").build();
+        final AddTeacherReq addTeacherReq = AddTeacherReq.builder().teacherName("선생님").build();
 
         // when
 

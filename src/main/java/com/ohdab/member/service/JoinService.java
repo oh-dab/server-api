@@ -18,13 +18,12 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class JoinService implements JoinUsecase {
 
     private final PasswordEncoder passwordEncoder;
     private final MemberRepository memberRepository;
 
-    @Transactional
     @Override
     public void join(MemberDtoForJoin.Request joinReqDto) {
         checkDuplicatedMember(joinReqDto.getName());
@@ -35,7 +34,7 @@ public class JoinService implements JoinUsecase {
     private void checkDuplicatedMember(String name) {
         Optional<Member> member = memberRepository.findByMemberInfoName(name);
         if (member.isPresent()) {
-            throw new DuplicatedMemberException(ExceptionEnum.DUPLICATED_WORKBOOK.getMessage());
+            throw new DuplicatedMemberException(ExceptionEnum.DUPLICATED_MEMBER.getMessage());
         }
     }
 
