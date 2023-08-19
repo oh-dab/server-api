@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.ohdab.workbook.repository.mapper.WorkbookMapper">
+    <select id="findAllWorkbookForClassroomInfo" parameterType="java.util.List" resultType="com.ohdab.classroom.service.dto.ClassroomDetailDto$WorkbookInfoDto">
+        select workbook_id as "workbookId",
+             workbook_name as "workbookName",
+        from WORKBOOK
+        where workbook_id in
+        <foreach collection="list" item="workbook_id" index="index" separator="," open="(" close=")">
+            #{workbook_id}
+        </foreach>
+        order by workbook_id desc
+    </select>
+</mapper>

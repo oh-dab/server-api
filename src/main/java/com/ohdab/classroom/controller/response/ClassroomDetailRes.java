@@ -15,6 +15,22 @@ public class ClassroomDetailRes {
     private String grade;
 
     private long teacherId;
-    private List<Long> studentIds;
-    private List<Long> workbookIds;
+    private List<StudentInfo> studentInfoList;
+    private List<WorkbookInfo> workbookInfoList;
+
+    @Getter
+    @Builder
+    public static class StudentInfo {
+
+        private long studentId;
+        private String studentName;
+    }
+
+    @Getter
+    @Builder
+    public static class WorkbookInfo {
+
+        private long workbookId;
+        private String workbookName;
+    }
 }

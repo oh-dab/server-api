@@ -67,8 +67,25 @@ public class ClassroomMapper {
                 .name(detailDto.getInfo().getName())
                 .description(detailDto.getInfo().getDescription())
                 .grade(detailDto.getInfo().getGrade())
-                .studentIds(detailDto.getStudentIds())
-                .workbookIds(detailDto.getWorkbookIds())
+                .studentInfoList(
+                        detailDto.getStudentInfoDtoList().stream()
+                                .map(
+                                        studentInfo ->
+                                                ClassroomDetailRes.StudentInfo.builder()
+                                                        .studentId(studentInfo.getStudentId())
+                                                        .studentName(studentInfo.getStudentName())
+                                                        .build())
+                                .collect(Collectors.toList()))
+                .workbookInfoList(
+                        detailDto.getWorkbookInfoDtoList().stream()
+                                .map(
+                                        workbookInfo ->
+                                                ClassroomDetailRes.WorkbookInfo.builder()
+                                                        .workbookId(workbookInfo.getWorkbookId())
+                                                        .workbookName(
+                                                                workbookInfo.getWorkbookName())
+                                                        .build())
+                                .collect(Collectors.toList()))
                 .build();
     }
 
