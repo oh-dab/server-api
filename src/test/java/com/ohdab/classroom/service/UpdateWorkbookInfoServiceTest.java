@@ -21,7 +21,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {UpdateWorkbookInfoService.class})
-public class UpdateWorkbookInfoServiceTest {
+class UpdateWorkbookInfoServiceTest {
 
     @Autowired private UpdateWorkbookInfoUsecase updateWorkbookInfoUsecase;
     @MockBean private WorkbookRepository workbookRepository;
