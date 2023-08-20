@@ -21,8 +21,4 @@ public final class MemberHelperService {
                 .findById(id)
                 .orElseThrow(() -> new NoMemberException(ExceptionEnum.NO_MEMBER.getMessage()));
     }
-
-    public static boolean checkIfMemberExistByName(MemberRepository memberRepository, String name) {
-        return memberRepository.existsByMemberInfoName(name);
-    }
 }

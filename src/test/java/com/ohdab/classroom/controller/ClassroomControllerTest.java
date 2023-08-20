@@ -1,7 +1,7 @@
 package com.ohdab.classroom.controller;
 
-import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoInfo;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
+import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailInfo;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.doNothing;
@@ -16,6 +16,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.ohdab.classroom.controller.request.*;
 import com.ohdab.classroom.service.dto.AddStudentDto;
+import com.ohdab.classroom.service.dto.ClassroomDetailDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
 import com.ohdab.classroom.service.dto.ClassroomWorkbookDto;
 import com.ohdab.classroom.service.usecase.*;
@@ -41,7 +42,7 @@ class ClassroomControllerTest {
     @Autowired private ObjectMapper objectMapper;
     @MockBean private AddClassroomUsecase addClassroomUsecase;
     @MockBean private FindClassroomListUsecase findClassroomListUsecase;
-    @MockBean private FindClassroomDetailUsecase findClassroomDetailUsecase;
+    @MockBean private GetClassroomDetailInfoUsecase getClassroomDetailInfoUsecase;
     @MockBean private UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     @MockBean private DeleteClassroomUsecase deleteClassroomUsecase;
     @MockBean private DeleteStudentUsecase deleteStudentUsecase;
@@ -52,7 +53,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 반추가() throws Exception {
+    void 반_추가() throws Exception {
         // given
         final String url = "/classrooms/enrollment";
         final AddClassroomReq addClassroomReq =
@@ -81,7 +82,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 선생님_아이디로_반목록_조회() throws Exception {
+    void 반_목록_조회() throws Exception {
         // given
         final String url = "/classrooms";
 
@@ -113,7 +114,7 @@ class ClassroomControllerTest {
         // when
         when(findClassroomListUsecase.findClassroomListByTeacherId(1L)).thenReturn(responseList);
         // then
-        mockMvc.perform(get(url).with(csrf()).param("teacherId", "1"))
+        mockMvc.perform(get(url).with(csrf()).param("teacher-id", "1"))
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
@@ -133,28 +134,40 @@ class ClassroomControllerTest {
         // given
         final String url = "/classrooms/";
 
-        List<Long> studentIds = new ArrayList<>();
-        studentIds.add(3L);
+        List<ClassroomDetailDto.StudentInfoDto> studentInfoDtoList = new ArrayList<>();
+        studentInfoDtoList.add(
+                ClassroomDetailDto.StudentInfoDto.builder().studentId(1L).studentName("갑").build());
+        studentInfoDtoList.add(
+                ClassroomDetailDto.StudentInfoDto.builder().studentId(2L).studentName("을").build());
 
-        List<Long> workbookIds = new ArrayList<>();
-        workbookIds.add(4L);
+        List<ClassroomDetailDto.WorkbookInfoDto> workbookInfoDtoList = new ArrayList<>();
+        workbookInfoDtoList.add(
+                ClassroomDetailDto.WorkbookInfoDto.builder()
+                        .workbookId(10L)
+                        .workbookName("책10")
+                        .build());
+        workbookInfoDtoList.add(
+                ClassroomDetailDto.WorkbookInfoDto.builder()
+                        .workbookId(11L)
+                        .workbookName("책11")
+                        .build());
 
         ClassroomDetailDtoResponse classroomDetailDtoResponse =
                 ClassroomDetailDtoResponse.builder()
                         .classroomId(1)
                         .teacherId(2)
                         .info(
-                                ClassroomDetailDtoInfo.builder()
+                                ClassroomDetailInfo.builder()
                                         .name("1반")
                                         .description("1반 설명")
                                         .grade("high1")
                                         .build())
-                        .studentIds(studentIds)
-                        .workbookIds(workbookIds)
+                        .studentInfoDtoList(studentInfoDtoList)
+                        .workbookInfoDtoList(workbookInfoDtoList)
                         .build();
 
         // when
-        when(findClassroomDetailUsecase.getClassroomDetailById(1L))
+        when(getClassroomDetailInfoUsecase.getClassroomDetailById(1L))
                 .thenReturn(classroomDetailDtoResponse);
 
         // then
@@ -167,15 +180,21 @@ class ClassroomControllerTest {
                         jsonPath("$.name").value("1반"),
                         jsonPath("$.description").value("1반 설명"),
                         jsonPath("$.grade").value("high1"),
-                        jsonPath("$.studentIds[0]").value(3),
-                        jsonPath("$.workbookIds[0]").value(4))
+                        jsonPath("$.studentInfoList[0].studentId").value("1"),
+                        jsonPath("$.studentInfoList[0].studentName").value("갑"),
+                        jsonPath("$.studentInfoList[1].studentId").value("2"),
+                        jsonPath("$.studentInfoList[1].studentName").value("을"),
+                        jsonPath("$.workbookInfoList[0].workbookId").value("10"),
+                        jsonPath("$.workbookInfoList[0].workbookName").value("책10"),
+                        jsonPath("$.workbookInfoList[1].workbookId").value("11"),
+                        jsonPath("$.workbookInfoList[1].workbookName").value("책11"))
                 .andDo(print())
                 .andDo(createDocument("classrooms/{classroom-id}"));
     }
 
     @Test
     @WithMockUser
-    void 반정보수정() throws Exception {
+    void 반_정보_수정() throws Exception {
         // given
         final String url = "/classrooms/info/";
         UpdateClassroomReq request =
@@ -199,7 +218,7 @@ class ClassroomControllerTest {
 
     @Test
     @WithMockUser
-    void 반삭제() throws Exception {
+    void 반_삭제() throws Exception {
         // given
         final String url = "/classrooms/expulsion/";
 
@@ -253,17 +272,17 @@ class ClassroomControllerTest {
                 .andExpectAll(
                         status().isOk(),
                         content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.workbooks[0].id").value(workbookDtoRes1.getId()),
-                        jsonPath("$.workbooks[0].name").value(workbookDtoRes1.getName()),
-                        jsonPath("$.workbooks[0].createdAt")
+                        jsonPath("$.workbookList[0].id").value(workbookDtoRes1.getId()),
+                        jsonPath("$.workbookList[0].name").value(workbookDtoRes1.getName()),
+                        jsonPath("$.workbookList[0].createdAt")
                                 .value(workbookDtoRes1.getCreatedAt().toLocalDate().toString()),
-                        jsonPath("$.workbooks[1].id").value(workbookDtoRes2.getId()),
-                        jsonPath("$.workbooks[1].name").value(workbookDtoRes2.getName()),
-                        jsonPath("$.workbooks[1].createdAt")
+                        jsonPath("$.workbookList[1].id").value(workbookDtoRes2.getId()),
+                        jsonPath("$.workbookList[1].name").value(workbookDtoRes2.getName()),
+                        jsonPath("$.workbookList[1].createdAt")
                                 .value(workbookDtoRes2.getCreatedAt().toLocalDate().toString()),
-                        jsonPath("$.workbooks[2].id").value(workbookDtoRes3.getId()),
-                        jsonPath("$.workbooks[2].name").value(workbookDtoRes3.getName()),
-                        jsonPath("$.workbooks[2].createdAt")
+                        jsonPath("$.workbookList[2].id").value(workbookDtoRes3.getId()),
+                        jsonPath("$.workbookList[2].name").value(workbookDtoRes3.getName()),
+                        jsonPath("$.workbookList[2].createdAt")
                                 .value(workbookDtoRes3.getCreatedAt().toLocalDate().toString()))
                 .andDo(print())
                 .andDo(createDocument("classrooms/{classroom-id}/workbooks"));

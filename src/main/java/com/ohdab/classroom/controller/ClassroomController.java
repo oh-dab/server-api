@@ -4,11 +4,7 @@ import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetail
 import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdateDtoRequest;
 
 import com.ohdab.classroom.controller.mapper.ClassroomMapper;
-import com.ohdab.classroom.controller.request.AddClassroomReq;
-import com.ohdab.classroom.controller.request.AddStudentReq;
-import com.ohdab.classroom.controller.request.AddWorkbookReq;
-import com.ohdab.classroom.controller.request.UpdateClassroomReq;
-import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
+import com.ohdab.classroom.controller.request.*;
 import com.ohdab.classroom.controller.response.*;
 import com.ohdab.classroom.service.dto.ClassroomAddWorkbookDto;
 import com.ohdab.classroom.service.dto.ClassroomDto;
@@ -29,7 +25,7 @@ public class ClassroomController {
 
     private final AddClassroomUsecase addClassroomUsecase;
     private final FindClassroomListUsecase findClassroomListUsecase;
-    private final FindClassroomDetailUsecase findClassroomDetailUsecase;
+    private final GetClassroomDetailInfoUsecase getClassroomDetailInfoUsecase;
     private final UpdateClassroomInfoUsecase updateClassroomInfoUsecase;
     private final DeleteClassroomUsecase deleteClassroomUsecase;
     private final DeleteStudentUsecase deleteStudentUsecase;
@@ -49,7 +45,7 @@ public class ClassroomController {
 
     @GetMapping("")
     public ResponseEntity<ClassroomResList> getClassroomListByTeacherId(
-            @RequestParam(name = "teacherId") long teacherId) {
+            @RequestParam(name = "teacher-id") long teacherId) {
         List<ClassroomDto.Response> responses =
                 findClassroomListUsecase.findClassroomListByTeacherId(teacherId);
         return ResponseEntity.ok(ClassroomMapper.classroomDtoListToClassroomResList(responses));
@@ -59,9 +55,9 @@ public class ClassroomController {
     public ResponseEntity<ClassroomDetailRes> getClassroomDetailById(
             @PathVariable("classroom-id") long id) {
         ClassroomDetailDtoResponse classroomDetail =
-                findClassroomDetailUsecase.getClassroomDetailById(id);
+                getClassroomDetailInfoUsecase.getClassroomDetailById(id);
         ClassroomDetailRes classroomDetailRes =
-                ClassroomMapper.ClassroomDetailToClassroomDetailRes(classroomDetail);
+                ClassroomMapper.classroomDetailToClassroomDetailRes(classroomDetail);
         return ResponseEntity.ok(classroomDetailRes);
     }
 
@@ -112,7 +108,7 @@ public class ClassroomController {
     }
 
     @PatchMapping("/workbooks/info/{workbook-id}")
-    public ResponseEntity<UpdateWorkbookInfoRes> updateWorkInfobook(
+    public ResponseEntity<UpdateWorkbookInfoRes> updateWorkbookInfo(
             @PathVariable(name = "workbook-id") long workbookId,
             UpdateWorkbookInfoReq updateWorkbookInfoReq) {
         ClassroomWorkbookUpdateDto.Request workbookUpdateDtoReq =

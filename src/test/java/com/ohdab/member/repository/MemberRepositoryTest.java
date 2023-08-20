@@ -7,6 +7,7 @@ import static org.assertj.core.groups.Tuple.tuple;
 import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
+import java.util.ArrayList;
 import java.util.List;
 import javax.persistence.EntityManager;
 import org.junit.jupiter.api.DisplayName;
@@ -18,7 +19,7 @@ import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 class MemberRepositoryTest {
 
     @Autowired private MemberRepository memberRepository;
-    @Autowired private EntityManager em;
+    @Autowired private EntityManager entityManager;
 
     @Test
     @DisplayName("선생님 목록 조회 성공 테스트")
@@ -30,8 +31,8 @@ class MemberRepositoryTest {
         Member teacher2 = memberRepository.save(createMember("선생님2", "tjstodsla2", teacher));
         Member teacher3 = memberRepository.save(createMember("선생님3", "tjstodsla3", teacher));
         Member student1 = memberRepository.save(createMember("학생", "gkrtod", student));
-        em.flush();
-        em.clear();
+        entityManager.flush();
+        entityManager.clear();
 
         // when
         List<Member> results = memberRepository.findByAuthoritiesContaining(teacher);
@@ -111,24 +112,9 @@ class MemberRepositoryTest {
                 .containsExactly(member.getId(), INACTIVE);
     }
 
-    @DisplayName("회원탈퇴")
-    @Test
-    void 회원탈퇴() {
-        // given
-        Member member =
-                createMember("갑", "1234", new Authority("TEACHER"), new Authority("STUDENT"));
-
-        // when
-        memberRepository.save(member);
-        member.withdrawal();
-        em.flush();
-
-        // then
-        assertThat(member.getStatus()).isEqualTo(INACTIVE);
-    }
-
-    private Member createMember(String name, String password, Authority... role) {
-        List<Authority> authorities = List.of(role);
+    private Member createMember(String name, String password, Authority role) {
+        List<Authority> authorities = new ArrayList<>();
+        authorities.add(role);
         return Member.builder()
                 .memberInfo(MemberInfo.builder().name(name).password(password).build())
                 .authorities(authorities)

@@ -17,16 +17,6 @@ include::{snippets}/members/join/http-request.adoc[]
 
 include::{snippets}/members/join/http-response.adoc[]
 
-=== 회원탈퇴
-
-==== Request
-
-include::{snippets}/members/withdrawl/http-request.adoc[]
-
-==== Response
-
-include::{snippets}/members/withdrawl/http-response.adoc[]
-
 === 로그인
 
 ==== Request
@@ -66,8 +56,6 @@ include::{snippets}/members/teachers/expulsion/{teacher-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/members/teachers/expulsion/{teacher-id}/http-response.adoc[]
-
-== MistakeNote
 
 === 교재 상세조회(전체 학생에 대한 오답노트 조회)
 
@@ -210,5 +198,3 @@ include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-request.adoc[]
 ==== Response
 
 include::{snippets}/classrooms/workbooks/info/{workbook-id}/http-response.adoc[]
-
-

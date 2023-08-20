@@ -43,7 +43,6 @@ class MemberControllerTest {
     @MockBean private GetTeacherListUsecase getTeacherListUsecase;
     @MockBean private AddTeacherUsecase addTeacherUsecase;
     @MockBean private DeleteTeacherUsecase deleteTeacherUsecase;
-    @MockBean private WithdrawlUsecase withdrawlUsecase;
 
     @Test
     @WithMockUser
@@ -151,31 +150,10 @@ class MemberControllerTest {
 
     @Test
     @WithMockUser
-    void 회원탈퇴() throws Exception {
-        // given
-        final String WITHDRAWL_URL = "/members/withdrawl/{member-id}";
-
-        // when
-
-        // then
-        mockMvc.perform(
-                        patch(WITHDRAWL_URL, 1)
-                                .with(csrf())
-                                .contentType(MediaType.APPLICATION_JSON))
-                .andExpectAll(
-                        status().isOk(),
-                        content().contentType(MediaType.APPLICATION_JSON),
-                        jsonPath("$.message").value("탈퇴되었습니다."))
-                .andDo(print())
-                .andDo(createDocument("members/withdrawl"));
-    }
-
-    @Test
-    @WithMockUser
     void 선생님_추가() throws Exception {
         // given
         final String url = "/members/teachers/enrollment";
-        final AddTeacherReq addTeacherReq = AddTeacherReq.builder().name("선생님").build();
+        final AddTeacherReq addTeacherReq = AddTeacherReq.builder().teacherName("선생님").build();
 
         // when
 

@@ -62,7 +62,9 @@ public class MemberWebMapper {
 
     public static MemberDtoForAddTeacher.Request addTeacherRequestToDto(
             AddTeacherReq addTeacherReq) {
-        return MemberDtoForAddTeacher.Request.builder().name(addTeacherReq.getName()).build();
+        return MemberDtoForAddTeacher.Request.builder()
+                .name(addTeacherReq.getTeacherName())
+                .build();
     }
 
     public static AddTeacherRes createAddTeacherRes() {
@@ -71,9 +73,5 @@ public class MemberWebMapper {
 
     public static DeleteTeacherRes createDeleteTeacherRes() {
         return DeleteTeacherRes.builder().message("선생님 삭제 및 탈퇴에 성공하였습니다.").build();
-    }
-
-    public static WithdrawlRes createWithdrawlRes() {
-        return WithdrawlRes.builder().message("탈퇴되었습니다.").build();
     }
 }

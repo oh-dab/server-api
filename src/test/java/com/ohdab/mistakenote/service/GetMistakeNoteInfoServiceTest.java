@@ -145,7 +145,7 @@ class GetMistakeNoteInfoServiceTest {
         // when
         when(mistakeNoteRepository.findByWorkbookId(any(WorkbookId.class)))
                 .thenReturn(mistakeNotes);
-        when(memberMapper.findAllStudent(anyList())).thenReturn(students);
+        when(memberMapper.findAllStudentForMistakeNoteInfo(anyList())).thenReturn(students);
         when(mistakeRecordMapper.findAllMistakeNoteInfo(anyList()))
                 .thenReturn(allMistakeNoteInfoDto);
         GetAllMistakeNoteInfoDto.Response result =

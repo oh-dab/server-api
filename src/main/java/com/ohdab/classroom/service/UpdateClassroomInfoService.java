@@ -14,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @RequiredArgsConstructor
-@Transactional(readOnly = true)
+@Transactional
 public class UpdateClassroomInfoService implements UpdateClassroomInfoUsecase {
 
     private final ClassroomRepository classroomRepository;
@@ -28,6 +28,5 @@ public class UpdateClassroomInfoService implements UpdateClassroomInfoUsecase {
                         .description(request.getDescription())
                         .grade(findGradeByString(request.getGrade()))
                         .build());
-        classroomRepository.save(classroom);
     }
 }

@@ -23,6 +23,7 @@ public enum ExceptionEnum {
     NO_NUMBERS_WRONG_N_TIMES(801, ""),
     NUMBER_IS_OUT_OF_RANGE(802, "N번 이상 틀린 문제가 없습니다."),
     MISTAKE_NUMBERS_SIZE(803, "기록 가능한 문제수를 초과했습니다."),
+    MISTAKE_NOTE_IS_EMPTY(804, "해당 교재에 대한 오답노트가 없습니다."),
 
     // 900 - workbook
     WORKBOOK_CONTENT_OVERFLOW(900, "최대 글자수를 초과했습니다."),

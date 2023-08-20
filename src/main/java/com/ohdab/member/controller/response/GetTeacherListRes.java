@@ -8,14 +8,14 @@ import lombok.Getter;
 @Getter
 public class GetTeacherListRes {
 
-    List<TeacherInfo> teachers;
+    private List<TeacherInfo> teachers;
 
     @Builder
     @Getter
     public static class TeacherInfo {
-        long id;
-        String name;
-        List<String> authorities;
-        String status;
+        private long id;
+        private String name;
+        private List<String> authorities;
+        private String status;
     }
 }

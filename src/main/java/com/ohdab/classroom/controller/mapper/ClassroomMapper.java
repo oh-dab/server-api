@@ -3,11 +3,7 @@ package com.ohdab.classroom.controller.mapper;
 import static com.ohdab.classroom.service.dto.ClassroomDetailDto.ClassroomDetailDtoResponse;
 import static com.ohdab.classroom.service.dto.ClassroomUpdateDto.ClassroomUpdateDtoRequest;
 
-import com.ohdab.classroom.controller.request.AddClassroomReq;
-import com.ohdab.classroom.controller.request.AddStudentReq;
-import com.ohdab.classroom.controller.request.AddWorkbookReq;
-import com.ohdab.classroom.controller.request.UpdateClassroomReq;
-import com.ohdab.classroom.controller.request.UpdateWorkbookInfoReq;
+import com.ohdab.classroom.controller.request.*;
 import com.ohdab.classroom.controller.response.AddClassroomRes;
 import com.ohdab.classroom.controller.response.ClassroomDetailRes;
 import com.ohdab.classroom.controller.response.ClassroomResList;
@@ -63,7 +59,7 @@ public class ClassroomMapper {
                 .build();
     }
 
-    public static ClassroomDetailRes ClassroomDetailToClassroomDetailRes(
+    public static ClassroomDetailRes classroomDetailToClassroomDetailRes(
             ClassroomDetailDtoResponse detailDto) {
         return ClassroomDetailRes.builder()
                 .id(detailDto.getClassroomId())
@@ -71,8 +67,25 @@ public class ClassroomMapper {
                 .name(detailDto.getInfo().getName())
                 .description(detailDto.getInfo().getDescription())
                 .grade(detailDto.getInfo().getGrade())
-                .studentIds(detailDto.getStudentIds())
-                .workbookIds(detailDto.getWorkbookIds())
+                .studentInfoList(
+                        detailDto.getStudentInfoDtoList().stream()
+                                .map(
+                                        studentInfo ->
+                                                ClassroomDetailRes.StudentInfo.builder()
+                                                        .studentId(studentInfo.getStudentId())
+                                                        .studentName(studentInfo.getStudentName())
+                                                        .build())
+                                .collect(Collectors.toList()))
+                .workbookInfoList(
+                        detailDto.getWorkbookInfoDtoList().stream()
+                                .map(
+                                        workbookInfo ->
+                                                ClassroomDetailRes.WorkbookInfo.builder()
+                                                        .workbookId(workbookInfo.getWorkbookId())
+                                                        .workbookName(
+                                                                workbookInfo.getWorkbookName())
+                                                        .build())
+                                .collect(Collectors.toList()))
                 .build();
     }
 

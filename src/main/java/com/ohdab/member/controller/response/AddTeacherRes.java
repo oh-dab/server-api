@@ -7,5 +7,5 @@ import lombok.Getter;
 @Builder
 public class AddTeacherRes {
 
-    String message;
+    private String message;
 }
