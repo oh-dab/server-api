@@ -21,11 +21,11 @@ public class DeleteTeacherService implements DeleteTeacherUsecase {
 
     @Override
     public void deleteTeacherById(long id) {
-        Member member = findExistingMemberById(memberRepository, id);
-        publishTeacherDeletedEvent(member);
+        Member teacher = findExistingMemberById(memberRepository, id);
+        publishTeacherDeletedEvent(teacher.getId());
     }
 
-    private void publishTeacherDeletedEvent(Member member) {
-        publisher.publishEvent(TeacherDeletedEvent.builder().member(member).build());
+    private void publishTeacherDeletedEvent(Long teacherId) {
+        publisher.publishEvent(TeacherDeletedEvent.builder().teacherId(teacherId).build());
     }
 }

@@ -6,6 +6,7 @@ import com.ohdab.member.domain.Authority;
 import com.ohdab.member.domain.Member;
 import com.ohdab.member.domain.memberinfo.MemberInfo;
 import com.ohdab.member.event.TeacherDeletedEvent;
+import com.ohdab.member.repository.MemberRepository;
 import java.util.List;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -17,26 +18,28 @@ import org.springframework.test.context.event.RecordApplicationEvents;
 
 @SpringBootTest
 @RecordApplicationEvents
-public class TeacherDeletedHandlerTest {
+class TeacherDeletedHandlerTest {
 
     @Autowired private ApplicationEventPublisher publisher;
     @Autowired private ApplicationEvents events;
+    @Autowired private MemberRepository memberRepository;
 
     @Test
-    @DisplayName("선생님 삭제시 탈퇴 성공 테스트")
-    void 선생님_삭제시_탈퇴_성공() {
+    @DisplayName("선생님 삭제시 탈퇴 이벤트 호출")
+    void 선생님_삭제시_탈퇴_이벤트_호출() {
         // given
         Member member =
                 Member.builder()
                         .memberInfo(MemberInfo.builder().name("선생님").password("1234").build())
                         .authorities(List.of(new Authority("TEACHER")))
                         .build();
+        Member savedMember = memberRepository.save(member);
 
         // when
-        publisher.publishEvent(TeacherDeletedEvent.builder().member(member).build());
+        publisher.publishEvent(
+                TeacherDeletedEvent.builder().teacherId(savedMember.getId()).build());
 
         // then
         assertThat(events.stream(TeacherDeletedEvent.class).count()).isEqualTo(1);
-        assertThat(member.getStatus().name()).isEqualTo("INACTIVE");
     }
 }

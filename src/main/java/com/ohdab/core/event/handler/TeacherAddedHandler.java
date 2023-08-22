@@ -1,4 +1,4 @@
-package com.ohdab.core.util.event.handler;
+package com.ohdab.core.event.handler;
 
 import com.ohdab.member.event.TeacherAddedEvent;
 import com.ohdab.member.service.dto.MemberDtoForJoin;

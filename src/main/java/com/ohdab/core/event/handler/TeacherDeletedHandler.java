@@ -1,4 +1,4 @@
-package com.ohdab.core.util.event.handler;
+package com.ohdab.core.event.handler;
 
 import com.ohdab.member.event.TeacherDeletedEvent;
 import com.ohdab.member.service.usecase.WithdrawlUsecase;
@@ -14,6 +14,6 @@ public class TeacherDeletedHandler {
 
     @EventListener(TeacherDeletedEvent.class)
     public void withdrawal(TeacherDeletedEvent event) {
-        withdrawlUsecase.withdrawl(event);
+        withdrawlUsecase.withdrawl(event.getTeacherId());
     }
 }
