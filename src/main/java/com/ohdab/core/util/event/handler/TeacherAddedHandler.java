@@ -1,7 +1,6 @@
 package com.ohdab.core.util.event.handler;
 
 import com.ohdab.member.event.TeacherAddedEvent;
-import com.ohdab.member.repository.MemberRepository;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;
@@ -14,7 +13,6 @@ import org.springframework.stereotype.Component;
 public class TeacherAddedHandler {
 
     private final JoinUsecase joinUsecase;
-    private final MemberRepository memberRepository;
 
     @EventListener(TeacherAddedEvent.class)
     public void join(TeacherAddedEvent event) {
