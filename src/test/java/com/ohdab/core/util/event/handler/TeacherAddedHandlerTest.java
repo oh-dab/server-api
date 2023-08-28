@@ -14,7 +14,7 @@ import org.springframework.test.context.event.RecordApplicationEvents;
 
 @SpringBootTest
 @RecordApplicationEvents
-public class TeacherAddedHandlerTest {
+class TeacherAddedHandlerTest {
 
     @Autowired private ApplicationEventPublisher publisher;
     @Autowired private ApplicationEvents events;

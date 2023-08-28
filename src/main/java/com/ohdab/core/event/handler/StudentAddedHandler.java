@@ -1,6 +1,6 @@
-package com.ohdab.core.util.event.handler;
+package com.ohdab.core.event.handler;
 
-import com.ohdab.member.event.TeacherAddedEvent;
+import com.ohdab.classroom.event.StudentAddedEvent;
 import com.ohdab.member.service.dto.MemberDtoForJoin;
 import com.ohdab.member.service.usecase.JoinUsecase;
 import java.util.List;
@@ -10,17 +10,17 @@ import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
-public class TeacherAddedHandler {
+public class StudentAddedHandler {
 
     private final JoinUsecase joinUsecase;
 
-    @EventListener(TeacherAddedEvent.class)
-    public void join(TeacherAddedEvent event) {
+    @EventListener(StudentAddedEvent.class)
+    public void join(StudentAddedEvent event) {
         joinUsecase.join(
                 MemberDtoForJoin.Request.builder()
-                        .name(event.getName())
+                        .name(event.getStudentName())
                         .password(event.getPassword())
-                        .role(List.of("TEACHER"))
+                        .role(List.of("STUDENT"))
                         .build());
     }
 }
