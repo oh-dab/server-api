@@ -17,7 +17,7 @@
 ![Alt](https://repobeats.axiom.co/api/embed/b57f402847a7063c4a1e2420951848e40a4741ea.svg "Repobeats analytics image")
 
 ## API 명세서
-- [API 명세서](https://oh-dab.github.io/server-api/)
+- [**명세서**](https://oh-dab.github.io/server-api/index.html)
 
 ## ERD 다이어그램
 ```mermaid

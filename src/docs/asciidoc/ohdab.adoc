@@ -1,4 +1,4 @@
-= Ohdab API 문서
+= Ohdab API 문서(ver 1.0.0)
 :doctype: book
 :icons: font
 :source-highlighter: highlightjs
