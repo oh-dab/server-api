@@ -1,5 +1,6 @@
 package com.ohdab.workbook.domain.service;
 
+import com.ohdab.core.exception.ExceptionEnum;
 import com.ohdab.workbook.domain.Workbook;
 import java.util.List;
 import org.springframework.stereotype.Service;
@@ -27,7 +28,8 @@ public class NumberScopeCheckService {
         numbers.forEach(
                 number -> {
                     if (number < startingNumber || number > endingNumber) {
-                        throw new IllegalArgumentException("책에 없는 문제 번호가 포함되어있습니다.");
+                        throw new IllegalArgumentException(
+                                ExceptionEnum.NO_NUMBERS_IN_BOOK.getMessage());
                     }
                 });
     }
