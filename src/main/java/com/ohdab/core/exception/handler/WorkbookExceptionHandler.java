@@ -6,11 +6,12 @@ import com.ohdab.workbook.exception.DuplicatedWorkbookException;
 import com.ohdab.workbook.exception.InvalidWorkbookNumberRangeException;
 import com.ohdab.workbook.exception.NoWorkbookException;
 import com.ohdab.workbook.exception.WorkbookContentOverflowException;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
-@ControllerAdvice
+@ControllerAdvice(basePackages = {"com.ohdab.workbook"})
 public class WorkbookExceptionHandler {
 
     @ExceptionHandler
@@ -52,6 +53,16 @@ public class WorkbookExceptionHandler {
                 .body(
                         ErrorMessage.builder()
                                 .errorCode(ExceptionEnum.NO_WORKBOOK.getErrorCode())
+                                .message(e.getMessage())
+                                .build());
+    }
+
+    @ExceptionHandler
+    public ResponseEntity<ErrorMessage> illegalArgumentException(IllegalArgumentException e) {
+        return ResponseEntity.badRequest()
+                .body(
+                        ErrorMessage.builder()
+                                .errorCode(HttpStatus.BAD_REQUEST.value())
                                 .message(e.getMessage())
                                 .build());
     }

@@ -21,7 +21,7 @@ public final class ClassroomHelperService {
         } catch (NullPointerException e) {
             throw new NoGradeException(ExceptionEnum.NO_GRADE.getMessage());
         } catch (ClassCastException e) {
-            throw new IllegalArgumentException("인자의 자료형이 잘못되었습니다.");
+            throw new IllegalArgumentException(e);
         }
     }
 

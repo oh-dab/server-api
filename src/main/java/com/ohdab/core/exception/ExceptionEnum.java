@@ -31,6 +31,8 @@ public enum ExceptionEnum {
     INVALID_WORKBOOK_NUMBER_RANGE(902, "허용 범위를 벗어난 문제 번호입니다."),
     NO_WORKBOOK(903, "존재하지 않는 교재입니다."),
 
+    NO_NUMBERS_IN_BOOK(904, "책에 없는 문제 번호가 포함되어있습니다."),
+
     // 1000 - null
     IS_NULL(1000, "필수 입력값이 누락되었습니다."),
     ;
